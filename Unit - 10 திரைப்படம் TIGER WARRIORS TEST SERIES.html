@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>டைகர் வாரியர் போர்டல் - PG-TRB தமிழ் (Unit-X: திரைப்படங்கள்)</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    body { background: #020617; color: #f8fafc; padding: 12px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+    .card { width: 100%; max-width: 950px; background: #0f172a; border-radius: 14px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); border: 1px solid #1e293b; }
+    
+    .login-box { max-width: 440px; margin: 0 auto; text-align: center; }
+    .logo-badge { font-size: 36px; margin-bottom: 4px; }
+    .title { color: #38bdf8; font-size: 22px; font-weight: bold; margin-bottom: 4px; letter-spacing: 0.5px; }
+    .ceo-name { color: #f59e0b; font-size: 13px; font-weight: bold; margin-bottom: 12px; }
+    .subtitle { color: #94a3b8; font-size: 13px; margin-bottom: 18px; line-height: 1.4; text-align: left; background: #1e293b; padding: 10px; border-radius: 8px; border: 1px solid #334155; }
+    
+    .qr-container { background: #1e293b; border: 1px dashed #3b82f6; padding: 16px; border-radius: 10px; text-align: center; margin-bottom: 18px; }
+    .qr-img { background: #fff; padding: 8px; border-radius: 10px; display: inline-block; margin-bottom: 10px; }
+    .qr-img img { width: 160px; height: 160px; display: block; }
+    .upi-id { font-family: monospace; font-size: 15px; color: #38bdf8; font-weight: bold; background: #091326; padding: 8px 12px; border-radius: 6px; display: inline-block; margin: 6px 0 12px 0; border: 1px solid #334155; cursor: pointer; }
+    
+    .whatsapp-btn { display: block; width: 100%; background: #22c55e; color: #fff; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: bold; text-align: center; font-size: 14px; border: none; cursor: pointer; transition: 0.2s; margin-top: 14px; }
+    .whatsapp-btn:hover { background: #16a34a; }
+    
+    .instruction-text { font-size: 12px; color: #94a3b8; text-align: center; margin-top: 8px; line-height: 1.4; }
+
+    .form-group { margin-bottom: 14px; text-align: left; }
+    .form-group label { display: block; font-size: 12px; color: #cbd5e1; margin-bottom: 4px; }
+    .form-group input { width: 100%; padding: 11px; border-radius: 6px; border: 1px solid #334155; background: #1e293b; color: #fff; font-size: 14px; outline: none; }
+    .form-group input:focus { border-color: #38bdf8; }
+    
+    .btn-submit { width: 100%; background: #10b981; color: #fff; border: none; padding: 13px; border-radius: 6px; font-weight: bold; font-size: 15px; cursor: pointer; transition: 0.2s; margin-top: 6px; }
+    .btn-submit:hover { background: #059669; }
+    .error-msg { color: #f59e0b; font-size: 13px; text-align: center; margin-top: 10px; display: none; line-height: 1.4; }
+
+    .test-header { display: flex; justify-content: space-between; align-items: center; background: #1e293b; padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+    .timer { font-size: 16px; font-weight: bold; color: #f59e0b; background: #091326; padding: 6px 12px; border-radius: 6px; border: 1px solid #f59e0b; }
+    
+    .q-grid { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 16px; max-height: 140px; overflow-y: auto; padding: 8px; background: #1e293b; border-radius: 8px; }
+    .q-num-btn { width: 30px; height: 30px; border-radius: 5px; border: none; background: #334155; color: #fff; font-size: 10px; cursor: pointer; font-weight: bold; }
+    .q-num-btn.active { border: 2px solid #38bdf8; background: #0284c7; }
+    .q-num-btn.answered { background: #10b981; }
+
+    .q-box { background: #1e293b; padding: 18px; border-radius: 10px; margin-bottom: 16px; }
+    .q-text { white-space: pre-line; line-height: 1.6; font-size: 15px; color: #f8fafc; }
+    
+    .option-card { background: #0f172a; border: 1px solid #334155; padding: 12px 16px; border-radius: 8px; margin-top: 10px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.2s; white-space: pre-line; line-height: 1.4; }
+    .option-card:hover { border-color: #38bdf8; background: #1e293b; }
+    .option-card.selected { border-color: #10b981; background: #064e3b; }
+    .option-card.correct-ans { border-color: #10b981; background: #065f46; font-weight: bold; }
+    .option-card.wrong-ans { border-color: #ef4444; background: #7f1d1d; }
+
+    .explanation-box { background: #091326; border: 1px solid #38bdf8; border-radius: 8px; padding: 12px; margin-top: 14px; font-size: 13px; color: #7dd3fc; line-height: 1.5; }
+    
+    .nav-btns { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+    .btn-action { background: #334155; color: #fff; border: none; padding: 10px 16px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 13px; }
+    .btn-action:hover { opacity: 0.9; }
+    .btn-blue { background: #2563eb; }
+    .btn-purple { background: #7c3aed; }
+    .btn-danger { background: #ef4444; }
+    .btn-green { background: #22c55e; }
+
+    .result-box { text-align: center; padding: 20px; background: #1e293b; border-radius: 12px; margin-top: 10px; }
+    .score-num { font-size: 48px; color: #10b981; font-weight: bold; margin: 10px 0; }
+    
+    .receipt-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; padding: 15px; }
+    .receipt-content { background: #fff; color: #0f172a; width: 100%; max-width: 400px; padding: 24px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); text-align: left; }
+    .receipt-header { text-align: center; border-bottom: 2px dashed #cbd5e1; padding-bottom: 12px; margin-bottom: 12px; }
+    .receipt-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; border-bottom: 1px solid #f1f5f9; padding-bottom: 4px; }
+    
+    .footer-badge { text-align: center; font-size: 11px; color: #38bdf8; margin-top: 15px; font-weight: bold; letter-spacing: 0.5px; }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <!-- Payment & Access Screen -->
+  <div id="paymentView" class="login-box">
+    <div class="logo-badge">🐅🎬</div>
+    <div class="title">டைகர் வாரியர் போர்டல்</div>
+    <div class="ceo-name">நிர்வாக இயக்குநர்: Dr. K. Manikasi</div>
+    
+    <div class="subtitle">
+      📌 <strong>PG-TRB தமிழ் - Unit X: திரைப்படங்கள்</strong><br>
+      🎥 50 பிரத்யேக வினாக்கள் தேர்வு (Tiger Warrior Exclusives)<br>
+      கட்டணம்: <strong style="color:#f59e0b;">₹50 மட்டுமே</strong>
+    </div>
+    
+    <div class="qr-container">
+      <div class="qr-img">
+        <img src="https://quickchart.io/qr?text=upi%3A%2F%2Fpay%3Fpa%3D9790933025%40okaxis%26pn%3DDr%2520K%2520MANIKASI%26am%3D50%26cu%3DINR&size=180" alt="GPay QR Code">
+      </div>
+      <br>
+      <span style="font-size: 12px; color: #cbd5e1;">📱 GPay எண் (நகலெடுக்க கிளிக் செய்யவும்):</span><br>
+      <div class="upi-id" onclick="navigator.clipboard.writeText('9790933025'); alert('GPay எண் நகலெடுக்கப்பட்டது! 📋');">9790933025</div>
+      <div class="instruction-text">✨ ₹50 செலுத்திவிட்டு கீழே உள்ள விவரங்களைப் பூர்த்தி செய்து WhatsApp-ல் அனுப்பவும்.</div>
+    </div>
+
+    <form id="accessForm" onsubmit="verifyAndStartTest(event)">
+      <div class="form-group">
+        <label>👤 1. உங்கள் பெயர் (Name):</label>
+        <input type="text" id="userName" required placeholder="உங்கள் முழுப் பெயரை உள்ளிடவும்">
+      </div>
+      <div class="form-group">
+        <label>📞 2. WhatsApp எண் (Mobile No):</label>
+        <input type="tel" id="userPhone" pattern="[0-9]{10}" maxlength="10" required placeholder="10 இலக்க மொபைல் எண்">
+      </div>
+      <div class="form-group">
+        <label>🔢 3. 12 இலக்க UTR / UPI குறிப்பு எண்:</label>
+        <input type="text" id="userUTR" pattern="[0-9]{12}" maxlength="12" required placeholder="12 digit UTR number">
+      </div>
+
+      <a href="javascript:void(0);" onclick="sendWhatsAppMessage()" class="whatsapp-btn" id="waShareBtn">💬 WhatsApp மூலம் விவரங்களை அனுப்புக</a>
+
+      <div id="errorTxt" class="error-msg"></div>
+      
+      <button type="submit" id="submitBtnAccess" class="btn-submit" style="margin-top: 14px;">🚀 உள்நுழைந்து தேர்வைத் தொடங்குக</button>
+    </form>
+    <div class="footer-badge">👑 டைகர் வாரியர் போர்டல் - 2026 👑</div>
+  </div>
+
+  <!-- Test View -->
+  <div id="testView" style="display: none;">
+    <div class="test-header">
+      <div>
+        <h3 style="color: #38bdf8; font-size: 16px;" id="portalTitle">🎬 PG-TRB தமிழ் - Unit X: திரைப்படங்கள் (50 வினாக்கள்)</h3>
+        <span style="font-size: 12px; color: #94a3b8;">Tiger Warrior Study Platform</span>
+      </div>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <button class="btn-action btn-green" onclick="showReceiptModal()" style="padding: 6px 12px; font-size: 12px;">🧾 ரசீது</button>
+        <div class="timer" id="timerBox">⏱️ 50:00</div>
+        <button class="btn-action btn-purple" id="backToResultBtn" onclick="returnToResult()" style="display: none; padding: 6px 12px; font-size: 12px;">📊 ரிசல்ட் செல்</button>
+        <button class="btn-action btn-danger" id="dashFromKeyBtn" onclick="returnToDashboard()" style="display: none; padding: 6px 12px; font-size: 12px;">🏠 முகப்பு</button>
+      </div>
+    </div>
+
+    <div class="q-grid" id="questionGrid"></div>
+
+    <div class="q-box">
+      <div id="qTitle" class="q-text"></div>
+      <div id="optionsBox"></div>
+      <div id="expBox" class="explanation-box" style="display: none;"></div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn-action" id="prevBtn" onclick="navigateQuestion(-1)">⬅️ முந்தையது</button>
+      <button class="btn-action" id="clearBtn" onclick="clearChoice()">🧹 விடையை நீக்கு</button>
+      <button class="btn-action btn-blue" id="nextBtn" onclick="navigateNumberQuery(1)">அடுத்து ➡️</button>
+      <button class="btn-action btn-danger" id="finalSubmitBtn" onclick="confirmSubmit()">✅ தேர்வைச் சமர்ப்பிக்க (Submit)</button>
+    </div>
+  </div>
+
+  <!-- Result View -->
+  <div id="resultView" style="display: none;">
+    <h2 style="color: #38bdf8; text-align: center; margin-bottom: 10px;">🏆 தேர்வு முடிவுகள் (Test Results) 🎯</h2>
+    <div class="result-box">
+      <div class="score-num" id="scoreDisplay">0 / 50</div>
+      <p id="percentageDisplay" style="color: #94a3b8; font-size: 16px; margin-bottom: 15px;"></p>
+      <hr style="border-color: #334155; margin: 15px 0;">
+      <div style="display: flex; justify-content: space-around; text-align: center;">
+        <div><h3 id="correctCnt" style="color: #10b981;">0</h3><span style="font-size:12px; color:#cbd5e1;">சரியானது ✅</span></div>
+        <div><h3 id="wrongCnt" style="color: #ef4444;">0</h3><span style="font-size:12px; color:#cbd5e1;">தவறானது ❌</span></div>
+        <div><h3 id="unansCnt" style="color: #f59e0b;">0</h3><span style="font-size:12px; color:#cbd5e1;">விடையளிக்காதது ⚠️</span></div>
+      </div>
+    </div>
+    <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
+      <button class="btn-action btn-green" onclick="showReceiptModal()">🧾 கட்டண ரசீது</button>
+      <button class="btn-action btn-blue" onclick="reviewAnswerKey()">🔍 விடை குறிப்பு (Answer Key)</button>
+      <button class="btn-action btn-purple" onclick="returnToDashboard()">🏠 முகப்புப் பக்கம்</button>
+      <button class="btn-action" onclick="retakeTest()">🔄 மீண்டும் தேர்வு</button>
+      <button class="btn-action btn-danger" onclick="exitPortal()">🚪 வெளியேறு</button>
+    </div>
+    <div class="footer-badge" style="margin-top: 20px;">🐅 டைகர் வாரியர் போர்டல் - இயக்குநர்: Dr. K. Manikasi 🐅</div>
+  </div>
+</div>
+
+<!-- Receipt Modal Popup -->
+<div id="receiptModal" class="receipt-modal">
+  <div class="receipt-content">
+    <div class="receipt-header">
+      <h3 style="color: #0284c7; font-size: 18px;">🐅 டைகர் வாரியர் போர்டல்</h3>
+      <p style="font-size: 11px; color: #64748b;">அதிகாரப்பூர்வ டிஜிட்டல் கட்டண ரசீது</p>
+    </div>
+    <div class="receipt-row"><span>ரசீது எண்:</span> <strong id="recId">TW-TRB-50</strong></div>
+    <div class="receipt-row"><span>தேதி & நேரம்:</span> <strong id="recDate">-</strong></div>
+    <div class="receipt-row"><span>மாணவர் பெயர்:</span> <strong id="recName">-</strong></div>
+    <div class="receipt-row"><span>மொபைல் எண்:</span> <strong id="recPhone">-</strong></div>
+    <div class="receipt-row"><span>பாடப்பிரிவு:</span> <strong>PG-TRB தமிழ் (Unit-X: திரைப்படங்கள்)</strong></div>
+    <div class="receipt-row"><span>UTR / குறிப்பு எண்:</span> <strong id="recUtr" style="font-family:monospace;">-</strong></div>
+    <div class="receipt-row" style="border-bottom: 2px solid #0f172a; margin-top: 6px; padding-top: 6px; font-size: 15px;">
+      <span>செலுத்திய தொகை:</span> <strong style="color: #16a34a;">₹50.00 (வெற்றி பெற்றது ✅)</strong>
+    </div>
+    <div style="text-align: center; margin-top: 15px; display: flex; gap: 8px;">
+      <button onclick="window.print()" class="btn-action btn-blue" style="flex: 1; padding: 8px; font-size: 12px;">🖨️ பிரிண்ட் / PDF</button>
+      <button onclick="closeReceiptModal()" class="btn-action btn-danger" style="flex: 1; padding: 8px; font-size: 12px;">✖ மூடு</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzWf8KxvSU4me7zj-netqLYZ_t5rU16ZlkbgSM7lKauJuoAHEicl-_WtD9anYzOB1tU5Q/exec";
+
+  // வினாக்கள் மற்றும் விடைகள்
+  const questionsData = [
+    { q: "1. சலனப்படம் யாரால் எந்த ஆண்டு கண்டுபிடிக்கப்பட்டது?", o: ["எடிசன் - 1895", "லூயி - 1895", "லூமியர் சகோதரர்கள் - 1895", "ரைட்சகோதரர்கள் - 1895"], a: 2, exp: "விளக்கம்: லூமியர் சகோதரர்களால் 1895-ல் சலனப்படம் கண்டுபிடிக்கப்பட்டது[cite: 1]." },
+    { q: "2. இந்தியாவில் முதல் சலனப்படம் எங்கு? எந்த ஆண்டு திரையிடப்பட்டது?", o: ["டெல்லி - 1896", "கல்கத்தா - 1896", "சென்னை - 1896", "மும்பை - 1896"], a: 3, exp: "விளக்கம்: இந்தியாவில் முதல் சலனப்படம் மும்பையில் 1896-ல் திரையிடப்பட்டது[cite: 1]." },
+    { q: "3. சென்னையில் விக்டோரியா பப்ளிக் திரையிடப்பட்டது?", o: ["1897", "1899", "1904", "1907"], a: 0, exp: "விளக்கம்: 1897-ல் சென்னையில் விக்டோரியா பப்ளிக்கில் திரையிடப்பட்டது[cite: 1]." },
+    { q: "4. தென்னிந்தியாவின் முதல் திரையரங்கு எங்கு அமைக்கப்பட்டது?", o: ["நாகைழா", "ஹைதராபாத்", "சென்னை", "பெங்களூர்"], a: 2, exp: "விளக்கம்: தென்னிந்தியாவின் முதல் திரையரங்கு சென்னையில் அமைக்கப்பட்டது[cite: 1]." },
+    { q: "5. தென்னிந்தியாவின் முதல் திரையரங்கைக் கட்டியவர்?", o: ["தாடாசாகே", "வாரவிக் மேஜர்", "அண்ணா மலையார்", "எட்வர்டு"], a: 1, exp: "விளக்கம்: வாரவிக் மேஜர் தென்னிந்தியாவின் முதல் திரையரங்கைக் கட்டினார்[cite: 1]." },
+    { q: "6. தென்னிந்தியாவின் முதல் திரையரங்கின் பெயர்?", o: ["எலக்ட்ரிக் தியேட்டர்", "குயின் எலிசபெத்", "எட்வர்டு சினிமா", "சவுத்இண்டியன் சினிமா"], a: 0, exp: "விளக்கம்: 'எலக்ட்ரிக் தியேட்டர்' என்பது தென்னிந்தியாவின் முதல் திரையரங்காகும்[cite: 1]." },
+    { q: "7. திருச்சியில் ‘எடிசன் சினிமாட்டோ கிராப்’ என்ற திரைப்படம் காட்டும் நிறுவனத்தைத் தொடங்கியவர் யார்?", o: ["சுவாமிக்கண்ணு வின்சென்ட்", "டுபாண்ட்", "வெங்கையா", "தாடாசாகே பால்கே"], a: 0, exp: "விளக்கம்: சுவாமிக்கண்ணு வின்சென்ட் திருச்சியில் தொடங்கினார்[cite: 1]." },
+    { q: "8. இந்தியர் ஒருவரால் தென்னிந்தியாவில் கட்டப்பட்ட முதல் திரையரங்கு எது?", o: ["கெயிட்டி திரையரங்கு", "எலக்ட்ரிக் தியேட்டர்", "எடிசன் சினிமாட்டோ கிராப்", "டூரிங் டாக்கிஸ்"], a: 0, exp: "விளக்கம்: கெயிட்டி திரையரங்கு இந்தியரால் தென்னிந்தியாவில் கட்டப்பட்ட முதல் திரையரங்கு ஆகும்[cite: 1]." },
+    { q: "9. ரெயின்போ டாக்கீஸ் எந்த மாவட்டத்தில் தொடங்கப்பட்டது?", o: ["சென்னை", "மதுரை", "சேலம்", "கோவை"], a: 3, exp: "விளக்கம்: கோவையில் ரெயின்போ டாக்கீஸ் தொடங்கப்பட்டது[cite: 1]." },
+    { q: "10. கெயிட்டி திரையரங்கு கட்டியவர் யார்?", o: ["வெங்கையா", "சின்னசாமி பிள்ளை", "சுவாமிக்கண்ணு வின்சென்ட்", "டுபாண்ட்"], a: 2, exp: "விளக்கம்: சுவாமிக்கண்ணு வின்சென்ட் கெயிட்டி திரையரங்கைக் கட்டினார்[cite: 1]." },
+    { q: "11. இந்தியாவில் காட்டப்பட்ட முதல் கதைப்படம் எது?", o: ["ராஜ ஹரிச்சந்திரா", "காளிதாஸ்", "கீசகவதம்", "ஆலம் ஆரா"], a: 3, exp: "விளக்கம்: ஆலம் ஆரா / கீசகவதம்[cite: 1]." },
+    { q: "12. இந்தியர் ஒருவர் தயாரித்து வெளியிட்ட முதல் இந்தியத் திரைப்படம் எது?", o: ["ஏசுவின் வாழ்க்கை", "கீசகவதம்", "இராஜா ஹரிச்சந்திரா", "ஆலம் ஆரா"], a: 2, exp: "விளக்கம்: தாதாசாகேப் பால்கே தயாரித்த 'இராஜா ஹரிச்சந்திரா' ஆகும்[cite: 1]." },
+    { q: "13. கீழ்க்கண்டவற்றுள் மௌனப்படம் எது?", o: ["இராஜா ஹரிச்சந்திரா", "ஏசுவின் வாழ்க்கை", "கீசகவதம்", "இவையனைத்தும்"], a: 3, exp: "விளக்கம்: மேற்கண்ட அனைத்துமே மௌனப்படங்கள் ஆகும்[cite: 1]." },
+    { q: "14. கீழ்ப்பாக்கத்தில் 'இந்தியா பிலிம் கம்பெனி' என்ற நிறுவனத்தை நிறுவியவர்?", o: ["நடராஜர்", "தாதாசாகே பால்கே", "வெங்கையா", "ஏ. நாராயணன்"], a: 0, exp: "விளக்கம்: நடராஜர் (நட்ராஜ முதலியார்) கீழ்ப்பாக்கத்தில் நிறுவினார்[cite: 1]." },
+    { q: "15. மௌனப்படக் காலத்திலேயே எந்தப் புதினம் திரைப்படமாக எடுக்கப்பட்டது?", o: ["தியாக பூமி", "அனாதைப்பெண்", "சந்திரமதி", "திக்கற்ற பார்வதி"], a: 1, exp: "விளக்கம்: அனாதைப்பெண் புதினம் மௌனப்படக் காலத்திலேயே எடுக்கப்பட்டது[cite: 1]." },
+    { q: "16. தியாக பூமி புதினத்தின் ஆசிரியர்?", o: ["கல்கி", "ராஜாஜி", "இராமலிங்கனார்", "வடுவூர் துரைசாமி"], a: 0, exp: "விளக்கம்: கல்கி அவர்களின் 'தியாக பூமி' புதினம் புகழ் பெற்றது[cite: 1]." },
+    { q: "17. சரியான கூற்றைத் தேர்ந்தெடு:\n1. இலக்கியவாதியாகவும் திரைப்படக் கலைஞராகவும் சாதித்தவர் ஜெயகாந்தன்\n2. திரைப்படம் ஒரு காட்சி மொழி என்பவரை உணர்ந்தவர் பாலு மகேந்திரா\n3. ஒளிப்பதிவாளராக, இருந்து இயக்குநரானவர் மகேந்திரவன்\n4. ஒளிப்பதிவாளர், எழுத்தாளர், இயக்குநர், நடிகர் என பன்முக தன்மை கொண்டவர் தங்கர் பச்சான்.", o: ["1 2 3 சரி", "1 2 4 சரி", "2 3 4 சரி", "1 3 4 சரி"], a: 1, exp: "விளக்கம்: 1, 2 மற்றும் 4 கூற்றுகள் சரியானவை[cite: 1]." },
+    { q: "18. சரியான இணையைத் தேர்ந்தெடுக்க", o: ["ஏழாம் உலகம்- அரவான்", "எரியும் பனிக்காடு – நான் கடவுள்", "காவல் கோட்டம் – பரதேசி", "லாக் அப் – விசாரணை"], a: 3, exp: "விளக்கம்: 'லாக் அப்' நாவலை அடிப்படையாகக் கொண்டது 'விசாரணை' திரைப்படம்[cite: 1]." },
+    { q: "19. சலனப்படம் கண்டுபிடிக்கப்பட்ட ஆண்டு?", o: ["1985", "1896", "1895", "1897"], a: 2, exp: "விளக்கம்: சலனப்படம் கண்டுபிடிக்கப்பட்ட ஆண்டு 1895[cite: 1]." },
+    { q: "20. தி ஜாஸ் சிங்கர் என்பது", o: ["உலகின் முதல் மௌனப் படம்", "உலகின் முதல் பேசும் படம்", "இந்தியாவின் முதல் மௌனப்படம்", "இந்தியாவில் முதல் பேசும்படம்"], a: 1, exp: "விளக்கம்: 'தி ஜாஸ் சிங்கர்' உலகின் முதல் பேசும் திரைப்படமாகும்[cite: 1]." },
+    { q: "21. சரியான கூற்றைத் தேர்ந்தெடுக்க", o: ["தமிழில் வெளிவந்த முதல் பேசும் படம் ஆலம் ஆரா", "சென்னையில் முதல் திரைப்படக் கல்லூரி கோடம்பாக்கத்தில் தொடங்கப்பட்டது.", "நல்லதம்பி திரைப்படத்திற்கு வசனம் எழுதியவர் மு. கருணாநிதி", "முதல் முழுநீள வண்ணப்படம் ‘அலிபாவாவும் நாற்பது திருடர்களும்’"], a: 3, exp: "விளக்கம்: 'அலிபாவாவும் நாற்பது திருடர்களும்' இந்தியாவின் முதல் முழுநீள வண்ணத் திரைப்படமாகும்[cite: 1]." },
+    { q: "22. மகாத்மா காந்தி என்னும் விவரணப்படத்தைத் தயாரித்தவர்?", o: ["சாமிகண்ணு வின்சென்ட்", "ஏ. பி. நாகராஜன்", "ஏ. கே. செட்டியார்", "ஏ. நாராயணன்"], a: 2, exp: "விளக்கம்: ஏ. கே. செட்டியார் மகாத்மா காந்தி ஆவணப்படத்தைத் தயாரித்தார்[cite: 1]." },
+    { q: "23. உலக நாடக நாள்?", o: ["மார்ச் 8", "மார்ச் 27", "மார்ச் 18", "மார்ச் 23"], a: 1, exp: "விளக்கம்: மார்ச் 27 உலக நாடக நாளாகக் கொண்டாடப்படுகிறது[cite: 1]." },
+    { q: "24. திரைப்படத்தின் உயிர் எனக் கருதப்படுவது?", o: ["கதை", "வசனம்", "இயக்கம்", "இசை"], a: 0, exp: "விளக்கம்: திரைப்படத்தின் உயிர் 'கதை' எனக் கருதப்படுகிறது[cite: 1]." },
+    { q: "25. ஒளியின் வகை?", o: ["4", "2", "3", "5"], a: 1, exp: "விளக்கம்: ஒளியின் வகைகள் 2 ஆகும்[cite: 1]." },
+    { q: "26. உற்சாகம், நல்லெண்ணம், பெருமகிழ்ச்சி ஆகிய உணர்வுகளைக் காட்டப் பயன்படுத்தப்படும் வண்ணம்?", o: ["மஞ்சள்", "பச்சை", "சிவப்பு", "கருநீலம்"], a: 0, exp: "விளக்கம்: மஞ்சள் நிறம் உற்சாகத்தைக் குறிக்கும்[cite: 1]." },
+    { q: "27. நல்ல படம் எனக் குறிப்பிடப்படுவது இரண்டு மேடைகளில் உருவாகின்றது. ஒன்று கதை எழுதுபவரின் மேடை, மற்றொன்று ___ மேடை", o: ["இசையமைப்பாளர்", "இயக்குநர்", "ஒளிப்பதிவாளர்", "படத்தொகுப்பாளர்"], a: 3, exp: "விளக்கம்: படத்தொகுப்பாளர் மேடை இரண்டாவது மேடையாகும்[cite: 1]." },
+    { q: "28. சர்வதேச அரங்காட்டு நிறுவனம் எந்த நாட்டில் செயல்பட்டு வருகிறது?", o: ["இங்கிலாந்து", "பின்லாந்து", "ரஷ்யா", "கிரேக்கம்"], a: 1, exp: "விளக்கம்: பின்லாந்து நாட்டில் செயல்பட்டு வருகிறது[cite: 1]." },
+    { q: "29. தென்னிந்தியாவின் முதல் திரைப்படம் எது?", o: ["இராஜா ஹரிச்சந்திரா", "கீசகவதம்", "காளிதாஸ்", "மலைக்கள்ளன்"], a: 1, exp: "விளக்கம்: 'கீசகவதம்' தென்னிந்தியாவின் முதல் திரைப்படமாகும்[cite: 1]." },
+    { q: "30. இந்திய திரைப்படத் தணிக்கைத் துறை உருவான வருடம்?", o: ["1900", "1907", "1915", "1918"], a: 3, exp: "விளக்கம்: 1918-ல் தணிக்கைத் துறை உருவாக்கப்பட்டது[cite: 1]." },
+    { q: "31. இந்தியாவின் முதல் பேசும்படம் எது?", o: ["ஆலம் ஆரா", "பஞ்சா பாஞ்சாலி", "தி ஜாஸ் சிங்கர்", "காளிதாஸ்"], a: 0, exp: "விளக்கம்: இந்தியாவின் முதல் பேசும் படம் 'ஆலம் ஆரா'[cite: 1]." },
+    { q: "32. பொருத்துக:\n1. காளிதாஸ் - அர்தஷிர் இரானி\n2. சீனிவாசக் கல்யாணம் - வடுவூர் துரைசாமி\n3. மேனகா - ஏ. நாராயணன்\n4. ஆலம் ஆரா - எச். எம். ரெட்டி", o: ["4 3 2 1", "2 1 4 3", "3 4 2 1", "4 2 1 3"], a: 0, exp: "விளக்கம்: சரியான பொருத்தம் 4-3-2-1 ஆகும்[cite: 1]." },
+    { q: "33. தமிழ்த் திரைப்படங்களில் 50,60 பாடல்கள் என்றிருந்த நிலையை மாற்றி ஆறு அல்லது எட்டுப் பாடல்களாகக் குறைத்தவர்?", o: ["கிட்டப்பா", "தியாகராஜ பாகவதர்", "சின்னப்பா", "எல்லிஸ் ஆர் டங்கன்"], a: 3, exp: "விளக்கம்: எல்லிஸ் ஆர் டங்கன் பாடல்களின் எண்ணிக்கையைக் குறைத்தார்[cite: 1]." },
+    { q: "34. சிவகவி என்னும் திரைப்படத்திற்கு வசனம் எழுதியவர்?", o: ["மு. கருணாநிதி", "இளங்கோவன்", "கலைஞானம்", "அண்ணாதுரை"], a: 1, exp: "விளக்கம்: இளங்கோவன் சிவகவி படத்திற்கு வசனம் எழுதினார்[cite: 1]." },
+    { q: "35. நல்லதம்பி திரைப்படத்திற்கு வசனம் எழுதியவர்?", o: ["மு. கருணாநிதி", "அண்ணா", "பஞ்சு அருணாசலம்", "ஜெயமோகன்"], a: 1, exp: "விளக்கம்: பேரறிஞர் அண்ணா அவர்கள் நல்லதம்பி படத்திற்கு வசனம் எழுதினார்[cite: 1]." },
+    { q: "36. சரஸ்வதி சபதம் படத்தின் இயக்குநர் யார்?", o: ["ஏ. பி. நாகராஜன்", "பீம்சிங்", "ஸ்ரீதர்", "ஜெயகாந்தன்"], a: 0, exp: "விளக்கம்: ஏ. பி. நாகராஜன் இயக்கினார்[cite: 1]." },
+    { q: "37. தீர்க்குமிழி படத்தின் இயக்குநர் யார்?", o: ["கே. எஸ். கோபாலகிருஷ்ணன்", "கே. பாலசந்தர்", "பீம்சிங்", "பாலுமகேந்திரா"], a: 1, exp: "விளக்கம்: கே. பாலசந்தர் இயக்கினார்[cite: 1]." },
+    { q: "38. இந்தியாவில் இந்தி திரைப்படத்திற்கு அடுத்து வர்த்தக ரீதியாக இரண்டாவது இடத்தில் உள்ளது?", o: ["தெலுங்கு திரைப்படம்", "மலையாளத் திரைப்படம்", "கன்னடத் திரைப்படம்", "தமிழ்த்த திரைப்படம்"], a: 3, exp: "விளக்கம்: தமிழ்த் திரைப்படம் இரண்டாம் இடத்தில் உள்ளது[cite: 1]." },
+    { q: "39. வாழ்நாள் சாதனைக்காக ஆஸ்கர் விருது பெற்ற இந்தியர்?", o: ["பானு அத்ரையா", "A.R. ரகுமான்", "சத்தியஜித்ரெ", "சிவாஜி"], a: 2, exp: "விளக்கம்: சத்யஜித்ரெ ஆஸ்கர் வாழ்நாள் சாதனை விருது பெற்றவர்[cite: 1]." },
+    { q: "40. ‘ஸ்லம்டாக் மில்லியனர்’ திரைப்படத்திற்கு ஆஸ்கோர் விருது வழங்கப்பட்ட வருடம்?", o: ["2000", "2005", "2007", "2009"], a: 3, exp: "விளக்கம்: 2009-ல் ஆஸ்கார் விருது வழங்கப்பட்டது[cite: 1]." },
+    { q: "41. ஆஸ்கோர் விருது பெற்ற முதல் இந்தியர்?", o: ["இளையராஜா", "சிவாஜி கணேசன்", "கமலஹாசன்", "பானு அத்ரையா"], a: 3, exp: "விளக்கம்: பானு அத்ரையா முதல் ஆஸ்கார் விருது பெற்ற இந்தியர்[cite: 1]." },
+    { q: "42. முதல் தாதாசாகப் பால்கே விருதினை 1969-இல் பெற்றவர்?", o: ["தேவிகா ராணி", "சத்யஜித்ரெ", "சிவாஜி கணேசன்", "பானு அத்ரையா"], a: 0, exp: "விளக்கம்: தேவிகா ராணி பெற்றார்[cite: 1]." },
+    { q: "43. பொருத்துக:\n1. கொத்தமங்கலம் சுப்பு - சௌக்கடி சந்திரகாந்தா\n2. ஜெ. ஆர். ரங்கராஜூ - தில்லானா மோகனாம்பாள்\n3. வடுவூர் துரைசாமி - ஜெயகாந்தன்\n4. யாருக்காக அழுதான் - மைனர் ராஜாமமணி", o: ["4 3 2 1", "3 4 2 1", "2 4 1 3", "2 1 4 3"], a: 3, exp: "விளக்கம்: சரியான பொருத்தம் 2-1-4-3 ஆகும்[cite: 1]." },
+    { q: "44. பாலுமகேந்திரா இயக்கிய படம் எது?", o: ["சந்திரா ராகம், வீடு", "உதிரிப்பூக்கள், பூட்டாத பூட்டுகள்", "சாசனம், மோகமுள்", "அனைத்தும்"], a: 0, exp: "விளக்கம்: விடை A[cite: 1]." },
+    { q: "45. திரைக்கதை, வசனம், இயக்கம், தயாரிப்பு என ஜெயகாந்தன் செய்த திரைப்படம் எது?", o: ["யாருக்காக அழுதான்", "உன்னைப் போல் ஒருவன்", "சில நேரங்களில் சில மனிதர்கள்", "இவை அனைத்தும்"], a: 1, exp: "விளக்கம்: 'உன்னைப் போல் ஒருவன்' திரைப்படமாகும்[cite: 1]." },
+    { q: "46. பொருத்துக:\na. கல்வெட்டு - 1. பாலு மகேந்திரரா\nb. தலைகீழ்விகிதங்கள் - 2. பரதேசி\nc. வெயிலோடு போய் - 3. அழகி\nd. எரியும் பனிக்காடு - 4. ...", o: ["4 3 2 1", "3 4 1 2", "4 1 2 3", "4 2 1 3"], a: 1, exp: "விளக்கம்: சரியான பொருத்தம் 3-4-1-2 ஆகும்[cite: 1]." },
+    { q: "47. இந்தியாவில் உருவாக்கிய முதல் ஆவணப் படத்தை உருவாக்கியவர்?", o: ["மருதப்பன்", "பாலுமகேந்திரா", "ஏ.கே.செட்டியார்", "மணிரத்தினம்"], a: 2, exp: "விளக்கம்: ஏ.கே.செட்டியார் உருவாக்கினார்[cite: 1]." },
+    { q: "48. 'விம்பம்' (VIMBAM) என்பது?", o: ["குறும்பட விழாக்களை நடத்திவரும் அமைப்பு", "அமெரிக்காவில் உள்ள தமிழ்ச் சங்கம்", "நாடகக் கலைஞரின் சங்கம்", "சார்லி சாப்லினின் மெளன படம்"], a: 0, exp: "விளக்கம்: குறும்பட விழாக்களை நடத்திவரும் அமைப்பு[cite: 1]." },
+    { q: "49. என் படங்கள் வட்டார மொழிப் படங்கள் அல்ல. அவை உலக மொழிப்படங்கள் என்றவர்?", o: ["பாலு மகேந்திரா", "மணிரத்தினம்", "சார்லி சாப்ளின்", "சத்யஜித்ரே"], a: 2, exp: "விளக்கம்: சார்லி சாப்ளின் / பாலுமகேந்திரா[cite: 1]." },
+    { q: "50. இளையராஜா இசையமைத்த முதல் திரைப்படம்?", o: ["நாயகன்", "மௌனராகம்", "ரோஜா", "அன்னக்கிளி"], a: 3, exp: "விளக்கம்: இளையராஜா இசையமைத்த முதல் திரைப்படம் 'அன்னக்கிளி'[cite: 1]." }
+  ];
+
+  let currentQuestion = 0;
+  let userAnswers = new Array(questionsData.length).fill(null);
+  let isReviewMode = false;
+  let timerInterval;
+  let timeLeft = 50 * 60;
+
+  function sendWhatsAppMessage() {
+    const name = document.getElementById('userName').value.trim();
+    const phone = document.getElementById('userPhone').value.trim();
+    const utr = document.getElementById('userUTR').value.trim();
+
+    if(!name || phone.length !== 10 || utr.length !== 12) {
+      alert("தயவுசெய்து பெயர், 10 இலக்க போன் எண் மற்றும் 12 இலக்க UTR எண்ணை முதலில் சரியாக நிரப்பவும்! ⚠️");
+      return;
+    }
+
+    const msg = `*Tiger Warrior Portal - PG TRB Tamil Unit X*%0A%0A• *Name:* ${name}%0A• *Mobile:* ${phone}%0A• *UTR No:* ${utr}%0A• *Course:* Unit-X (திரைப்படங்கள்)%0A%0A(Payment Done - ₹50) ✅`;
+    window.open(`https://wa.me/919790933025?text=${msg}`, '_blank');
+    registerToSheet(name, phone, utr);
+  }
+
+  async function registerToSheet(name, phone, utr) {
+    try {
+      await fetch(`${SCRIPT_URL}?action=register&name=${encodeURIComponent(name)}&phone=${phone}&utr=${utr}`);
+    } catch (err) {
+      console.log("Sheet registration sync note.");
+    }
+  }
+
+  async function verifyAndStartTest(e) {
+    e.preventDefault();
+    const name = document.getElementById('userName').value.trim();
+    const phone = document.getElementById('userPhone').value.trim();
+    const utr = document.getElementById('userUTR').value.trim();
+    const err = document.getElementById('errorTxt');
+    const submitBtn = document.getElementById('submitBtnAccess');
+
+    submitBtn.innerText = "⏳ Waiting for Admin Approval...";
+    submitBtn.disabled = true;
+    err.style.display = 'none';
+
+    try {
+      const response = await fetch(`${SCRIPT_URL}?action=verify&utr=${utr}&phone=${phone}`);
+      const result = await response.json();
+
+      if (result.status === "SUCCESS") {
+        submitBtn.innerText = "🚀 தேர்வைத் தொடங்குக (Start Test)";
+        setTimeout(() => {
+          document.getElementById('paymentView').style.display = 'none';
+          document.getElementById('testView').style.display = 'block';
+          initTest();
+        }, 600);
+      } else if (result.status === "USED") {
+        err.style.display = 'block';
+        err.innerText = "⚠️ இந்த UTR எண் ஏற்கனவே பயன்படுத்தப்பட்டுவிட்டது! ஒரு UTR எண்ணை ஒருமுறை மட்டுமே பயன்படுத்த முடியும்.";
+        submitBtn.innerText = "🚀 உள்நுழைந்து தேர்வைத் தொடங்குக";
+        submitBtn.disabled = false;
+      } else if (result.status === "PENDING") {
+        err.style.display = 'block';
+        err.innerText = "⏳ உங்களது கட்டணம் இன்னும் சரிபார்க்கப்படவில்லை (Pending). அட்மின் 'Success' என்று மாற்றிய பின் தேர்வு திறக்கப்படும்.";
+        submitBtn.innerText = "🚀 உள்நுழைந்து தேர்வைத் தொடங்குக";
+        submitBtn.disabled = false;
+      } else {
+        err.style.display = 'block';
+        err.innerText = "❌ விவரங்கள் கிடைக்கவில்லை. கட்டணம் செலுத்திவிட்டு WhatsApp-ல் விவரங்களை அனுப்பியுள்ளீர்களா என உறுதி செய்யவும்.";
+        submitBtn.innerText = "🚀 உள்நுழைந்து தேர்வைத் தொடங்குக";
+        submitBtn.disabled = false;
+      }
+    } catch (error) {
+      err.style.display = 'block';
+      err.innerText = "இணைய இணைப்பில் தயக்கம். மீண்டும் முயற்சிக்கவும். 🔄";
+      submitBtn.innerText = "🚀 உள்நுழைந்து தேர்வைத் தொடங்குக";
+      submitBtn.disabled = false;
+    }
+  }
+
+  function initTest() {
+    buildGrid();
+    loadQuestion(0);
+    startTimer();
+  }
+
+  function buildGrid() {
+    const grid = document.getElementById('questionGrid');
+    grid.innerHTML = '';
+    questionsData.forEach((_, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'q-num-btn';
+      btn.innerText = idx + 1;
+      btn.id = `q_btn_${idx}`;
+      btn.onclick = () => jumpToQuestion(idx);
+      grid.appendChild(btn);
+    });
+    updateGridStatus();
+  }
+
+  function updateGridStatus() {
+    questionsData.forEach((_, idx) => {
+      const btn = document.getElementById(`q_btn_${idx}`);
+      if(!btn) return;
+      btn.className = 'q-num-btn';
+      if(idx === currentQuestion) {
+        btn.classList.add('active');
+      } else if(userAnswers[idx] !== null) {
+        btn.classList.add('answered');
+      }
+    });
+  }
+
+  function loadQuestion(idx) {
+    currentQuestion = idx;
+    const q = questionsData[idx];
+    document.getElementById('qTitle').innerText = q.q;
+    
+    const optsBox = document.getElementById('optionsBox');
+    optsBox.innerHTML = '';
+
+    q.o.forEach((optText, oIdx) => {
+      const card = document.createElement('div');
+      card.className = 'option-card';
+      
+      if(userAnswers[idx] === oIdx) {
+        card.classList.add('selected');
+      }
+
+      if(isReviewMode) {
+        if(oIdx === q.a) {
+          card.classList.add('correct-ans');
+        } else if(userAnswers[idx] === oIdx && oIdx !== q.a) {
+          card.classList.add('wrong-ans');
+        }
+      }
+
+      card.innerHTML = `<span><b>${String.fromCharCode(65 + oIdx)}.</b></span> <span>${optText}</span>`;
+      card.onclick = () => selectOption(oIdx);
+      optsBox.appendChild(card);
+    });
+
+    const expBox = document.getElementById('expBox');
+    if(isReviewMode) {
+      expBox.style.display = 'block';
+      expBox.innerText = q.exp;
+    } else {
+      expBox.style.display = 'none';
+    }
+
+    document.getElementById('prevBtn').style.display = idx === 0 ? 'none' : 'block';
+    document.getElementById('nextBtn').style.display = idx === questionsData.length - 1 ? 'none' : 'block';
+    updateGridStatus();
+  }
+
+  function selectOption(oIdx) {
+    if(isReviewMode) return;
+    userAnswers[currentQuestion] = oIdx;
+    loadQuestion(currentQuestion);
+  }
+
+  function clearChoice() {
+    if(isReviewMode) return;
+    userAnswers[currentQuestion] = null;
+    loadQuestion(currentQuestion);
+  }
+
+  function navigateNumberQuery(dir) {
+    const next = currentQuestion + dir;
+    if(next >= 0 && next < questionsData.length) {
+      loadQuestion(next);
+    }
+  }
+
+  function jumpToQuestion(idx) {
+    loadQuestion(idx);
+  }
+
+  function startTimer() {
+    timerInterval = setInterval(() => {
+      timeLeft--;
+      let m = Math.floor(timeLeft / 60);
+      let s = timeLeft % 60;
+      document.getElementById('timerBox').innerText = `⏱️ ${m}:${s < 10 ? '0' : ''}${s}`;
+      if(timeLeft <= 0) {
+        clearInterval(timerInterval);
+        submitTest();
+      }
+    }, 1000);
+  }
+
+  function confirmSubmit() {
+    if(confirm("நிச்சயமாக தேர்வைச் சமர்ப்பிக்க விரும்புகிறீர்களா? 🤔")) {
+      submitTest();
+    }
+  }
+
+  function submitTest() {
+    clearInterval(timerInterval);
+    document.getElementById('testView').style.display = 'none';
+    document.getElementById('resultView').style.display = 'block';
+
+    let correct = 0, wrong = 0, unans = 0;
+    userAnswers.forEach((ans, idx) => {
+      if(ans === null) unans++;
+      else if(ans === questionsData[idx].a) correct++;
+      else wrong++;
+    });
+
+    document.getElementById('scoreDisplay').innerText = `${correct} / ${questionsData.length}`;
+    let pct = ((correct / questionsData.length) * 100).toFixed(1);
+    document.getElementById('percentageDisplay').innerText = `சதவீதம்: ${pct}% 📊`;
+    document.getElementById('correctCnt').innerText = correct;
+    document.getElementById('wrongCnt').innerText = wrong;
+    document.getElementById('unansCnt').innerText = unans;
+  }
+
+  function reviewAnswerKey() {
+    isReviewMode = true;
+    document.getElementById('resultView').style.display = 'none';
+    document.getElementById('testView').style.display = 'block';
+    document.getElementById('finalSubmitBtn').style.display = 'none';
+    document.getElementById('backToResultBtn').style.display = 'block';
+    document.getElementById('dashFromKeyBtn').style.display = 'block';
+    loadQuestion(0);
+  }
+
+  function returnToResult() {
+    document.getElementById('testView').style.display = 'none';
+    document.getElementById('resultView').style.display = 'block';
+  }
+
+  function returnToDashboard() {
+    location.reload();
+  }
+
+  function retakeTest() {
+    userAnswers = new Array(questionsData.length).fill(null);
+    isReviewMode = false;
+    timeLeft = 50 * 60;
+    document.getElementById('resultView').style.display = 'none';
+    document.getElementById('testView').style.display = 'block';
+    document.getElementById('finalSubmitBtn').style.display = 'inline-block';
+    document.getElementById('backToResultBtn').style.display = 'none';
+    document.getElementById('dashFromKeyBtn').style.display = 'none';
+    initTest();
+  }
+
+  function exitPortal() {
+    window.close();
+    alert("போர்ட்டலில் இருந்து வெற்றிகரமாக வெளியேறினீர்கள். 👋");
+  }
+
+  function showReceiptModal() {
+    document.getElementById('recName').innerText = document.getElementById('userName').value || "மாணவர்";
+    document.getElementById('recPhone').innerText = document.getElementById('userPhone').value || "9790933025";
+    document.getElementById('recUtr').innerText = document.getElementById('userUTR').value || "656653224155";
+    document.getElementById('recDate').innerText = new Date().toLocaleString();
+    document.getElementById('receiptModal').style.display = 'flex';
+  }
+
+  function closeReceiptModal() {
+    document.getElementById('receiptModal').style.display = 'none';
+  }
+</script>
+
+</body>
+</html>
