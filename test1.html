@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>டைகர் வாரியர் போர்டல் - PG-TRB தமிழ் (Unit-I: புதைப்பொருள் ஆய்வு)</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    body { background: #020617; color: #f8fafc; padding: 12px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+    .card { width: 100%; max-width: 950px; background: #0f172a; border-radius: 14px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); border: 1px solid #1e293b; }
+    
+    .login-box { max-width: 440px; margin: 0 auto; text-align: center; }
+    .logo-badge { font-size: 28px; font-weight: bold; margin-bottom: 4px; color: #38bdf8; letter-spacing: 1px; }
+    .title { color: #38bdf8; font-size: 22px; font-weight: bold; margin-bottom: 4px; letter-spacing: 0.5px; }
+    .ceo-name { color: #f59e0b; font-size: 13px; font-weight: bold; margin-bottom: 12px; }
+    .subtitle { color: #94a3b8; font-size: 13px; margin-bottom: 18px; line-height: 1.4; text-align: left; background: #1e293b; padding: 10px; border-radius: 8px; border: 1px solid #334155; }
+    
+    .qr-container { background: #1e293b; border: 1px dashed #3b82f6; padding: 16px; border-radius: 10px; text-align: center; margin-bottom: 18px; }
+    .qr-box-alt { background: #fff; color: #0f172a; padding: 12px; border-radius: 10px; display: inline-block; margin-bottom: 10px; border: 1px solid #334155; box-shadow: 0 4px 12px rgba(0,0,0,0.5); width: 100%; max-width: 220px; }
+    .upi-id { font-family: monospace; font-size: 15px; color: #38bdf8; font-weight: bold; background: #091326; padding: 8px 14px; border-radius: 6px; display: inline-block; margin: 6px 0 12px 0; border: 1px solid #334155; cursor: pointer; }
+    
+    .whatsapp-btn { display: block; width: 100%; background: #22c55e; color: #fff; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: bold; text-align: center; font-size: 14px; border: none; cursor: pointer; transition: 0.2s; margin-top: 14px; }
+    .whatsapp-btn:hover { background: #16a34a; }
+    
+    .instruction-text { font-size: 12px; color: #94a3b8; text-align: center; margin-top: 8px; line-height: 1.4; }
+
+    /* Mode Selection Switch Buttons */
+    .mode-select-box { display: flex; gap: 10px; margin-bottom: 16px; }
+    .mode-btn { flex: 1; padding: 12px; font-size: 13px; font-weight: bold; border-radius: 8px; border: 1px solid #334155; background: #1e293b; color: #94a3b8; cursor: pointer; transition: 0.2s; }
+    .mode-btn.active { background: #0284c7; color: #fff; border-color: #38bdf8; }
+
+    .form-group { margin-bottom: 14px; text-align: left; }
+    .form-group label { display: block; font-size: 12px; color: #cbd5e1; margin-bottom: 4px; }
+    .form-group input { width: 100%; padding: 11px; border-radius: 6px; border: 1px solid #334155; background: #1e293b; color: #fff; font-size: 14px; outline: none; }
+    .form-group input:focus { border-color: #38bdf8; }
+    
+    .btn-submit { width: 100%; background: #10b981; color: #fff; border: none; padding: 13px; border-radius: 6px; font-weight: bold; font-size: 15px; cursor: pointer; transition: 0.2s; margin-top: 6px; }
+    .btn-submit:hover { background: #059669; }
+    .error-msg { color: #f59e0b; font-size: 13px; text-align: center; margin-top: 10px; display: none; line-height: 1.4; }
+
+    .test-header { display: flex; justify-content: space-between; align-items: center; background: #1e293b; padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+    .timer { font-size: 16px; font-weight: bold; color: #f59e0b; background: #091326; padding: 6px 12px; border-radius: 6px; border: 1px solid #f59e0b; }
+    
+    .q-grid { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 16px; max-height: 140px; overflow-y: auto; padding: 8px; background: #1e293b; border-radius: 8px; }
+    .q-num-btn { width: 30px; height: 30px; border-radius: 5px; border: none; background: #334155; color: #fff; font-size: 10px; cursor: pointer; font-weight: bold; }
+    .q-num-btn.active { border: 2px solid #38bdf8; background: #0284c7; }
+    .q-num-btn.answered { background: #10b981; }
+
+    .q-box { background: #1e293b; padding: 18px; border-radius: 10px; margin-bottom: 16px; }
+    .q-text { white-space: pre-line; line-height: 1.6; font-size: 15px; color: #f8fafc; }
+    
+    .option-card { background: #0f172a; border: 1px solid #334155; padding: 12px 16px; border-radius: 8px; margin-top: 10px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.2s; white-space: pre-line; line-height: 1.4; }
+    .option-card:hover { border-color: #38bdf8; background: #1e293b; }
+    .option-card.selected { border-color: #10b981; background: #064e3b; }
+    .option-card.correct-ans { border-color: #10b981; background: #065f46; font-weight: bold; }
+    .option-card.wrong-ans { border-color: #ef4444; background: #7f1d1d; }
+
+    .explanation-box { background: #091326; border: 1px solid #38bdf8; border-radius: 8px; padding: 12px; margin-top: 14px; font-size: 13px; color: #7dd3fc; line-height: 1.5; }
+    
+    .nav-btns { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+    .btn-action { background: #334155; color: #fff; border: none; padding: 10px 16px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 13px; }
+    .btn-action:hover { opacity: 0.9; }
+    .btn-blue { background: #2563eb; }
+    .btn-purple { background: #7c3aed; }
+    .btn-danger { background: #ef4444; }
+    .btn-green { background: #22c55e; }
+
+    .result-box { text-align: center; padding: 20px; background: #1e293b; border-radius: 12px; margin-top: 10px; }
+    .score-num { font-size: 48px; color: #10b981; font-weight: bold; margin: 10px 0; }
+    
+    .receipt-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; padding: 15px; }
+    .receipt-content { background: #fff; color: #0f172a; width: 100%; max-width: 400px; padding: 24px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); text-align: left; }
+    .receipt-header { text-align: center; border-bottom: 2px dashed #cbd5e1; padding-bottom: 12px; margin-bottom: 12px; }
+    .receipt-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; border-bottom: 1px solid #f1f5f9; padding-bottom: 4px; }
+    
+    /* Admin Panel Styles */
+    .admin-login-box { max-width: 400px; margin: 20px auto; background: #1e293b; padding: 24px; border-radius: 12px; border: 1px solid #334155; text-align: center; }
+    .admin-dashboard { width: 100%; margin: 0 auto; background: #0f172a; padding: 10px; border-radius: 12px; }
+    .admin-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 12px; }
+    .admin-table th, .admin-table td { border: 1px solid #334155; padding: 8px; text-align: left; }
+    .admin-table th { background: #1e293b; color: #38bdf8; }
+    .badge-pending { background: #f59e0b; color: #000; padding: 3px 6px; border-radius: 4px; font-weight: bold; font-size: 10px; }
+    .badge-approved { background: #10b981; color: #fff; padding: 3px 6px; border-radius: 4px; font-weight: bold; font-size: 10px; }
+    .btn-small-approve { background: #10b981; color: #fff; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 11px; }
+    .btn-small-approve:hover { background: #059669; }
+
+    .footer-badge { text-align: center; font-size: 11px; color: #38bdf8; margin-top: 15px; font-weight: bold; letter-spacing: 0.5px; }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <!-- Payment & Access Screen -->
+  <div id="paymentView" class="login-box">
+    <div class="logo-badge">⚔️ TIGER WARRIORS ⚔️</div>
+    <div class="title">டைகர் வாரியர் போர்டல்</div>
+    <div class="ceo-name">நிர்வாக இயக்குநர்: Dr. K. Manikasi</div>
+    
+    <div class="subtitle">
+      📌 <strong>PG-TRB தமிழ் - Unit I: புதைப்பொருள் ஆய்வும் பண்பாட்டுப் பரவலும்</strong><br>
+      📜 25 பிரத்யேக வினாக்கள் தேர்வு (Tiger Warrior Exclusives)<br>
+      💡 <span style="color:#f59e0b;">கட்டண விவரங்களுக்கு நிர்வாக இயக்குநரைத் தொடர்புகொள்ளவும்.</span>
+    </div>
+
+    <!-- Mode Selection Switch Buttons -->
+    <div class="mode-select-box">
+      <button type="button" id="btnNew" class="mode-btn active" onclick="switchMode('new')">🆕 புதிதாக பதிவு செய்ய</button>
+      <button type="button" id="btnOld" class="mode-btn" onclick="switchMode('old')">👤 ஏற்கனவே பதிவு செய்தவர்</button>
+    </div>
+    
+    <div class="qr-container" id="qrBoxContainer">
+      <div class="qr-box-alt">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=9790933025@kotakbank%26pn=ManiK" alt="GPay QR Code" style="width: 100%; height: auto; display: block; border-radius: 4px;">
+      </div>
+      <div style="font-size: 12px; color: #cbd5e1; margin-top: 4px;">📱 GPay / PhonePe எண் (நகலெடுக்க கிளிக் செய்யவும்):</div>
+      <div class="upi-id" onclick="navigator.clipboard.writeText('9790933025'); alert('GPay எண் நகலெடுக்கப்பட்டது! 📋');">9790933025</div>
+      <div class="instruction-text">✨ கட்டணம் செலுத்திவிட்டு விவரங்களைப் பூர்த்தி செய்து WhatsApp-ல் அனுப்பவும்.</div>
+    </div>
+
+    <form id="accessForm" onsubmit="verifyAndStartTest(event)">
+      <div class="form-group" id="phoneGroup">
+        <label id="phoneLabel">📞 WhatsApp எண் (Mobile No):</label>
+        <input type="tel" id="userPhone" pattern="[0-9]{10}" maxlength="10" required placeholder="10 இலக்க மொபைல் எண்" oninput="fetchExistingUserData()">
+      </div>
+
+      <div class="form-group" id="nameGroup">
+        <label>👤 உங்கள் பெயர் (Name):</label>
+        <input type="text" id="userName" required placeholder="உங்கள் முழுப் பெயரை உள்ளிடவும்">
+      </div>
+
+      <div class="form-group" id="utrGroup">
+        <label>🔢 12 இலக்க UTR / UPI குறிப்பு எண்:</label>
+        <input type="text" id="userUTR" pattern="[0-9]{12}" maxlength="12" required placeholder="12 digit UTR number">
+      </div>
+
+      <a href="javascript:void(0);" onclick="sendWhatsAppMessage()" class="whatsapp-btn" id="waShareBtn">💬 WhatsApp மூலம் விவரங்களை அனுப்புக</a>
+
+      <div id="errorTxt" class="error-msg"></div>
+      
+      <button type="submit" id="submitBtnAccess" class="btn-submit" style="margin-top: 14px;">🚀 புதிய பதிவைச் சமர்ப்பித்து உள்நுழை</button>
+    </form>
+
+    <!-- Admin Panel Access Link -->
+    <div style="margin-top: 15px;">
+      <a href="javascript:void(0);" onclick="showAdminLogin()" style="color: #64748b; font-size: 11px; text-decoration: none;">⚙️ நிர்வாகி உள்நுழைவு (Admin Login)</a>
+    </div>
+
+    <div class="footer-badge">👑 ⚔️ TIGER WARRIORS ⚔️ - 2026 👑</div>
+  </div>
+
+  <!-- Admin Login View -->
+  <div id="adminLoginView" style="display: none;" class="admin-login-box">
+    <h3 style="color: #38bdf8; margin-bottom: 14px;">🔐 Admin Panel Login</h3>
+    <div class="form-group">
+      <label>Admin Password:</label>
+      <input type="password" id="adminPasswordInput" placeholder="Enter password">
+    </div>
+    <button class="btn-submit" onclick="verifyAdminLogin()">Login to Panel</button>
+    <button class="btn-action" style="width:100%; margin-top:10px; background:#334155;" onclick="backToHome()">⬅️ Back to Home</button>
+    <div id="adminErr" class="error-msg"></div>
+  </div>
+
+  <!-- Admin Dashboard View -->
+  <div id="adminDashboardView" style="display: none;" class="admin-dashboard">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+      <h3 style="color: #38bdf8; font-size: 15px;">👑 Tiger Warrior Admin Dashboard</h3>
+      <button class="btn-action btn-danger" onclick="backToHome()" style="padding: 6px 10px; font-size: 11px;">🚪 Logout</button>
+    </div>
+    <p style="font-size: 12px; color: #94a3b8; margin-bottom: 8px;">மாணவர்களின் பட்டியலும் UTR ஒப்புதலும் (UTR Approvals):</p>
+    <div style="overflow-x: auto; max-height: 350px; overflow-y: auto;">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>UTR</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="adminTableBody">
+          <!-- Rows will load here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Test View -->
+  <div id="testView" style="display: none;">
+    <div class="test-header">
+      <div>
+        <h3 style="color: #38bdf8; font-size: 16px;" id="portalTitle">🎯 PG-TRB தமிழ் - Unit I: புதைப்பொருள் ஆய்வு (25 வினாக்கள்)</h3>
+        <span style="font-size: 12px; color: #94a3b8;">Tiger Warrior Study Platform</span>
+      </div>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <button class="btn-action btn-green" onclick="showReceiptModal()" style="padding: 6px 12px; font-size: 12px;">🧾 ரசீது</button>
+        <div class="timer" id="timerBox">⏱️ 25:00</div>
+        <button class="btn-action btn-purple" id="backToResultBtn" onclick="returnToResult()" style="display: none; padding: 6px 12px; font-size: 12px;">📊 ரிசல்ட் செல்</button>
+        <button class="btn-action btn-danger" id="dashFromKeyBtn" onclick="returnToDashboard()" style="display: none; padding: 6px 12px; font-size: 12px;">🏠 முகப்பு</button>
+      </div>
+    </div>
+
+    <div class="q-grid" id="questionGrid"></div>
+
+    <div class="q-box">
+      <div id="qTitle" class="q-text"></div>
+      <div id="optionsBox"></div>
+      <div id="expBox" class="explanation-box" style="display: none;"></div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn-action" id="prevBtn" onclick="navigateNumberQuery(-1)">⬅️ முந்தையது</button>
+      <button class="btn-action" id="clearBtn" onclick="clearChoice()">🧹 விடையை நீக்கு</button>
+      <button class="btn-action btn-blue" id="nextBtn" onclick="navigateNumberQuery(1)">அடுத்து ➡️</button>
+      <button class="btn-action btn-danger" id="finalSubmitBtn" onclick="confirmSubmit()">✅ தேர்வைச் சமர்ப்பிக்க (Submit)</button>
+    </div>
+  </div>
+
+  <!-- Result View -->
+  <div id="resultView" style="display: none;">
+    <h2 style="color: #38bdf8; text-align: center; margin-bottom: 10px;">🏆 தேர்வு முடிவுகள் (Test Results) 🎯</h2>
+    <div class="result-box">
+      <div class="score-num" id="scoreDisplay">0 / 25</div>
+      <p id="percentageDisplay" style="color: #94a3b8; font-size: 16px; margin-bottom: 15px;"></p>
+      <hr style="border-color: #334155; margin: 15px 0;">
+      <div style="display: flex; justify-content: space-around; text-align: center;">
+        <div><h3 id="correctCnt" style="color: #10b981;">0</h3><span style="font-size:12px; color:#cbd5e1;">சரியானது ✅</span></div>
+        <div><h3 id="wrongCnt" style="color: #ef4444;">0</h3><span style="font-size:12px; color:#cbd5e1;">தவறானது ❌</span></div>
+        <div><h3 id="unansCnt" style="color: #f59e0b;">0</h3><span style="font-size:12px; color:#cbd5e1;">விடையளிக்காதது ⚠️</span></div>
+      </div>
+    </div>
+    <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
+      <button class="btn-action btn-green" onclick="showReceiptModal()">🧾 கட்டண ரசீது</button>
+      <button class="btn-action btn-blue" onclick="reviewAnswerKey()">🔍 விடை குறிப்பு (Answer Key)</button>
+      <button class="btn-action btn-purple" onclick="returnToDashboard()">🏠 முகப்புப் பக்கம்</button>
+      <button class="btn-action" onclick="retakeTest()">🔄 மீண்டும் தேர்வு</button>
+      <button class="btn-action btn-danger" onclick="exitPortal()">🚪 வெளியேறு</button>
+    </div>
+    <div class="footer-badge" style="margin-top: 20px;">⚔️ TIGER WARRIORS ⚔️ - இயக்குநர்: Dr. K. Manikasi</div>
+  </div>
+</div>
+
+<!-- Receipt Modal Popup -->
+<div id="receiptModal" class="receipt-modal">
+  <div class="receipt-content">
+    <div class="receipt-header">
+      <h3 style="color: #0284c7; font-size: 18px;">⚔️ TIGER WARRIORS ⚔️</h3>
+      <p style="font-size: 11px; color: #64748b;">அதிகாரப்பூர்வ டிஜிட்டல் கட்டண ரசீது</p>
+    </div>
+    <div class="receipt-row"><span>ரசீது எண்:</span> <strong id="recId">TW-TRB-U1</strong></div>
+    <div class="receipt-row"><span>தேதி & நேரம்:</span> <strong id="recDate">-</strong></div>
+    <div class="receipt-row"><span>மாணவர் பெயர்:</span> <strong id="recName">-</strong></div>
+    <div class="receipt-row"><span>மொபைல் எண்:</span> <strong id="recPhone">-</strong></div>
+    <div class="receipt-row"><span>பாடப்பிரிவு:</span> <strong>PG-TRB தமிழ் (Unit-I: புதைப்பொருள் ஆய்வு)</strong></div>
+    <div class="receipt-row"><span>UTR / குறிப்பு எண்:</span> <strong id="recUtr" style="font-family:monospace;">-</strong></div>
+    <div class="receipt-row" style="border-bottom: 2px solid #0f172a; margin-top: 6px; padding-top: 6px; font-size: 15px;">
+      <span>நிலை:</span> <strong style="color: #16a34a;">வெற்றி பெற்றது ✅</strong>
+    </div>
+    <div style="text-align: center; margin-top: 15px; display: flex; gap: 8px;">
+      <button onclick="window.print()" class="btn-action btn-blue" style="flex: 1; padding: 8px; font-size: 12px;">🖨️ பிரிண்ட் / PDF</button>
+      <button onclick="closeReceiptModal()" class="btn-action btn-danger" style="flex: 1; padding: 8px; font-size: 12px;">✖ மூடு</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Apps Script Web App URL
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyd3E_IfJUFyQ5cWq_FuvmbfNAOjhiNa-RO1lDYdIVWOKiQ47fHThWVPCuoCBzhlvWOrA/exec";
+  let currentMode = 'new'; // 'new' or 'old'
+
+  // Unique Device Fingerprint / ID Generation & Storage
+  function getDeviceID() {
+    let deviceId = localStorage.getItem('tiger_device_id');
+    if (!deviceId) {
+      deviceId = 'DEV_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15) + '_' + Date.now();
+      localStorage.setItem('tiger_device_id', deviceId);
+    }
+    return deviceId;
+  }
+
+  function switchMode(mode) {
+    currentMode = mode;
+    const btnNew = document.getElementById('btnNew');
+    const btnOld = document.getElementById('btnOld');
+    const qrContainer = document.getElementById('qrBoxContainer');
+    const nameGroup = document.getElementById('nameGroup');
+    const utrGroup = document.getElementById('utrGroup');
+    const waBtn = document.getElementById('waShareBtn');
+    const submitBtn = document.getElementById('submitBtnAccess');
+
+    document.getElementById('errorTxt').style.display = 'none';
+
+    if (mode === 'new') {
+      btnNew.className = 'mode-btn active';
+      btnOld.className = 'mode-btn';
+      qrContainer.style.display = 'block';
+      nameGroup.style.display = 'block';
+      utrGroup.style.display = 'block';
+      waBtn.style.display = 'block';
+      document.getElementById('userName').required = true;
+      document.getElementById('userUTR').required = true;
+      submitBtn.innerText = "🚀 புதிய பதிவைச் சமர்ப்பித்து உள்நுழை";
+    } else {
+      btnOld.className = 'mode-btn active';
+      btnNew.className = 'mode-btn';
+      qrContainer.style.display = 'none';
+      nameGroup.style.display = 'none';
+      utrGroup.style.display = 'none';
+      waBtn.style.display = 'none';
+      document.getElementById('userName').required = false;
+      document.getElementById('userUTR').required = false;
+      submitBtn.innerText = "🚀 ஏற்கனவே பதிவுசெய்தவர் - உள்நுழை";
+    }
+  }
+
+  // Auto-fetch details when old user types phone number
+  async function fetchExistingUserData() {
+    if (currentMode === 'old') {
+      const phone = document.getElementById('userPhone').value.trim();
+      if (phone.length === 10) {
+        try {
+          const res = await fetch(`${SCRIPT_URL}?action=check_user&phone=${phone}`);
+          const data = await res.json();
+          if (data.found) {
+            document.getElementById('userName').value = data.name || "";
+            document.getElementById('userUTR').value = data.utr || "";
+          }
+        } catch (e) {
+          console.log("Fetch error info");
+        }
+      }
+    }
+  }
+
+  // Admin Panel Functions
+  function showAdminLogin() {
+    document.getElementById('paymentView').style.display = 'none';
+    document.getElementById('adminLoginView').style.display = 'block';
+  }
+
+  function backToHome() {
+    document.getElementById('adminLoginView').style.display = 'none';
+    document.getElementById('adminDashboardView').style.display = 'none';
+    document.getElementById('paymentView').style.display = 'block';
+    document.getElementById('adminPasswordInput').value = '';
+    document.getElementById('adminErr').style.display = 'none';
+  }
+
+  async function verifyAdminLogin() {
+    const pwd = document.getElementById('adminPasswordInput').value.trim();
+    const err = document.getElementById('adminErr');
+    if(!pwd) return;
+
+    try {
+      const res = await fetch(`${SCRIPT_URL}?action=admin_login&password=${encodeURIComponent(pwd)}`);
+      const data = await res.json();
+      if(data.status === "Success") {
+        document.getElementById('adminLoginView').style.display = 'none';
+        document.getElementById('adminDashboardView').style.display = 'block';
+        loadAdminStudents();
+      } else {
+        err.style.display = 'block';
+        err.innerText = "❌ தவறான பாஸ்வேர்ட்! (Wrong Password)";
+      }
+    } catch(e) {
+      err.style.display = 'block';
+      err.innerText = "இணைய இணைப்பில் தயக்கம்.";
+    }
+  }
+
+  async function loadAdminStudents() {
+    const tbody = document.getElementById('adminTableBody');
+    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;">Loading students... ⏳</td></tr>`;
+
+    try {
+      const res = await fetch(`${SCRIPT_URL}?action=get_all_students`);
+      const data = await res.json();
+      tbody.innerHTML = '';
+
+      if(data.students && data.students.length > 0) {
+        data.students.forEach(st => {
+          let isApproved = st.status.toLowerCase() === 'all_access' || st.status.toLowerCase() === 'approved';
+          let statusBadge = isApproved ? `<span class="badge-approved">Approved</span>` : `<span class="badge-pending">Pending</span>`;
+          let actionBtn = isApproved ? `<span style="color:#10b981; font-weight:bold;">Active ✅</span>` : `<button class="btn-small-approve" onclick="approveStudent('${st.phone}')">Approve 🚀</button>`;
+
+          let row = `<tr>
+            <td>${st.name}</td>
+            <td>${st.phone}</td>
+            <td style="font-family:monospace; color:#38bdf8;">${st.utr}</td>
+            <td>${statusBadge}</td>
+            <td>${actionBtn}</td>
+          </tr>`;
+          tbody.innerHTML += row;
+        });
+      } else {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;">No students found!</td></tr>`;
+      }
+    } catch(e) {
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:red;">Failed to load data.</td></tr>`;
+    }
+  }
+
+  async function approveStudent(phone) {
+    if(!confirm(`இந்த எண்ணை அப்ரூவ் செய்ய விரும்புகிறீர்களா? (${phone})`)) return;
+
+    try {
+      const res = await fetch(`${SCRIPT_URL}?action=approve_student&phone=${phone}`);
+      const data = await res.json();
+      if(data.status === "Success") {
+        alert("வெற்றிகரமாக அப்ரூவ் செய்யப்பட்டது! ✅");
+        loadAdminStudents();
+      } else {
+        alert("Approval failed!");
+      }
+    } catch(e) {
+      alert("Error updating status!");
+    }
+  }
+
+  const questionsData = [
+    { q: "1. பேராசிரியர் வி.ஆர். இராமச்சந்திர தீட்சிதரின் 'Origin and Spread of the Tamils' எனும் நூலை 'தமிழர் தோற்றமும் பரவலும்' எனும் தலைப்பில் தமிழில் மொழிபெயர்த்தவர்?", o: ["கா. கோவிந்தன்", "புலவர் கந்தசாமி", "சுப்ரமணிய பிள்ளை", "மா. இராசமாணிக்கனார்"], a: 0, exp: "விளக்கம்: 'Origin and Spread of the Tamils' நூலை 'தமிழர் தோற்றமும் பரவலும்' என மொழிபெயர்த்தவர் கா. கோவிந்தன் ஆவார்." },
+    { q: "2. இந்தியாவும், ஆப்பிரிக்காவும் பிரிவுறாமல் இருந்த பகுதிக்குப்பெயர்?", o: ["முந்தைய கேம்பிரியன்", "மெசோசோயிக்", "நெயோசோயிக்", "லெமூரியா"], a: 3, exp: "விளக்கம்: இந்தியாவும் ஆப்பிரிக்காவும் இணைந்து கண்டமாகக் கருதப்பட்ட பகுதி லெமூரியா ஆகும்." },
+    { q: "3. தென்னிந்தியப் பழங்கற்கால மனிதன் வாழ்ந்த இடம்?", o: ["காடுகள்", "கடலோரப்பகுதி", "சமவெளி", "மலைப்பகுதி"], a: 3, exp: "விளக்கம்: தென்னிந்தியப் பழங்கற்கால மனிதன் பெரும்பான்மையாக மலைப்பகுதிகளிலும் குகைகளிலும் வாழ்ந்தான்." },
+    { q: "4. சிந்துவெளி நாகரிகத்தைத் திராவிட நாகரிகம் என்று முதன்முதலில் கருதியவர்?", o: ["சர். ஜான் மார்ஷல்", "வி.ஆர். இராமச்சந்திர தீட்சிதர்", "நீலகண்டசாஸ்திரி", "கால்டுவெல்"], a: 0, exp: "விளக்கம்: சிந்துவெளி நாகரிகத்தைத் திராவிட நாகரிகம் என்று முதன்முதலில் கருதி உலகிற்கு அறிவித்தவர் சர் ஜான் மார்ஷல் ஆவார்." },
+    { q: "5. சரியான கூற்று எது?\ni. தென்னிந்தியப் பண்டைத் திராவிடர்கள் வீரம் மற்றும் அறிவு நிலைகளில் புதியன காணும் ஆர்வம் உடையவர்.\nii. திராவிடர்கள் தக்ஷிணாபத செல்வழி மூலம் இந்தியா முழுவதும் பரவியிருந்தனர்.\niii. இந்தியாவின் வடமேற்கில் உள்ள சிந்திற்கு கடல் வழியாகவே திராவிடர்கள் சென்றிருக்க வேண்டும்.\niv. புதிய இடங்களைக் காணும் அவர்களின் நோக்கம் நாடுபிடிப்பதில்லை புதிய வணிக நோக்கமேயாகும்.", o: ["i, ii சரி", "iii, iv சரி", "i, iv சரி", "அனைத்தும்"], a: 3, exp: "விளக்கம்: கொடுக்கப்பட்டுள்ள அனைத்துக் கூற்றுகளும் சரியானவையே." },
+    { q: "6. இந்திய வணிக பெருமக்களால் பண்டப்பொதிகள் இறக்கப்பட்ட இடமாக கிறித்துவ விவிலியம் குறிப்பிடும் பகுதி எது?", o: ["சபா", "எகிப்து", "இலங்கை", "சுமித்ரா"], a: 0, exp: "விவிலியம் குறிப்பிடும் பகுதி சபா ஆகும்." },
+    { q: "7. ஈரான் நாட்டில் கண்டெடுக்கப்பட்ட தென்னிந்தியப் பொருட்கள்?", o: ["இந்திய நாட்டு சங்கு", "பானம் பருகும் கிண்ணம்", "A மற்றும் B", "முத்து"], a: 2, exp: "விளக்கம்: ஈரான் நாட்டில் இந்திய நாட்டு சங்குகளும் பானம் பருகும் கிண்ணங்களும் கண்டெடுக்கப்பட்டுள்ளன." },
+    { q: "8. கிரேக்க மக்கள் கி.மு. 5 ஆம் நூற்றாண்டில் இந்தியாவிடமிருந்து இறக்குமதி செய்த பொருள்கள்?", o: ["மயில்கள்", "குதிரைகள்", "யானைகள்", "பசுக்கள்"], a: 0, exp: "விளக்கம்: கிரேக்க மக்கள் கி.மு. 5 ஆம் நூற்றாண்டில் இந்தியாவில் இருந்து மயில்களை இறக்குமதி செய்தனர்." },
+    { q: "9. உரோம் நாட்டு எழுத்தாளர் யார்?", o: ["யுவான் சுவாங்", "பிளினி", "தாலமி", "அரிஸ்டாட்டில்"], a: 1, exp: "விளக்கம்: உரோம் நாட்டுப் புகழ்பெற்ற எழுத்தாளர் மற்றும் இயற்கை வரலாற்றாசிரியர் பிளினி ஆவார்." },
+    { q: "10. தென்னிந்தியாவில் இருந்து உரோமிற்கு ஏற்றுமதி செய்யப்பட்ட பொருட்கள் எவை?", o: ["மிளகு", "முத்து", "நறுமண எண்ணெய்", "அனைத்தும்"], a: 3, exp: "விளக்கம்: மிளகு, முத்து, நறுமணப் பொருட்கள் போன்ற அனைத்தும் உரோமிற்கு ஏற்றுமதி செய்யப்பட்டன." },
+    { q: "11. “செங்கடற் செலவு” நூலின் ஆசிரியர்?", o: ["பெரிப்ளஸ்", "பிளினி", "தாலமி", "சாலமன்"], a: 0, exp: "விளக்கம்: செங்கடற் செலவு (Periplus of the Erythraean Sea) நூலின் ஆசிரியர் பெரிப்ளஸ் ஆவார்." },
+    { q: "12. பண்டைய சேர நாட்டு தலைநகரம்?", o: ["முசிறி", "கொற்கை", "காவிரிப்பூம்பட்டினம்", "அனைத்தும்"], a: 0, exp: "விளக்கம்: பண்டைய சேர நாட்டின் முக்கியத் துறைமுகமாகவும் தலைநகரமாகவும் முசிறி விளங்கಿತು." },
+    { q: "13. இரண்டு பாய்மரக் கப்பல்கள் சின்னங்கள் கொண்ட நாணயங்கள் எங்கு கிடைத்துள்ளது?", o: ["குஜராத்", "ஆதிச்சநல்லூர்", "ஆந்திரா மற்றும் குறும்பா்களின் நாணயங்கள்", "மலேசியா"], a: 2, exp: "விளக்கம்: இரண்டு பாய்மரக் கப்பல் சின்னங்கள் கொண்ட நாணயங்கள் ஆந்திராவிலும் குறும்பார்களின் நாணயங்களிலும் கிடைத்துள்ளன." },
+    { q: "14. இலங்கை, அந்தமான், மலேசியா போன்ற நாட்டு வணிக தொடர்பால் ஏற்பட்டவை?", o: ["கள் இறக்கல்", "வெற்றிலை தின்னல்", "பசிபிக் நாட்டு தென்னை வரவு", "அனைத்தும்"], a: 3, exp: "விளக்கம்: மேற்கண்ட அனைத்துப் பண்பாட்டுப் பரவல்களும் வணிகத் தொடர்பால் ஏற்பட்டன." },
+    { q: "15. ஆப்பிரிக்கா நாட்டு நைல் நதிப் பள்ளத்தாக்கில் கண்டெடுக்கப்பட்ட பிறைத்திங்கள் போலும் வடிவுடைய பதக்கம் காணப்படும் தமிழ்நாட்டுப் பகுதி?", o: ["திருநெல்வேலி", "புதுக்கோட்டை", "தஞ்சாவூர்", "மதுரை"], a: 3, exp: "விளக்கம்: ஆப்பிரிக்கா நைல் நதிப் பள்ளத்தாக்கில் கண்டெடுக்கப்பட்ட பிறைவடிவப் பதக்கம் போன்ற கைப்பிடி உடைய படைக்கலக் கருவிகள் தமிழ்நாட்டில் மதுரை மற்றும் அதன் சுற்றுவட்டாரப் பகுதிகளில் காணப்படுகின்றன." },
+    { q: "16. திராவிடக் கைத்தொழில் அமைந்த விஷ்ணு கோயில் அமைந்துள்ள இடம்?", o: ["கம்போடியத் தலைநகருக்கு அருகில் அங்கோர்வாட்", "எகிப்து", "உரோமாபுரி", "இலங்கை"], a: 0, exp: "விளக்கம்: கம்போடியத் தலைநகருக்கு அருகில் உள்ள அங்கோர்வாட் கோயில் திராவிடக் கைத்தொழில் அமைப்பைக் கொண்டது." },
+    { q: "17. சீனா வர்த்தகர்கள், சீன முனிவர்களுக்காக நாகப்பட்டினத்தில் ‘சீனா பகோடா’ என்ற சீனக் கோயில் நிறுவிய பல்லவ மன்னன்?", o: ["மகேந்திரவர்மன்", "இரண்டாம் நரசிம்மவர்மன் (ராஜசிம்மன்)", "முதலாம் இராசராஜசோழன்", "நந்திவர்மன்"], a: 1, exp: "விளக்கம்: சீனா பகோடா என்று அழைக்கப்பட்ட சீனக் கோயிலை நாகப்பட்டினத்தில் கட்டியவர் பல்லவ மன்னனான இரண்டாம் நரசிம்மவர்மன் (ராஜசிம்மன்) ஆவார்." },
+    { q: "18. ஜென் (Zen) என்ற தத்துவத்தை சீனாவில் பிரச்சாரம் செய்தவர்?", o: ["புத்தர்", "அசோகர்", "போதிதர்மர்", "பிம்பிசாரர்"], a: 2, exp: "விளக்கம்: காஞ்சிபுரத்தைச் சேர்ந்த போதிதர்மர் சீனாவில் ஜென் தத்துவத்தைப் பரப்பினார்." },
+    { q: "19. ‘கஜபாகு’ எந்நாட்டு அரசன்?", o: ["கம்போடியா", "மலேசியா", "சயாம்", "இலங்கை"], a: 3, exp: "விளக்கம்: செங்குட்டுவன் காலத்தில் தமிழகம் வந்த இலங்கை அரசன் கஜபாகு ஆவான்." },
+    { q: "20. விஜய நகர பேரரசின் ஒரு அங்கமாகத் திகழ்ந்த நாடு?", o: ["இலங்கை", "அரேபியா", "ஈரான்", "சீனா"], a: 0, exp: "விளக்கம்: விஜயநகரப் பேரரசின் தொடர்பிலும் ஆதிக்கத்திலும் இருந்த நாடு இலங்கை ஆகும்." },
+    { q: "21. தென்னிந்தியப் பழங்குடியினரின் தொல் பழங்காலப் பெண் தெய்வத்தின் பெயர்?", o: ["காளி", "பத்திரகாளி", "பகவதி", "கொற்றவை / ஐயை"], a: 3, exp: "விளக்கம்: தொல் பழங்காலப் பெண் தெய்வம் கொற்றவை அல்லது ஐயை என அழைக்கப்பட்டது." },
+    { q: "22. கடவுள் வழிபாட்டாளராகிய மகளிரை, அக்கடவுளுக்கே மணம்செய்து வைக்கும், தென்னிந்தியா பழக்கத்தைக் கொண்ட அயல் நாடு எது?", o: ["ஈரான்", "இலங்கை", "மெசபடேமியா", "சீனா"], a: 2, exp: "விளக்கம்: மெசபடேமியா நாகரிகத்தில் இத்தகைய பழக்கம் காணப்பட்டது." },
+    { q: "23. மருமக்கள் தாயம் முறை கடைப்பிடிக்கும் இடங்கள்?", o: ["மலபார்", "எகிப்து", "கிரீட்", "அனைத்தும்"], a: 3, exp: "விளக்கம்: மலபார் மற்றும் பல பண்டைய சமூகங்களில் மருமக்கள் தாயம் பின்பற்றப்பட்டது." },
+    { q: "24. சிந்துவெளி மக்களிடையே ஒரு விளையாட்டாக இருந்ததென மக்களே கூறும் விளையாட்டு?", o: ["கபடி", "கோழிச்சண்டை", "யானைச்சண்டை", "கரடி சண்டை"], a: 1, exp: "விளக்கம்: கோழிச்சண்டை சிந்துவெளி மக்களிடையே விளையாட்டாக இருந்துள்ளது." },
+    { q: "25. ஹீப்ரு மொழியில் ‘துக்கீம்’ என்பது தமிழில்?", o: ["வாலில்லாக் குரங்கு", "தந்தம்", "குதிரை", "தோகை"], a: 3, exp: "விவிலிய ஹீப்ரு மொழியில் 'துக்கீம்' என்பது மயில்தோகையைக் குறிக்கும் தமிழ்ச் சொல்லாகும்." }
+  ];
+
+  let currentQuestion = 0;
+  let userAnswers = new Array(questionsData.length).fill(null);
+  let isReviewMode = false;
+  let timerInterval;
+  let timeLeft = 25 * 60;
+
+  function sendWhatsAppMessage() {
+    const name = document.getElementById('userName').value.trim();
+    const phone = document.getElementById('userPhone').value.trim();
+    const utr = document.getElementById('userUTR').value.trim();
+
+    if(!phone || phone.length !== 10) {
+      alert("தயவுசெய்து 10 இலக்க போன் எண்ணை சரியாக உள்ளிடவும்! ⚠️");
+      return;
+    }
+
+    const msg = `*Tiger Warrior Portal - PG TRB Tamil Unit I (புதைப்பொருள் ஆய்வு)*%0A%0A• *Name:* ${name || 'New Student'}%0A• *Mobile:* ${phone}%0A• *UTR No:* ${utr || 'N/A'}%0A• *Course:* Unit-I (25 Qs)%0A%0A(Payment Done) ✅`;
+    window.open(`https://wa.me/919790933025?text=${msg}`, '_blank');
+    registerToSheet(name || 'Student', phone, utr);
+  }
+
+  async function registerToSheet(name, phone, utr) {
+    try {
+      const deviceId = getDeviceID();
+      await fetch(`${SCRIPT_URL}?action=register&name=${encodeURIComponent(name)}&phone=${phone}&utr=${utr}&device_id=${deviceId}`);
+    } catch (err) {
+      console.log("Sheet registration sync note.");
+    }
+  }
+
+  async function verifyAndStartTest(e) {
+    e.preventDefault();
+    const phone = document.getElementById('userPhone').value.trim();
+    const name = document.getElementById('userName').value.trim();
+    const utr = document.getElementById('userUTR').value.trim();
+    const err = document.getElementById('errorTxt');
+    const submitBtn = document.getElementById('submitBtnAccess');
+
+    submitBtn.innerText = "⏳ சரிபார்க்கப்படுகிறது...";
+    submitBtn.disabled = true;
+    err.style.display = 'none';
+
+    try {
+      const deviceId = getDeviceID();
+
+      if (currentMode === 'new') {
+        if (!name || utr.length !== 12) {
+          err.style.display = 'block';
+          err.innerText = "⚠️ பெயர் மற்றும் 12 இலக்க UTR எண்ணை சரியாக நிரப்பவும்!";
+          submitBtn.innerText = "🚀 புதிய பதிவைச் சமர்ப்பித்து உள்நுழை";
+          submitBtn.disabled = false;
+          return;
+        }
+        await registerToSheet(name, phone, utr);
+      } else {
+        if (!phone || phone.length !== 10) {
+          err.style.display = 'block';
+          err.innerText = "⚠️ 10 இலக்க மொபைல் எண்ணை உள்ளிடவும்!";
+          submitBtn.innerText = "🚀 ஏற்கனவே பதிவுசெய்தவர் - உள்நுழை";
+          submitBtn.disabled = false;
+          return;
+        }
+      }
+
+      // Check status and Device ID matching from sheet
+      const response = await fetch(`${SCRIPT_URL}?phone=${phone}&device_id=${deviceId}`);
+      const result = await response.json();
+
+      if (result.status === "All_Access") {
+        submitBtn.innerText = "🚀 தேர்வைத் தொடங்குக (Start Test)";
+        setTimeout(() => {
+          document.getElementById('paymentView').style.display = 'none';
+          document.getElementById('testView').style.display = 'block';
+          initTest();
+        }, 600);
+      } else if (result.status === "Device_Mismatch") {
+        err.style.display = 'block';
+        err.innerText = "❌ பாதுகாப்பு எச்சரிக்கை: இந்த மொபைல் எண் வேறு சாதனத்தில் ஏற்கனவே பதிவு செய்யப்பட்டுள்ளது! இந்தச் சாதனத்தில் அனுமதி இல்லை.";
+        submitBtn.innerText = currentMode === 'new' ? "🚀 புதிய பதிவைச் சமர்ப்பித்து உள்நுழை" : "🚀 ஏற்கனவே பதிவுசெய்தவர் - உள்நுழை";
+        submitBtn.disabled = false;
+      } else if (result.status === "Pending") {
+        err.style.display = 'block';
+        err.innerText = "⏳ உங்களது கட்டணம் சரிபார்க்கப்படுகிறது (Pending). நிர்வாகி அப்ரூவ் செய்தவுடன் டெஸ்ட் எழுதலாம்!";
+        submitBtn.innerText = currentMode === 'new' ? "🚀 புதிய பதிவைச் சமர்ப்பித்து உள்நுழை" : "🚀 ஏற்கனவே பதிவுசெய்தவர் - உள்நுழை";
+        submitBtn.disabled = false;
+      } else {
+        err.style.display = 'block';
+        err.innerText = "❌ இந்த எண் ஷீட்டில் பதிவு செய்யப்படவில்லை! 'புதிதாக பதிவு செய்ய' பட்டனைப் பயன்படுத்தவும்.";
+        submitBtn.innerText = currentMode === 'new' ? "🚀 புதிய பதிவைச் சமர்ப்பித்து உள்நுழை" : "🚀 ஏற்கனவே பதிவுசெய்தவர் - உள்நுழை";
+        submitBtn.disabled = false;
+      }
+    } catch (error) {
+      err.style.display = 'block';
+      err.innerText = "இணைய இணைப்பில் தயக்கம். மீண்டும் முயற்சிக்கவும். 🔄";
+      submitBtn.innerText = currentMode === 'new' ? "🚀 புதிய பதிவைச் சமர்ப்பித்து உள்நுழை" : "🚀 ஏற்கனவே பதிவுசெய்தவர் - உள்நுழை";
+      submitBtn.disabled = false;
+    }
+  }
+
+  function initTest() {
+    buildGrid();
+    loadQuestion(0);
+    startTimer();
+  }
+
+  function buildGrid() {
+    const grid = document.getElementById('questionGrid');
+    grid.innerHTML = '';
+    questionsData.forEach((_, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'q-num-btn';
+      btn.innerText = idx + 1;
+      btn.id = `q_btn_${idx}`;
+      btn.onclick = () => jumpToQuestion(idx);
+      grid.appendChild(btn);
+    });
+    updateGridStatus();
+  }
+
+  function updateGridStatus() {
+    questionsData.forEach((_, idx) => {
+      const btn = document.getElementById(`q_btn_${idx}`);
+      if(!btn) return;
+      btn.className = 'q-num-btn';
+      if(idx === currentQuestion) {
+        btn.classList.add('active');
+      } else if(userAnswers[idx] !== null) {
+        btn.classList.add('answered');
+      }
+    });
+  }
+
+  function loadQuestion(idx) {
+    currentQuestion = idx;
+    const q = questionsData[idx];
+    document.getElementById('qTitle').innerText = q.q;
+    
+    const optsBox = document.getElementById('optionsBox');
+    optsBox.innerHTML = '';
+
+    q.o.forEach((optText, oIdx) => {
+      const card = document.createElement('div');
+      card.className = 'option-card';
+      
+      if(userAnswers[idx] === oIdx) {
+        card.classList.add('selected');
+      }
+
+      if(isReviewMode) {
+        if(oIdx === q.a) {
+          card.classList.add('correct-ans');
+        } else if(userAnswers[idx] === oIdx && oIdx !== q.a) {
+          card.classList.add('wrong-ans');
+        }
+      }
+
+      card.innerHTML = `<span><b>${String.fromCharCode(65 + oIdx)}.</b></span> <span>${optText}</span>`;
+      card.onclick = () => selectOption(oIdx);
+      optsBox.appendChild(card);
+    });
+
+    const expBox = document.getElementById('expBox');
+    if(isReviewMode) {
+      expBox.style.display = 'block';
+      expBox.innerText = q.exp;
+    } else {
+      expBox.style.display = 'none';
+    }
+
+    document.getElementById('prevBtn').style.display = idx === 0 ? 'none' : 'block';
+    document.getElementById('nextBtn').style.display = idx === questionsData.length - 1 ? 'none' : 'block';
+    updateGridStatus();
+  }
+
+  function selectOption(oIdx) {
+    if(isReviewMode) return;
+    userAnswers[currentQuestion] = oIdx;
+    loadQuestion(currentQuestion);
+  }
+
+  function clearChoice() {
+    if(isReviewMode) return;
+    userAnswers[currentQuestion] = null;
+    loadQuestion(currentQuestion);
+  }
+
+  function navigateNumberQuery(dir) {
+    const next = currentQuestion + dir;
+    if(next >= 0 && next < questionsData.length) {
+      loadQuestion(next);
+    }
+  }
+
+  function jumpToQuestion(idx) {
+    loadQuestion(idx);
+  }
+
+  function startTimer() {
+    timerInterval = setInterval(() => {
+      timeLeft--;
+      let m = Math.floor(timeLeft / 60);
+      let s = timeLeft % 60;
+      document.getElementById('timerBox').innerText = `⏱️ ${m}:${s < 10 ? '0' : ''}${s}`;
+      if(timeLeft <= 0) {
+        clearInterval(timerInterval);
+        submitTest();
+      }
+    }, 1000);
+  }
+
+  function confirmSubmit() {
+    if(confirm("நிச்சயமாக தேர்வைச் சமர்ப்பிக்க விரும்புகிறீர்களா? 🤔")) {
+      submitTest();
+    }
+  }
+
+  function submitTest() {
+    clearInterval(timerInterval);
+    document.getElementById('testView').style.display = 'none';
+    document.getElementById('resultView').style.display = 'block';
+
+    let correct = 0, wrong = 0, unans = 0;
+    userAnswers.forEach((ans, idx) => {
+      if(ans === null) unans++;
+      else if(ans === questionsData[idx].a) correct++;
+      else wrong++;
+    });
+
+    document.getElementById('scoreDisplay').innerText = `${correct} / ${questionsData.length}`;
+    let pct = ((correct / questionsData.length) * 100).toFixed(1);
+    document.getElementById('percentageDisplay').innerText = `சதவீதம்: ${pct}% 📊`;
+    document.getElementById('correctCnt').innerText = correct;
+    document.getElementById('wrongCnt').innerText = wrong;
+    document.getElementById('unansCnt').innerText = unans;
+  }
+
+  function reviewAnswerKey() {
+    isReviewMode = true;
+    document.getElementById('resultView').style.display = 'none';
+    document.getElementById('testView').style.display = 'block';
+    document.getElementById('finalSubmitBtn').style.display = 'none';
+    document.getElementById('backToResultBtn').style.display = 'block';
+    document.getElementById('dashFromKeyBtn').style.display = 'block';
+    loadQuestion(0);
+  }
+
+  function returnToResult() {
+    document.getElementById('testView').style.display = 'none';
+    document.getElementById('resultView').style.display = 'block';
+  }
+
+  function returnToDashboard() {
+    location.reload();
+  }
+
+  function retakeTest() {
+    userAnswers = new Array(questionsData.length).fill(null);
+    isReviewMode = false;
+    timeLeft = 25 * 60;
+    document.getElementById('resultView').style.display = 'none';
+    document.getElementById('testView').style.display = 'block';
+    document.getElementById('finalSubmitBtn').style.display = 'inline-block';
+    document.getElementById('backToResultBtn').style.display = 'none';
+    document.getElementById('dashFromKeyBtn').style.display = 'none';
+    initTest();
+  }
+
+  function exitPortal() {
+    window.close();
+    alert("போர்ட்டலில் இருந்து வெற்றிகரமாக வெளியேறினீர்கள். 👋");
+  }
+
+  function showReceiptModal() {
+    document.getElementById('recName').innerText = document.getElementById('userName').value || "மாணவர்";
+    document.getElementById('recPhone').innerText = document.getElementById('userPhone').value || "9790933025";
+    document.getElementById('recUtr').innerText = document.getElementById('userUTR').value || "VERIFIED";
+    document.getElementById('recDate').innerText = new Date().toLocaleString();
+    document.getElementById('receiptModal').style.display = 'flex';
+  }
+
+  function closeReceiptModal() {
+    document.getElementById('receiptModal').style.display = 'none';
+  }
+</script>
+
+</body>
+</html>
