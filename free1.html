@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiger Warriors - டைகர் வாரியர் போர்டல்</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0b132b;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: #1c2541;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            color: #ffcc00;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .header h2 {
+            font-size: 1.2rem;
+            color: #e0e1dd;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 0.9rem;
+            color: #8d99ae;
+            margin-bottom: 15px;
+        }
+
+        .contact {
+            font-size: 0.95rem;
+            color: #4cc9f0;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .exam-card {
+            background: #0b132b;
+            border: 1px solid #3a506b;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .exam-card h3 {
+            font-size: 1rem;
+            color: #ff758f;
+            margin-bottom: 8px;
+        }
+
+        .exam-card h4 {
+            font-size: 0.95rem;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+
+        .exam-card p {
+            font-size: 0.85rem;
+            color: #ced4da;
+            margin-bottom: 8px;
+        }
+
+        .tab-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            background-color: #f77f00;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .tab-btn.secondary {
+            background-color: #3a506b;
+        }
+
+        .tab-btn:hover {
+            opacity: 0.9;
+        }
+
+        .form-section {
+            display: none;
+            text-align: left;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+            color: #adb5bd;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            background: #0b132b;
+            border: 1px solid #415a77;
+            border-radius: 6px;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .form-control:focus {
+            border-color: #4cc9f0;
+            outline: none;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background-color: #2ec4b6;
+            color: #0b132b;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #20b2aa;
+            color: white;
+        }
+
+        .footer-links {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: #8d99ae;
+        }
+
+        .footer-links a {
+            color: #4cc9f0;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Header Info -->
+        <div class="header">
+            <h1>⚔️ TIGER WARRIORS ⚔️</h1>
+            <h2>டைகர் வாரியர் போர்டல்</h2>
+            <p>நிர்வாக இயக்குநர்: Mr. K. MANIKASI, M.Sc., M.Phil., (Ph.D.)</p>
+        </div>
+        <div class="contact">
+            தொடர்புக்கு: 9790933025
+        </div>
+
+        <!-- Exam Info Card -->
+        <div class="exam-card">
+            <h3>📌 UG-TRB / PG-TRB / SET / NET தமிழ்</h3>
+            <h4>UNIT - 1: சங்க இலக்கியம்</h4>
+            <p>🎯 Test 1 Title: சங்க இலக்கியச் சிறப்புகள்</p>
+            <p>📖 முழுமையான தமிழ் வினாத்தாள் தொகுப்பு (50 வினாக்கள்)</p>
+            <p>💡 கட்டணம் செலுத்தியோ அல்லது கீழே உள்ள இலவச பட்டனை அழுத்தியோ நேரடியாகத் தேர்வுக்குச் செல்லலாம்.</p>
+        </div>
+
+        <!-- Toggle Buttons -->
+        <div class="tab-buttons">
+            <button class="tab-btn" onclick="switchTab('new')">🔥 இலவசத் தேர்வு</button>
+            <button class="tab-btn secondary" onclick="switchTab('old')">👤 பழைய பதிவு</button>
+        </div>
+
+        <!-- New User / Free Test Form -->
+        <div id="newForm" class="form-section active">
+            <form onsubmit="handleNewUser(event)">
+                <div class="form-group">
+                    <label>👤 உங்கள் பெயர் (Name) [கட்டாயம்]:</label>
+                    <input type="text" class="form-control" placeholder="உங்கள் முழுப் பெயரை உள்ளிடவும்" required>
+                </div>
+                <div class="form-group">
+                    <label>📱 WhatsApp / மொபைல் எண் (Mobile No) [கட்டாயம்]:</label>
+                    <input type="tel" class="form-control" placeholder="10 இலக்க மொபைல் எண்" pattern="[0-9]{10}" required>
+                </div>
+                <div class="form-group">
+                    <label>📍 ஏரியா / ஊர் (Area / District) [கட்டாயம்]:</label>
+                    <input type="text" class="form-control" placeholder="உங்கள் ஊர் அல்லது மாவட்டத்தின் பெயரை உள்ளிடவும்" required>
+                </div>
+                <button type="submit" class="submit-btn">🚀 நேரடி இலவசத் தேர்வு எழுதுுக (Start Free Test)</button>
+            </form>
+        </div>
+
+        <!-- Old User / Login Form -->
+        <div id="oldForm" class="form-section">
+            <form onsubmit="handleOldUser(event)">
+                <div class="form-group">
+                    <label>📱 WhatsApp / மொபைல் எண் (Mobile No) [கட்டாயம்]:</label>
+                    <input type="tel" class="form-control" placeholder="10 இலக்க மொபைல் எண்" pattern="[0-9]{10}" required>
+                </div>
+                <button type="submit" class="submit-btn" style="background-color: #2a9d8f; color: white;">🚀 ஏற்கனவே பதிவு செய்தோர் - உள்நுழை</button>
+            </form>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer-links">
+            <p>🔥 நிர்வாகி உள்நுழைவு (Admin Login)</p>
+            <p style="margin-top: 5px;">⚔️ TIGER WARRIORS ⚔️ - 2026</p>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            const newForm = document.getElementById('newForm');
+            const oldForm = document.getElementById('oldForm');
+            
+            if(tabName === 'new') {
+                newForm.classList.add('active');
+                oldForm.classList.remove('active');
+            } else {
+                oldForm.classList.add('active');
+                newForm.classList.remove('active');
+            }
+        }
+
+        function handleNewUser(event) {
+            event.preventDefault();
+            alert('இலவசத் தேர்வு பக்கத்திற்குச் செல்கிறது...');
+        }
+
+        function handleOldUser(event) {
+            event.preventDefault();
+            alert('உள்நுழைவு சரிபார்க்கப்படுகிறது...');
+        }
+    </script>
+</body>
+</html>
+
