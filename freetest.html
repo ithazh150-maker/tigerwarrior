@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>டைகர் வாரியர் போர்டல் - UG-TRB / PG-TRB / SET / NET தமிழ்</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    body { background: #020617; color: #f8fafc; padding: 12px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+    .card { width: 100%; max-width: 950px; background: #0f172a; border-radius: 14px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); border: 1px solid #1e293b; }
+    
+    .login-box { max-width: 440px; margin: 0 auto; text-align: center; }
+    .logo-badge { font-size: 28px; font-weight: bold; margin-bottom: 4px; color: #38bdf8; letter-spacing: 1px; }
+    .title { color: #38bdf8; font-size: 20px; font-weight: bold; margin-bottom: 4px; letter-spacing: 0.5px; }
+    .ceo-name { color: #f59e0b; font-size: 13px; font-weight: bold; margin-bottom: 12px; line-height: 1.5; }
+    .subtitle { color: #94a3b8; font-size: 13px; margin-bottom: 18px; line-height: 1.5; text-align: left; background: #1e293b; padding: 12px; border-radius: 8px; border: 1px solid #334155; }
+    
+    .mode-select-box { display: flex; gap: 10px; margin-bottom: 16px; }
+    .mode-btn { flex: 1; padding: 12px; font-size: 13px; font-weight: bold; border-radius: 8px; border: 1px solid #334155; background: #1e293b; color: #94a3b8; cursor: pointer; transition: 0.2s; text-align: left; }
+    .mode-btn.active { background: #d97706; color: #fff; border-color: #f59e0b; }
+
+    .form-group { margin-bottom: 14px; text-align: left; }
+    .form-group label { display: block; font-size: 12px; color: #cbd5e1; margin-bottom: 4px; }
+    .form-group input { width: 100%; padding: 11px; border-radius: 6px; border: 1px solid #334155; background: #1e293b; color: #fff; font-size: 14px; outline: none; }
+    .form-group input:focus { border-color: #38bdf8; }
+    
+    .btn-submit { width: 100%; background: #10b981; color: #fff; border: none; padding: 13px; border-radius: 6px; font-weight: bold; font-size: 15px; cursor: pointer; transition: 0.2s; margin-top: 6px; }
+    .btn-submit:hover { background: #059669; }
+    .error-msg { color: #f59e0b; font-size: 13px; text-align: center; margin-top: 10px; display: none; line-height: 1.4; }
+
+    .test-header { display: flex; justify-content: space-between; align-items: center; background: #1e293b; padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+    .timer { font-size: 16px; font-weight: bold; color: #f59e0b; background: #091326; padding: 6px 12px; border-radius: 6px; border: 1px solid #f59e0b; }
+    
+    .q-grid { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 16px; max-height: 140px; overflow-y: auto; padding: 8px; background: #1e293b; border-radius: 8px; }
+    .q-num-btn { width: 30px; height: 30px; border-radius: 5px; border: none; background: #334155; color: #fff; font-size: 10px; cursor: pointer; font-weight: bold; }
+    .q-num-btn.active { border: 2px solid #38bdf8; background: #0284c7; }
+    .q-num-btn.answered { background: #10b981; }
+
+    .q-box { background: #1e293b; padding: 18px; border-radius: 10px; margin-bottom: 16px; }
+    .q-text { white-space: pre-line; line-height: 1.6; font-size: 15px; color: #f8fafc; }
+    
+    .option-card { background: #0f172a; border: 1px solid #334155; padding: 12px 16px; border-radius: 8px; margin-top: 10px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.2s; white-space: pre-line; line-height: 1.4; }
+    .option-card:hover { border-color: #38bdf8; background: #1e293b; }
+    .option-card.selected { border-color: #10b981; background: #064e3b; }
+    .option-card.correct-ans { border-color: #10b981; background: #065f46; font-weight: bold; }
+    .option-card.wrong-ans { border-color: #ef4444; background: #7f1d1d; }
+
+    .explanation-box { background: #091326; border: 1px solid #38bdf8; border-radius: 8px; padding: 12px; margin-top: 14px; font-size: 13px; color: #7dd3fc; line-height: 1.5; }
+    
+    .nav-btns { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+    .btn-action { background: #334155; color: #fff; border: none; padding: 10px 16px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 13px; text-decoration: none; display: inline-block; text-align: center; }
+    .btn-action:hover { opacity: 0.9; }
+    .btn-blue { background: #2563eb; }
+    .btn-purple { background: #7c3aed; }
+    .btn-danger { background: #ef4444; }
+    .btn-green { background: #22c55e; }
+    .btn-whatsapp { background: #25D366; color: #fff; padding: 10px 16px; border-radius: 6px; font-weight: bold; text-decoration: none; display: inline-block; margin-top: 10px; }
+    .btn-whatsapp:hover { background: #128C7E; }
+
+    .result-box { text-align: center; padding: 20px; background: #1e293b; border-radius: 12px; margin-top: 10px; }
+    .score-num { font-size: 48px; color: #10b981; font-weight: bold; margin: 10px 0; }
+    .footer-badge { text-align: center; font-size: 11px; color: #38bdf8; margin-top: 15px; font-weight: bold; letter-spacing: 0.5px; }
+
+    .welcome-banner { background: linear-gradient(135deg, #065f46, #047857); color: #fff; padding: 14px; border-radius: 8px; margin-bottom: 16px; text-align: center; font-size: 15px; font-weight: bold; border: 1px solid #10b981; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
+    .nandri-box { background: #0f172a; border: 2px dashed #f59e0b; padding: 16px; border-radius: 10px; margin-top: 15px; text-align: center; }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <div id="paymentView" class="login-box">
+    <div class="logo-badge">⚔️ TIGER WARRIORS ⚔️</div>
+    <div class="title">மாதிரித் தேர்வு</div>
+    <div class="ceo-name">நிர்வாக இயக்குநர்: பேராசிரியர் திரு. கா. மணிகாசி<br>தொடர்புக்கு: 9790933025</div>
+    
+    <div class="subtitle">
+      📌 <strong>UG-TRB / PG-TRB / SET / NET தமிழ்</strong><br>
+      <strong>UNIT - 1: சங்க இலக்கியம்</strong><br>
+      🎯 <strong>Test 1 Title: சங்க இலக்கியச் சிறப்புகள்</strong><br>
+      📜 முழுமையான தமிழ் வினாத்தாள் தொகுப்பு (50 வினாக்கள்)<br>
+      💡 உங்கள் விவரங்களை உள்ளிட்டு நேரடியாகத் தேர்வைத் தொடங்கலாம்.
+    </div>
+
+    <div class="mode-select-box">
+      <button type="button" id="btnNew" class="mode-btn active" onclick="switchMode('new')">🔥 இலவசத் தேர்வு</button>
+      <button type="button" id="btnOld" class="mode-btn" onclick="switchMode('old')">👤 பழைய பதிவு (Phone Only)</button>
+    </div>
+
+    <form id="accessForm" onsubmit="startFreeTest(event)">
+      <div class="form-group" id="nameGroup">
+        <label>👤 உங்கள் பெயர் (Name) [கட்டாயம்]:</label>
+        <input type="text" id="userName" placeholder="உங்கள் முழுப் பெயரை உள்ளிடவும்">
+      </div>
+
+      <div class="form-group">
+        <label>📞 WhatsApp / மொபைல் எண் (Mobile No) [கட்டாயம்]:</label>
+        <input type="tel" id="userPhone" pattern="[0-9]{10}" maxlength="10" required placeholder="10 இலக்க மொபைல் எண்">
+      </div>
+
+      <div class="form-group" id="areaGroup">
+        <label>📍 ஏரியா / ஊர் (Area / District) [கட்டாயம்]:</label>
+        <input type="text" id="userArea" placeholder="உங்கள் ஊர் அல்லது மாவட்டத்தின் பெயரை உள்ளிடவும்">
+      </div>
+
+      <div id="errorTxt" class="error-msg"></div>
+      
+      <button type="submit" id="submitBtnAccess" class="btn-submit">🚀 நேரடி இலவசத் தேர்வு எழுதுக (Start Free Test)</button>
+    </form>
+
+    <div class="footer-badge">👑 ⚔️ TIGER WARRIORS ⚔️ - 2026 👑</div>
+  </div>
+
+  <div id="testView" style="display: none;">
+    <div id="welcomeBanner" class="welcome-banner" style="display: none;"></div>
+
+    <div class="test-header">
+      <div>
+        <h3 style="color: #38bdf8; font-size: 16px;">🎯 UG-TRB / PG-TRB / SET / NET தமிழ் - UNIT 1 (சங்க இலக்கியச் சிறப்புகள்)</h3>
+        <span style="font-size: 12px; color: #94a3b8;">Tiger Warrior Study Platform</span>
+      </div>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <div class="timer" id="timerBox">⏱️ 50:00</div>
+        <button class="btn-action btn-purple" id="backToResultBtn" onclick="returnToResult()" style="display: none; padding: 6px 12px; font-size: 12px;">📊 ரிசல்ட் செல்</button>
+        <button class="btn-action btn-danger" id="dashFromKeyBtn" onclick="returnToDashboard()" style="display: none; padding: 6px 12px; font-size: 12px;">🏠 முகப்பு</button>
+      </div>
+    </div>
+
+    <div class="q-grid" id="questionGrid"></div>
+
+    <div class="q-box">
+      <div id="qTitle" class="q-text"></div>
+      <div id="optionsBox"></div>
+      <div id="expBox" class="explanation-box" style="display: none;"></div>
+    </div>
+
+    <div class="nav-btns">
+      <button class="btn-action" id="prevBtn" onclick="navigateNumberQuery(-1)">⬅️ முந்தையது</button>
+      <button class="btn-action" id="clearBtn" onclick="clearChoice()">🧹 விடையை நீக்கு</button>
+      <button class="btn-action btn-blue" id="nextBtn" onclick="navigateNumberQuery(1)">அடுத்து ➡️</button>
+      <button class="btn-action btn-danger" id="finalSubmitBtn" onclick="confirmSubmit()">✅ தேர்வைச் சமர்ப்பிக்க (Submit)</button>
+    </div>
+  </div>
+
+  <div id="resultView" style="display: none;">
+    <h2 style="color: #38bdf8; text-align: center; margin-bottom: 10px;">🏆 தேர்வு முடிவுகள் (Test Results) 🎯</h2>
+    <div class="result-box">
+      <div class="score-num" id="scoreDisplay">0 / 50</div>
+      <p id="percentageDisplay" style="color: #94a3b8; font-size: 16px; margin-bottom: 15px;"></p>
+      <hr style="border-color: #334155; margin: 15px 0;">
+      <div style="display: flex; justify-content: space-around; text-align: center;">
+        <div><h3 id="correctCnt" style="color: #10b981;">0</h3><span style="font-size:12px; color:#cbd5e1;">சரியானது ✅</span></div>
+        <div><h3 id="wrongCnt" style="color: #ef4444;">0</h3><span style="font-size:12px; color:#cbd5e1;">தவறானது ❌</span></div>
+        <div><h3 id="unansCnt" style="color: #f59e0b;">0</h3><span style="font-size:12px; color:#cbd5e1;">விடையளிக்காதது ⚠️</span></div>
+      </div>
+    </div>
+
+    <div class="nandri-box">
+      <p style="font-size: 14px; line-height: 1.6; color: #e2e8f0;">
+        🌸 <b>மிக்க நன்றி!</b> 🙏 <b>TIGER WARRIORS</b> 🐅<br>
+        மதிப்பிற்கும் மரியாதைக்கும் உரிய போட்டித்தேர்வு மாணவர்களே, நம்முடைய வினாத்தாள் தரம் மற்றும் டெஸ்ட் சீரிஸின் நேர்த்தி உங்களைக் கவர்ந்திருக்கும் என நம்புகிறோம்! இதேபோல் இன்னும் பல தரமான தேர்வுகளை எழுதி வெற்றி பெற, உடனே நமது <b>Tiger Warriors Academy</b>-யின் முழு டெஸ்ட் சீரிஸில் இணைந்து தொடர் வெற்றியை உறுதி செய்யுங்கள்! ✨
+      </p>
+      <a href="https://chat.whatsapp.com/K7kbJ0a7DwN3pbTMyqplgD?s=sh&p=a&mlu=4&ilr=4" target="_blank" class="btn-whatsapp">
+        💬 WhatsApp-ல் உடனே இணையுங்கள் (Join Test Series)
+      </a>
+    </div>
+
+    <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
+      <button class="btn-action btn-blue" onclick="reviewAnswerKey()">🔍 விடை குறிப்பு (Answer Key)</button>
+      <button class="btn-action btn-purple" onclick="returnToDashboard()">🏠 முகப்புப் பக்கம்</button>
+      <button class="btn-action btn-danger" onclick="exitPortal()">🚪 வெளியேறு</button>
+    </div>
+    <div class="footer-badge" style="margin-top: 30px;">⚔️ TIGER WARRIORS ⚔️ - இயக்குநர்: பேராசிரியர் திரு. கா. மணிகாசி</div>
+  </div>
+</div>
+
+<script>
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzGqjo1wK9XIvMWdlQbduTFgRNmydsX5KRJB7tIkmGiCvC277eTsKeOnzATWTmV68MTRQ/exec";
+  let currentMode = 'new';
+  let loggedInUser = "";
+
+  function switchMode(mode) {
+    currentMode = mode;
+    const btnNew = document.getElementById('btnNew');
+    const btnOld = document.getElementById('btnOld');
+    const submitBtn = document.getElementById('submitBtnAccess');
+    const nameGroup = document.getElementById('nameGroup');
+    const areaGroup = document.getElementById('areaGroup');
+    const nameInput = document.getElementById('userName');
+    const areaInput = document.getElementById('userArea');
+
+    if (mode === 'new') {
+      btnNew.className = 'mode-btn active';
+      btnOld.className = 'mode-btn';
+      submitBtn.innerText = "🚀 நேரடி இலவசத் தேர்வு எழுதுக (Start Free Test)";
+      nameGroup.style.display = 'block';
+      areaGroup.style.display = 'block';
+      nameInput.required = true;
+      areaInput.required = true;
+    } else {
+      btnOld.className = 'mode-btn active';
+      btnNew.className = 'mode-btn';
+      submitBtn.innerText = "🚀 பழைய பதிவிலிருந்து தொடங்கு (Login)";
+      nameGroup.style.display = 'none';
+      areaGroup.style.display = 'none';
+      nameInput.required = false;
+      areaInput.required = false;
+    }
+  }
+
+  async function startFreeTest(e) {
+    e.preventDefault();
+    const phone = document.getElementById('userPhone').value.trim();
+    const err = document.getElementById('errorTxt');
+    const submitBtn = document.getElementById('submitBtnAccess');
+
+    if(phone.length !== 10) {
+      err.style.display = 'block';
+      err.innerText = "⚠️ சரியான 10 இலக்க மொபைல் எண்ணை உள்ளிடவும்!";
+      return;
+    }
+
+    let name = "";
+    let area = "";
+
+    if (currentMode === 'new') {
+      name = document.getElementById('userName').value.trim();
+      area = document.getElementById('userArea').value.trim();
+      if(!name || !area) {
+        err.style.display = 'block';
+        err.innerText = "⚠️ பெயர் மற்றும் ஊர் விவரங்களைக் கட்டாயம் நிரப்பவும்!";
+        return;
+      }
+    } else {
+      name = "Old User (" + phone + ")";
+      area = "Existing";
+    }
+
+    loggedInUser = name;
+    submitBtn.innerText = "⏳ சரிபார்க்கப்படுகிறது...";
+    submitBtn.disabled = true;
+
+    try {
+      await fetch(`${SCRIPT_URL}?action=register&name=${encodeURIComponent(name)}&phone=${phone}&utr=FREE_TEST&device_id=WEB_${area}&selected_unit=Unit_1_Free`);
+    } catch (err) {
+      console.log("Sheet sync note.");
+    }
+
+    setTimeout(() => {
+      document.getElementById('paymentView').style.display = 'none';
+      document.getElementById('testView').style.display = 'block';
+      
+      const banner = document.getElementById('welcomeBanner');
+      banner.style.display = 'block';
+      banner.innerHTML = `🎉 நல்வரவு, <b>${loggedInUser}</b>! டைகர் வாரியர்ஸ் இலவச மாதிரித் தேர்வுக்கு உங்களை அன்புடன் வரவேற்கிறோம்! 🚀 All the Best!`;
+
+      initTest();
+    }, 500);
+  }
+
+  const questionsData = [
+    { q: "1. பாவை விளக்கு யாரால் செய்யப்பட்டது?", o: ["சீவகசிந்தாமணி", "ஐங்குறுநூறு", "நற்றிணை", "அகநானூறு (யவனர்)"], a: 3, exp: "விளக்கம்: சங்க காலத்தில் யவனர்களால் (கிரேக்க-ரோமானியர்) செய்யப்பட்ட பாவை விளக்குகள் பயன்பாட்டில் இருந்த செய்தியைக் குறிப்பிடும் நூல் அகநானூறு ஆகும்." },
+    { q: "2. அகமும் புறமும் சார்ந்த தொகை நூல் எது?", o: ["பரிபாடல்", "பதிற்றுப்பத்து", "நற்றிணை", "புறநானூறு"], a: 0, exp: "விளக்கம்: எட்டுத்தொகை நூல்களுள் பரிபாடல் ஒன்று மட்டுமே அகம் மற்றும் புறம் ஆகிய இரண்டு பொருண்மைகளும் கலந்து அமைந்த இசைப்பாடல் நூலாகும்." },
+    { q: "3. உரிப்பொருளுக்கு முக்கியத்துவம் தந்த நூல்?", o: ["நற்றிணை", "குறுந்தொகை", "பதிற்றுப்பத்து", "புறநானூறு"], a: 1, exp: "விளக்கம்: முதற்பொருள் மற்றும் கருப்பொருளை விட அகவொழுக்கத்தின் உரிப்பொருளுக்கே (அன்பின் ஐந்திணை) சங்க அகநூல்கள் முதன்மை அளித்துள்ளன." },
+    { q: "4. மெய்க்கீர்த்தி அமைப்பு கொண்ட நூல்?", o: ["நெடுநல்வாடை", "பதிற்றுப்பத்து", "குறுந்தொகை", "புறநானூறு"], a: 1, exp: "விளக்கம்: பதிற்றுப்பத்தின் ஒவ்வொரு பத்தின் இறுதியிலும் அமைந்த பதிகங்கள் பிற்காலச் சோழர் காலத்து மெய்க்கீர்த்திகளுக்கு முன்னோடியாக அமைந்தன." },
+    { q: "5. முரசு கட்டிலில் உறங்கிய புலவர்?", o: ["பிசிராந்தையார்", "அரிசில்கிழார்", "பெருஞ்சாத்தனார்", "மோசிகீரனார்"], a: 3, exp: "விளக்கம்: தகடூர் எறிந்த பெருஞ்சேரல் இரும்பொறையின் முரசு கட்டிலில் அறியாமல் உறங்கிய புலவர் மோசிகீரனார் ஆவார்." },
+    { q: "6. திருமண தம்பதியரின் முதல் உரை இடம்பெற்ற நூல்?", o: ["சீவகசிந்தாமணி", "ஐங்குறுநூறு", "நற்றிணை", "அகநானூறு"], a: 3, exp: "விளக்கம்: சங்க காலத் திருமணச் சடங்குகள் மற்றும் புதுமணத் தம்பதியரின் உரையாடல்கள் பற்றிய செய்திகள் அகநானூற்றில் விரிவாக இடம்பெற்றுள்ளன." },
+    { q: "7. \"இராமன் அருமறைக்கு அவிழ்த பல்வீழ் ஆலம் போல ஒலி போல அவிந்தன்று இவ்வழுங்கல் ஊரே\" என்று இராமகாதை நிகழ்வை படம்பிடித்து காட்டிய நூல்?", o: ["கலித்தொகை", "நற்றிணை", "குறுந்தொகை", "அகநானூறு"], a: 3, exp: "விளக்கம்: தனுஷ்கோடியில் ஆலமரத்தின் அடியில் இராமன் மறைநூல் ஆராய்ந்தபோது பறவைகளின் ஒலி அடங்கியது போல ஊரின் அலர் தூற்றுதல் அடங்கியது என்ற குறிப்பு அகநானூற்றில் உள்ளது." },
+    { q: "8. பாண்டிய கபாடம் என தனது நூலில் குறிப்பிட்டவர்?", o: ["வால்மீகி", "சாணக்கியர்", "காளிதாசர்", "வியாசர்"], a: 1, exp: "விளக்கம்: சாணக்கியர் தனது 'அர்த்தசாஸ்திரம்' நூலில் பாண்டிய நாட்டின் புகழ்பெற்ற முத்துக்களைக் குறிப்பிடுகையில் 'பாண்டிய கபாடம்' என்று குறிப்பிட்டுள்ளார்." },
+    { q: "9. தமிழ்நாட்டிலிருந்து கப்பல் வழியாக மயில்தோகை, யானைத் தந்தங்களை பெற்றவன்?", o: ["கயவாகு", "சாலமன்", "தருமன்", "மலேசிய மன்னன்"], a: 1, exp: "விளக்கம்: இஸ்ரேல் நாட்டு அரசர் சாலமன் தமிழ்நாட்டுக் கடலோரப் பகுதிகளிலிருந்து கப்பல்கள் மூலம் மயில்தோகை, யானைத் தந்தம் இறக்குமதி செய்தார்." },
+    { q: "10. அந்தாதி வகையில் பாடல் உள்ள நூல்?", o: ["பதிற்றுப்பத்து", "ஐங்குறுநூறு", "கலம்பகம்", "அனைத்தும்"], a: 3, exp: "விளக்கம்: பதிற்றுப்பத்தின் நான்காம் பத்து மற்றும் ஐங்குறுநூற்றின் சில பத்துப் பாடல்கள் அந்தாதித் தொடை அமைப்பில் பாடப்பட்டுள்ளன." },
+    { q: "11. \"வினையே ஆடவர்க்கு உயிரே\" என்று பாடிய நூல்?", o: ["நற்றிணை", "புறநானூறு", "குறுந்தொகை", "அகநானூறு"], a: 2, exp: "விளக்கம்: \"வினையே ஆடவர்க்கு உயிரே மனையுறை மகளிர்க்கு ஆடவர் உயிர்\" - குறுந்தொகையில் பாலை பாடிய பெருங்கடுங்கோ பாடிய வரிகள்." },
+    { q: "12. நாடக இலக்கியம் என்று போற்றப்படுவது?", o: ["குறுந்தொகை", "கலித்தொகை", "புறநானூறு", "பரிபாடல்"], a: 1, exp: "விளக்கம்: துள்ளல் ஓசையும், உரையாடல் அமைப்பும், பாத்திரப் படைப்பும் கொண்டு நாடகத் தன்மையுடன் விளங்குவதால் கலித்தொகை 'நாடக இலக்கியம்' எனப் போற்றப்படுகிறது." },
+    { q: "13. உரையாசிரியர்களால் மிகுதியாக மேற்கோள்கள் கையாண்ட நூல்?", o: ["குறுந்தொகை", "புறநானூறு", "பதிற்றுப்பத்து", "நற்றிணை"], a: 0, exp: "விளக்கம்: பண்டைய உரையாசிரியர்களால் இலக்கண உரைகளுக்கு அதிக அளவு மேற்கோள் பாடல்களாகக் கையாளப்பட்ட நூல் குறுந்தொகை ஆகும்." },
+    { q: "14. \"முந்தை இருந்து நட்டோர் கொடுப்பின் நஞ்சும் உண்பர் நனிநாகரிகர்\" - என்று பாடிய நூல்?", o: ["குறுந்தொகை", "நற்றிணை", "அகநானூறு", "பதிற்றுப்பத்து"], a: 1, exp: "விளக்கம்: நஞ்சினையே கொடுத்தாலும், அதை மறுக்காமல் உண்ணும் பண்பே தமிழரின் மிகச்சிறந்த நாகரிகம் என்பதை நற்றிணை (பாடல் 355) கூறுகிறது." },
+    { q: "15. திருமா உண்ணி வரலாறு யாருடைய வாழ்வை நினைவுபடுத்துகிறது?", o: ["சீதை", "தமயந்தி", "வெள்ளிவீதியார்", "கண்ணகி"], a: 3, exp: "விளக்கம்: நற்றிணையில் குறிப்பிடப்படும் 'திருமா உண்ணி' தன் ஒரு மார்பை அறுத்து எறிந்த செய்தி, சிலப்பதிகாரக் கண்ணகியின் வரலாற்றோடு ஒப்பிட்டு நோக்கப்படுகிறது." },
+    { q: "16. வரலாற்று செய்தியை தனது பாடல்களில் மிகுதியாகக் கையாண்ட புலவர்?", o: ["பரணர்", "கபிலர்", "நக்கீரர்", "ஒளவையார்"], a: 0, exp: "விளக்கம்: சங்க காலத்தில் நிகழ்ந்த வரலாற்றுச் சம்பவங்கள், மன்னர்களின் பெயர்களைத் தன் அகப்பாடல்களில் உவமைகளாக மிகுதியாகக் கையாண்டவர் பரணர்." },
+    { q: "17. இலண்டன் மாநகரில் பூமிக்கு அடியில் ஓடும் சுரங்கத் தொடர்வண்டியில் எழுதி வைக்கப்பட்டுள்ள பாடல் எது?", o: ["நிலத்தினும் பெரிதே வானினும் உயர்ந்தன்று - குறுந்தொகை", "யாயும் ஞாயும் யாராகியரோ - குறுந்தொகை", "உண்டாலம்ம இவ்வுலகம் - புறநானூறு", "ஒன்றே குலம் ஒருவனே தேவன் - திருமந்திரம்"], a: 1, exp: "விளக்கம்: லண்டன் பூமிக்கடி சுரங்கப் பாதையில் அன்பின் பிணைப்பைச்சித்தரிக்கும் செம்புலப்பெயல்நீராரின் குறுந்தொகைப் பாடல் காட்சிப்படுத்தப்பட்டுள்ளது." },
+    { q: "18. ஏறுதழுவுதல் பற்றி குறிப்பிடும் ஒரே சங்க நூல்?", o: ["நெடுநல்வாடை", "குறுந்தொகை", "கலித்தொகை", "பரிபாடல்"], a: 2, exp: "விளக்கம்: முல்லைக்கலியில் தமிழர்களின் வீர விளையாட்டான ஏறுதழுவுதல் (சல்லிக்கட்டு) பற்றிய விரிவான வர்ணனைகள் இடம்பெற்றுள்ளன." },
+    { q: "19. சங்ககாலத் திருமண முறை பற்றி பாடியவர்?", o: ["வெள்ளிவீதியார்", "நல்லூர்க்கிழார்", "பரணர்", "ஒளவையார்"], a: 1, exp: "விளக்கம்: அகநானூற்றில் உழுந்து தலைப்பெய்த கொழுங்களி மிதவை எனத் திருமணச் சடங்குகளை நல்லூர்க்கிழார் பாடியுள்ளார்." },
+    { q: "20. 'கொங்குதேர் வாழ்க்கை' எனும் பாடல் இடம் பெற்றுள்ள நூல்?", o: ["நற்றிணை", "குறுந்தொகை", "ஐங்குறுநூறு", "ஏதுமில்லை"], a: 1, exp: "விளக்கம்: இறைவனான இறையனார் (சிவன்) தருமிக்காகப் பாடிக்கொடுத்த குறுந்தொகையின் 2-ஆம் பாடல் இது." },
+    { q: "21. 13 - அடிகள் கொண்ட நற்றிணை பாடல்கள்?", o: ["110, 379", "210, 397", "107, 207", "143, 349"], a: 0, exp: "விளக்கம்: நற்றிணை 9 முதல் 12 அடி வரையறை கொண்டது. எனினும் விதிவிலக்காக 110 மற்றும் 379 ஆம் பாடல்கள் 13 அடிகளைக் கொண்டுள்ளன." },
+    { q: "22. \"அல்லிலாயினும் விருந்துவரின் உவக்கும் முல்லை சான்ற கற்பின் மெல்லியல்\" - இவ்வடிகள் இடம் பெற்ற நூல்?", o: ["நற்றிணை", "குறுந்தொகை", "ஐங்குறுநூறு", "கலித்தொகை"], a: 1, exp: "விளக்கம்: குறுந்தொகை 118-ஆம் பாடலில் நள்ளிரவில் விருந்தினர் வந்தாலும் மகிழ்ந்து விருந்தோம்பும் இல்லத்தரசியின் மாண்பு பாடியுள்ளார்." },
+    { q: "23. சான்றோர் செல்வம் என்பது சேர்ந்தோரை காத்தலே என்ற கருத்தை வெளிப்படுத்தும் நூல்?", o: ["குறுந்தொகை", "அகநானூறு", "பதிற்றுப்பத்து", "நற்றிணை"], a: 3, exp: "விளக்கம்: \"சான்றோர் செல்வம் என்பது சேர்ந்தோர் புன்கண் அஞ்சும் பண்பின் மென்கண் செல்வம்\" - நற்றிணையில் மிளகாய்வேலன் நல்வேட்டனார் பாடல்." },
+    { q: "24. பொருத்துக: a) வாய்மொழிக் கபிலன் b) நல்லிசைக் கபிலன் c) வெறுத்த கேள்வி விளங்கு புகழ்க்கபிலன் d) புலனழுக்கற்ற அந்தணாளன்", o: ["4 3 2 1", "3 4 2 1", "2 1 4 3", "1 2 3 4"], a: 2, exp: "விளக்கம்: வாய்மொழிக் கபிலன்-நக்கீரர், நல்லிசைக் கபிலன்-பெருங்குன்றூர்க்கிழார், வெறுத்த கேள்வி-பொருந்தில் இளங்கீரணார், புலனழுக்கற்ற அந்தணாளன்-மாறோக்கத்து நப்பசலையார்." },
+    { q: "25. சேர மன்னரால் தொகுக்கப்பட்ட நூல்?", o: ["அகநானூறு", "கலித்தொகை", "நற்றிணை", "ஐங்குறுநூறு"], a: 3, exp: "விளக்கம்: சேர மன்னன் யானைக்கட்சேய் மாந்தரஞ்சேரல் இரும்பொறையின் வேண்டுகோளின்படி கூடலூர்கிழாரால் தொகுக்கப்பட்டது ஐங்குறுநூறு." },
+    { q: "26. இளம் வயதிலேயே அரசு கட்டில் ஏறியவன்?", o: ["கரிகாலன்", "இளந்திரையன்", "நெடுஞ்செழியன்", "உக்கிரப்பெருவழுதி"], a: 0, exp: "விளக்கம்: கரிகால் பெருவளத்தான் சிறுவயதிலேயே அரசப்பொறுப்பேற்று முதியவர் போல் நரைமுடி தரித்து வழக்கு தீர்த்த வரலாற்றுச் செய்தி உண்டு." },
+    { q: "27. ஏற்றுமதி இறக்குமதி பற்றியும் சுங்கம் வசூலித்தல் பற்றியும் பாடிய நூல்?", o: ["பொருநராற்றுப்படை", "பெரும்பாணாற்றுப்படை", "முல்லைப்பாட்டு", "பட்டினப்பாலை"], a: 3, exp: "விளக்கம்: பூம்புகார் துறைமுகத்தில் ஏற்றுமதி, இறக்குமதி பொருட்கள் குவிந்திருந்ததையும், சுங்க அதிகாரிகள் வரி வசூலித்த நேர்மையையும் பட்டினப்பாலை விவரிக்கிறது." },
+    { q: "28. அகமும் புறமும் சார்ந்த பத்துப்பாட்டு நூல்?", o: ["நெடுநல்வாடை", "குறுந்தொகை", "பரிபாடல்", "பட்டினப்பாலை"], a: 0, exp: "விளக்கம்: நெடுநல்வாடை தலைவியின் பிரிவாற்றாமையைப் பாடுவதால் அகநூல் என்றும், வேம்பு மலர் குறிக்கப்படுவதால் புறநூல் என்றும் கருதப்படுகிறது." },
+    { q: "29. கரும்பை தமிழகத்திற்கு கொண்டு வந்தவர்கள்?", o: ["சேரன்", "சோழன்", "அதியமான்", "பாண்டியன்"], a: 2, exp: "விளக்கம்: அதியமானின் முன்னோர்களே சீனாவிலிருந்து கரும்பை முதன்முதலில் தமிழகத்திற்குக் கொண்டு வந்து பயிரிட்டனர் எனப் புறநானூற்றில் ஔவையார் பாடியுள்ளார்." },
+    { q: "30. நீர் மேலாண்மை பற்றி பாடிய புலவர்?", o: ["பிசிராந்தையார்", "கபிலர்", "குடபுலவியனார்", "ஔவையார்"], a: 2, exp: "விளக்கம்: \"நீரின்றி அமையா யாக்கைக்கு எல்லாம் உண்டி கொடுத்தோர் உயிர் கொடுத்தோரே\" எனப் பாண்டியன் நெடுஞ்செழியனுக்கு நீர் மேலாண்மை பற்றி பாடியவர் குடபுலவியனார்." },
+    { q: "31. 'எழுந்தது துகள் ஏற்றனர் மார்பு கவிழ்ந்தன மருப்பு கலங்கினர் பலர்' - இவ்வரிகள் இடம் பெற்ற நூல் ? மற்றும் திணை?", o: ["குறுந்தொகை - முல்லை", "கலித்தொகை - முல்லை", "ஐங்குறுநூறு - பாலை", "புறநானூறு - பாடாண்"], a: 1, exp: "விளக்கம்: முல்லைக்கலியில் ஏறுதழுவுதலின் போது காளைகள் சீறிப்பாய்ந்து தூசி பறக்க எழும் காட்சியை சோழன் நல்லுருத்திரனார் பாடிய வரிகள்." },
+    { q: "32. மன்னர் பாடிய பாடல் எது?", o: ["உண்டால அம்ம இவ்வுலகம்", "குறுகுறு நடந்து", "உற்றுழி உதவியும் உறுபொருள் கொடுத்தும்", "அனைத்தும்"], a: 3, exp: "விளக்கம்: A-இளம்பெருவழுதி, B-அறிவுடைநம்பி, C-ஆரியப்படை தந்த நெடுஞ்செழியன் ஆகிய மன்னர்களால் பாடப்பட்ட பாடல்கள்." },
+    { q: "33. 9 அடி கொண்ட குறுந்தொகைப்பாடல்கள் எது?", o: ["307, 309", "379, 389", "263, 317", "A மற்றும் B"], a: 0, exp: "விளக்கம்: குறுந்தொகை 4 முதல் 8 அடி எல்லை கொண்டது. ஆனால் 307 மற்றும் 309 ஆம் பாடல்கள் விதிவிலக்காக 9 அடிகளைக் கொண்டுள்ளன." },
+    { q: "34. நந்தா விளக்கம் என்று அழைக்கப்படும் நூல்?", o: ["பதிற்றுப்பத்து", "புறநானூறு", "பெரும்பாணாற்றுப்படை", "பட்டினப்பாலை"], a: 1, exp: "விளக்கம்: பண்டைய தமிழர்களின் நாகரிகம், வரலாறு, பண்பாட்டை என்றும் அணையாத விளக்காகக் காட்டுவதால் புறநானூறு நந்தா விளக்கம் எனப் போற்றப்படுகிறது." },
+    { q: "35. அரசனை இடித்துரைத்தவர்கள்?", o: ["வெள்ளக்குடி நாகனார்", "கோவூர்கிழார்", "பரணர்", "A மற்றும் B"], a: 3, exp: "விளக்கம்: சோழன் கிள்ளிவளவனுக்கு வெள்ளக்குடி நாகனாரும், நலங்கிள்ளி-நெடுங்கிள்ளி போரைத் தடுத்து நிறுத்தி கோவூர்கிழாரும் அரசர்களின் தவறுகளை இடித்துரைத்தனர்." },
+    { q: "36. காக்கைக்கு சோறிடல் வழக்கம் பற்றி குறிப்பிட்ட நூல்?", o: ["சிறுபாணாற்றுப்படை", "பொருநராற்றுப்படை", "பெரும்பாணாற்றுப்படை", "நற்றிணை / குறுந்தொகை"], a: 3, exp: "விளக்கம்: விருந்தினர் வருகையைக் கரைந்து அறிவிக்கும் காக்கைக்குக் கொழுப்புடன்கூடிய பலிச்சோறு இடும் வழக்கம் குறுந்தொகை மற்றும் நற்றிணையில் கூறப்பட்டுள்ளது." },
+    { q: "37. சுறாக்கொம்பை மணலில் நட்டு வழிபடும் வழக்கம் பற்றி பேசிய நூல்?", o: ["பட்டினப்பாலை", "புறநானூறு", "பரிபாடல்", "பதிற்றுப்பத்து"], a: 0, exp: "விளக்கம்: நெய்தல் நிலப் பரதவர்கள் சுறா மீனின் கொம்பை நட்டு வருண தேவனை (கடல் தெய்வம்) வழிபட்ட செய்தியைப் பட்டினப்பாலை விவரிக்கிறது." },
+    { q: "38. \"பிசிரோன் என்ப என் உயிர் ஓம்புநனே செல்வக் காலை நிற்பினும் அல்லற் காலை நில்லலன் மன்னே\" என்று பாடியவர் யார்?", o: ["ஔவையார்", "நக்கீரன்", "பிசிராந்தையார்", "கோப்பெருஞ்சோழன்"], a: 3, exp: "விளக்கம்: கோப்பெருஞ்சோழன் வடக்கிருந்த காலத்தில், பிசிராந்தையார் தன் ஆருயிர் நண்பர் என்றும் அவர் நிச்சயம் வந்து தன்னுடனும் வடக்கிருப்பார் என்றும் பாடியது." },
+    { q: "39. 'புதைத்தால் புதை சுட்டால் சுடு' இது யாருடைய சாவு சடங்கு பற்றி புலவர் பாடியுள்ளார்?", o: ["ஆய்", "பாரி", "நம்பி நெடுஞ்செழியன்", "அதியமான்"], a: 2, exp: "விளக்கம்: நம்பி நெடுஞ்செழியன் இறந்தபோது பேரசாத்தனார் \"இவனைப் புதைப்பதாக இருந்தால் புதையுங்கள், சுடுவதாக இருந்தால் சுடுங்கள்...\" எனப் பாடிய பாடல்." },
+    { q: "40. அதியமானுக்காக ஒளவையார் யாரிடம் தூது சென்றார்?", o: ["ஓரி", "கணைக்கால் இரும்பொறை", "தொண்டைமான்", "நெடுஞ்செழியன்"], a: 2, exp: "விளக்கம்: அதியமான் நெடுமான் அஞ்சிக்காக காஞ்சித் தொண்டைமானிடம் ஒளவையார் படைக்கலக் கொட்டிலைப் பாடித் தூது சென்றார்." },
+    { q: "41. சங்க இலக்கியத்தில் அதிகம் பாடல் பாடிய பெண்பாற்புலவர் யார்?", o: ["ஒளவையார்", "வெள்ளிவீதியார்", "பொன்முடியார்", "ஆதிமந்தி"], a: 0, exp: "விளக்கம்: சங்க இலக்கியப் பெண்பாற்புலவர்களுள் ஒளவையார் மட்டுமே அதிக எண்ணிக்கையிலான (59 பாடல்கள்) பாடல்களைப் பாடியுள்ளார்." },
+    { q: "42. பெண்மானுக்கு ஆண்மான் நிழல் கொடுத்த காட்சி மூலம் இல்லற மாண்பை பாடிய நூல்?", o: ["புறநானூறு", "குறுந்தொகை", "பரிபாடல்", "கலித்தொகை"], a: 3, exp: "விளக்கம்: பாலைக்கலியில் சுட்டெரிக்கும் வெயிலில் நிழலின்றித் தவிக்கும் பெண்மானுக்கு ஆண்மான் எனது உடலையே நிழலாகக் கொடுத்து நிற்கும் அன்பின் உன்னதம் பாடப்பட்டுள்ளது." },
+    { q: "43. 99 பூக்கள் பற்றிய வருணனை இடம்பெற்ற நூல்?", o: ["குறுந்தொகை", "முல்லைப்பாட்டு", "குறிஞ்சிப்பாட்டு", "நெடுநல்வாடை"], a: 2, exp: "விளக்கம்: கபிலர் இயற்றிய குறிஞ்சிப்பாட்டில் 99 தமிழ் மலர்களின் பெயர்கள் வரிசைப்படுத்தப்பட்டு விவரிக்கப்பட்டுள்ளன." },
+    { q: "44. 'செல்வத்துப் பயனே ஈதல்' என்ற பாடல் இடம்பெற்ற நூல்?", o: ["குறுந்தொகை", "பொருநராற்றுப்படை", "குறிஞ்சிப்பாட்டு", "புறநானூறு"], a: 3, exp: "விளக்கம்: \"செல்வத்துப் பயனே ஈதல் துய்ப்பேம் எனினே தப்புந பலவே\" - மதுரைக்கண்ணனார் புறநானூற்றில் (பாடல் 189) பாடிய உயரிய அறநெறி." },
+    { q: "45. 'விண்பொரு நெடுவரை குறிஞ்சிக்கிழவ' என்று முருகனை போற்றிய நூல்?", o: ["காவடிச்சிந்து", "திருமுருகாற்றுப்படை", "பொருநராற்றுப்படை", "pariபாடல்"], a: 1, exp: "விளக்கம்: நக்கீரர் திருமுருகாற்றுப்படையில் திருப்பரங்குன்றத்தில் வீற்றிருக்கும் முருகப்பெருமானை \"விண்பொரு நெடுவரை குறிஞ்சிக்கிழவ\" என்று போற்றியுள்ளார்." },
+    { q: "46. \"THE FOUR HUNDRED SONGS OF WAR AND WISDOM AN ANTHOLOGY OF POEMS FROM CLASSICAL TAMIL THE PURANANOORU\" - என்ற நூல் யாருடையது?", o: ["ஜி.யு போப்", "ஜார்ஜ் எல்ஹார்ட்", "கில்", "யெஸ்டர்சன்"], a: 1, exp: "விளக்கம்: அமெரிக்கப் பேராசிரியரான ஜார்ஜ் எல். ஹார்ட் (George L. Hart) புறநானூற்றுப் பாடல்களை முழுமையாக ஆங்கிலத்தில் மொழிபெயர்த்து இந்நூலை வெளியிட்டார்." },
+    { q: "47. புறநானூற்றுப்பாடலை \"EXTRACTS FROM PURANANOORU AND PURAPPORUL VENBAMALAI” என்னும் தலைப்பில் ஆங்கிலத்தில் மொழிபெயர்த்தவர் யார்?", o: ["ஜார்ஜ். எல். ஹார்ட்", "ஜி.யு. போப்", "வீரமாமுனிவர்", "உ.வே.சா"], a: 1, exp: "விளக்கம்: ஜி.யு. போப் புறநானூறு மற்றும் புறப்பொருள் வெண்பாமாலை நூல்களின் சிறந்த பாடல்களைத் தேர்ந்தெடுத்து ஆங்கிலத்தில் மொழிபெயர்த்தார்." },
+    { q: "48. 'யாதும் ஊரே யாவருங் கேளிர்' தொடரைப் பாடியவர்?", o: ["கபிலர்", "ஒளவை", "கணியன் பூங்குன்றனார்", "நக்கீரர்"], a: 2, exp: "விளக்கம்: உலகளாவிய பொதுமை நெறியைப் பறைசாற்றும் \"யாதும் ஊரே யாவருங் கேளிர் தீதும் நன்றும் பிறர்தர வாரா\" என்ற புறநானூற்றுப் பாடலைப் பாடியவர் கணியன் பூங்குன்றனார்." },
+    { q: "49. \"அன்னைகூறினள்புன்னையது சிறப்பே அம்ம நாணுதும் நும்மொடு நகையே\" - இவ்வடிகள் இடம் பெற்ற நூல்?", o: ["குறுந்தொகை", "கலித்தொகை", "நற்றிணை", "பரிபாடல்"], a: 2, exp: "விளக்கம்: \"புன்னையை உனக்கு அக்காள் என்று அன்னை கூறினாள்; அதனால் இதன் நிழலில் நும்முடன் விளையாட நாணுகின்றேன்\" என்று நற்றிணையில் (பாடல் 172) தலைவி கூறுகிறாள்." },
+    { q: "50. 'மனையுறை மகளிர்க்கு ஆடவர் உயிரே' என்று பாடிய நூல்?", o: ["குறுந்தொகை", "நற்றிணை", "ஐங்குறுநூறு", "அகநானூறு"], a: 0, exp: "விளக்கம்: \"வினையே ஆடவர்க்கு உயிரே மனையுறை மகளிர்க்கு ஆடவர் உயிர்\" என்ற குறுந்தொகைப் பாடல் (பாடல் 135) மூலம் இல்லறப் பெண்களின் மாண்பு கூறப்பட்டுள்ளது." }
+  ];
+
+  let currentQuestion = 0;
+  let userAnswers = new Array(questionsData.length).fill(null);
+  let isReviewMode = false;
+  let timerInterval;
+  let timeLeft = 50 * 60;
+
+  function initTest() {
+    buildGrid();
+    loadQuestion(0);
+    startTimer();
+  }
+
+  function buildGrid() {
+    const grid = document.getElementById('questionGrid');
+    grid.innerHTML = '';
+    questionsData.forEach((_, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'q-num-btn';
+      btn.innerText = idx + 1;
+      btn.id = `q_btn_${idx}`;
+      btn.onclick = () => jumpToQuestion(idx);
+      grid.appendChild(btn);
+    });
+    updateGridStatus();
+  }
+
+  function updateGridStatus() {
+    questionsData.forEach((_, idx) => {
+      const btn = document.getElementById(`q_btn_${idx}`);
+      if(!btn) return;
+      btn.className = 'q-num-btn';
+      if(idx === currentQuestion) {
+        btn.classList.add('active');
+      } else if(userAnswers[idx] !== null) {
+        btn.classList.add('answered');
+      }
+    });
+  }
+
+  function loadQuestion(idx) {
+    currentQuestion = idx;
+    const q = questionsData[idx];
+    document.getElementById('qTitle').innerText = q.q;
+    
+    const optsBox = document.getElementById('optionsBox');
+    optsBox.innerHTML = '';
+
+    q.o.forEach((optText, oIdx) => {
+      const card = document.createElement('div');
+      card.className = 'option-card';
+      
+      if(userAnswers[idx] === oIdx) {
+        card.classList.add('selected');
+      }
+
+      if(isReviewMode) {
+        if(oIdx === q.a) {
+          card.classList.add('correct-ans');
+        } else if(userAnswers[idx] === oIdx && oIdx !== q.a) {
+          card.classList.add('wrong-ans');
+        }
+      }
+
+      card.innerHTML = `<span><b>${String.fromCharCode(65 + oIdx)}.</b></span> <span>${optText}</span>`;
+      card.onclick = () => selectOption(oIdx);
+      optsBox.appendChild(card);
+    });
+
+    const expBox = document.getElementById('expBox');
+    if(isReviewMode) {
+      expBox.style.display = 'block';
+      expBox.innerText = q.exp;
+    } else {
+      expBox.style.display = 'none';
+    }
+
+    document.getElementById('prevBtn').style.display = idx === 0 ? 'none' : 'block';
+    document.getElementById('nextBtn').style.display = idx === questionsData.length - 1 ? 'none' : 'block';
+    updateGridStatus();
+  }
+
+  function selectOption(oIdx) {
+    if(isReviewMode) return;
+    userAnswers[currentQuestion] = oIdx;
+    loadQuestion(currentQuestion);
+  }
+
+  function clearChoice() {
+    if(isReviewMode) return;
+    userAnswers[currentQuestion] = null;
+    loadQuestion(currentQuestion);
+  }
+
+  function navigateNumberQuery(dir) {
+    const next = currentQuestion + dir;
+    if(next >= 0 && next < questionsData.length) {
+      loadQuestion(next);
+    }
+  }
+
+  function jumpToQuestion(idx) {
+    loadQuestion(idx);
+  }
+
+  function startTimer() {
+    timerInterval = setInterval(() => {
+      timeLeft--;
+      let m = Math.floor(timeLeft / 60);
+      let s = timeLeft % 60;
+      document.getElementById('timerBox').innerText = `⏱️ ${m}:${s < 10 ? '0' : ''}${s}`;
+      if(timeLeft <= 0) {
+        clearInterval(timerInterval);
+        submitTest();
+      }
+    }, 1000);
+  }
+
+  function confirmSubmit() {
+    if(confirm("நிச்சயமாக தேர்வைச் சமர்ப்பிக்க விரும்புகிறீர்களா? 🤔")) {
+      submitTest();
+    }
+  }
+
+  function submitTest() {
+    clearInterval(timerInterval);
+    document.getElementById('testView').style.display = 'none';
+    document.getElementById('resultView').style.display = 'block';
+
+    let correct = 0, wrong = 0, unans = 0;
+    userAnswers.forEach((ans, idx) => {
+      if(ans === null) unans++;
+      else if(ans === questionsData[idx].a) correct++;
+      else wrong++;
+    });
+
+    document.getElementById('scoreDisplay').innerText = `${correct} / ${questionsData.length}`;
+    let pct = ((correct / questionsData.length) * 100).toFixed(1);
+    document.getElementById('percentageDisplay').innerText = `சதவீதம்: ${pct}% 📊`;
+    document.getElementById('correctCnt').innerText = correct;
+    document.getElementById('wrongCnt').innerText = wrong;
+    document.getElementById('unansCnt').innerText = unans;
+  }
+
+  function reviewAnswerKey() {
+    isReviewMode = true;
+    document.getElementById('resultView').style.display = 'none';
+    document.getElementById('testView').style.display = 'block';
+    document.getElementById('finalSubmitBtn').style.display = 'none';
+    document.getElementById('backToResultBtn').style.display = 'block';
+    document.getElementById('dashFromKeyBtn').style.display = 'block';
+    loadQuestion(0);
+  }
+
+  function returnToResult() {
+    document.getElementById('testView').style.display = 'none';
+    document.getElementById('resultView').style.display = 'block';
+  }
+
+  function returnToDashboard() {
+    location.reload();
+  }
+
+  function exitPortal() {
+    if(confirm("போர்ட்டலிலிருந்து வெளியேற விரும்புகிறீர்களா?")) {
+      window.close();
+      document.body.innerHTML = "<div style='text-align:center; margin-top:20vh; font-family:sans-serif;'><h2>நன்றி! நீங்கள் வெற்றிகரமாக வெளியேறிவிட்டீர்கள்.</h2><p>இப்பொழுது இந்த பக்கத்தை மூடலாம்.</p></div>";
+    }
+  }
+
+  function retakeTest() {
+    userAnswers = new Array(questionsData.length).fill(null);
+    isReviewMode = false;
+    timeLeft = 50 * 60;
+    document.getElementById('resultView').style.display = 'none';
+    document.getElementById('testView').style.display = 'block';
+    document.getElementById('finalSubmitBtn').style.display = 'inline-block';
+    document.getElementById('backToResultBtn').style.display = 'none';
+    document.getElementById('dashFromKeyBtn').style.display = 'none';
+    initTest();
+  }
+</script>
+
+</body>
+</html>
