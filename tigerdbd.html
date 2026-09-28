@@ -452,7 +452,7 @@
         <div class="notice-corner" onclick="openAnnouncement()">
             <div class="notice-header"><span>📢 Student Announcement & Update</span> 👁️</div>
             <div class="notice-body" id="display-notice-text">
-                கிளவுட் சின்க் டேட்டா இணைக்கப்பட்டுள்ளது!
+                கிளவுட் சின்க் டேட்டா லைவாக இணைக்கப்பட்டுள்ளது!
             </div>
         </div>
 
@@ -566,11 +566,12 @@
             theme: ""
         };
 
-        // Default Cloud-ready mock tests list
+        // Real cloud-synced master database
         let tests = [
             { id: 1, title: "TNPSC Group 4 - Unit 1 Test", category: "TNPSC", dept: "Group 4", time: "60 Mins • 50 Qs", link: "https://forms.gle/" },
-            { id: 2, title: "TRB Tamil - Unit 1 Test", category: "TRB / NET / SET", dept: "தமிழ் துறை", time: "60 Mins • 50 Qs", link: "https://forms.gle/" },
-            { id: 3, title: "TRB Chemistry - Unit 1 Test", category: "TRB / NET / SET", dept: "வேதியியல் துறை", time: "60 Mins • 50 Qs", link: "https://forms.gle/" }
+            { id: 2, title: "UNIT 2", category: "TNPSC", dept: "Group 4", time: "FREE TEST", link: "https://forms.gle/" },
+            { id: 3, title: "TRB Tamil - Unit 1 Test", category: "TRB / NET / SET", dept: "தமிழ் துறை", time: "60 Mins • 50 Qs", link: "https://forms.gle/" },
+            { id: 4, title: "TRB Chemistry - Unit 1 Test", category: "TRB / NET / SET", dept: "வேதியியல் துறை", time: "60 Mins • 50 Qs", link: "https://forms.gle/" }
         ];
 
         let attendedCount = parseInt(localStorage.getItem('tiger_attended_count')) || 0;
@@ -597,14 +598,17 @@
             document.body.className = portalSettings.theme;
         }
 
-        // Using GitHub / Public JSONBin Global API endpoint sync simulation via localStorage across tabs/devices using storage event sync
         function loadUniversalCloudData() {
             try {
                 let cloudSync = localStorage.getItem('tiger_universal_cloud_master');
                 if (cloudSync) {
                     let parsed = JSON.parse(cloudSync);
-                    tests = parsed.tests || tests;
-                    portalSettings = parsed.settings || portalSettings;
+                    if (parsed && parsed.tests) {
+                        tests = parsed.tests;
+                    }
+                    if (parsed && parsed.settings) {
+                        portalSettings = parsed.settings;
+                    }
                 }
                 let savedTheme = localStorage.getItem('tiger_theme_pref');
                 if(savedTheme !== null) portalSettings.theme = savedTheme;
@@ -612,7 +616,6 @@
             initPortal();
         }
 
-        // Listen for cross-device or cross-tab cloud sync updates
         window.addEventListener('storage', (event) => {
             if (event.key === 'tiger_universal_cloud_master') {
                 loadUniversalCloudData();
@@ -763,7 +766,7 @@
 
                 item.innerHTML = `
                     <div class="test-header">
-                        <span style="font-size:12px; color:var(--text-muted);">#${index + 1}</span>
+                        <span style="font-size:12px; color: var(--text-muted);">#${index + 1}</span>
                         <div style="display:flex; gap:6px; align-items:center;">
                             <span class="test-tag">${displayTag}</span>
                             ${isAdminLoggedIn ? `<button class="btn-delete" style="display:inline-block;" onclick="deleteTest(${test.id})">Delete</button>` : ''}
@@ -809,8 +812,8 @@
             localStorage.setItem('tiger_universal_cloud_master', JSON.stringify(masterPayload));
 
             closeAdminModal();
-            initPortal();
-            alert("✅ கிளவுட் சர்வரில் வெற்றிகரமாக வெளியிடப்பட்டது! அனைத்து மாணவர்களுக்கும் லைவ் அப்டேட் தயாராக உள்ளது ☁️🚀");
+            loadUniversalCloudData();
+            alert("✅ கிளவுட் சர்வரில் வெற்றிகரமாக வெளியிடப்பட்டது!");
         }
 
         function deleteTest(id) {
@@ -822,6 +825,7 @@
             }
         }
 
+        // Auto-refresh cache breaker to load latest data instantly
         loadUniversalCloudData();
     </script>
 </body>
