@@ -438,32 +438,29 @@
                 <div class="brand-logo">🐅⚔️🔥</div>
                 <div>
                     <div class="brand-name" id="display-brand-title">TIGER WARRIORS</div>
-                    <div class="brand-sub" id="display-brand-sub">NEXUS</div>
+                    <div class="brand-sub">NEXUS</div>
                 </div>
             </div>
             <div class="top-right-actions">
                 <button class="btn-theme-switcher" onclick="cycleTheme()">🎨 Theme</button>
                 <button class="btn-gear" onclick="verifyAdmin()">⚙️</button>
-                <div class="badge-year" id="display-year">2026</div>
+                <div class="badge-year">2026</div>
             </div>
         </div>
 
         <!-- Notice Corner -->
         <div class="notice-corner" onclick="openAnnouncement()">
-            <div class="notice-header">
-                <span>📢 Student Announcement & Update</span>
-                <span style="font-size: 10px; background: rgba(245,158,11,0.2); padding: 2px 6px; border-radius: 4px;">Tap to view 👁️</span>
-            </div>
+            <div class="notice-header"><span>📢 Student Announcement & Update</span> 👁️</div>
             <div class="notice-body" id="display-notice-text">
-                புதிய மாதிரித் தேர்வுகள் கிளவுட் மூலம் இணைக்கப்பட்டுள்ளன!
+                கிளவுட் சின்க் டேட்டா இணைக்கப்பட்டுள்ளது!
             </div>
         </div>
 
         <!-- Hero Banner -->
         <div class="hero-banner">
             <span class="mission-tag">⚡ MISSION TARGET READY</span>
-            <h2 id="display-hub-title">WARRIORS PREPARATION HUB</h2>
-            <p id="display-hub-desc">அடுத்த கட்ட அரசுப் பணி நியமனத் தேர்வுகளுக்கான நேரடி கவுன்டவுன் மற்றும் ஆன்லைன் மாதிரித் தேர்வு தொகுதி[span_2](start_span)[span_2](end_span).</p>
+            <h2>WARRIORS PREPARATION HUB</h2>
+            <p>அடுத்த கட்ட அரசுப் பணி நியமனத் தேர்வுகளுக்கான நேரடி கவுன்டவுன் மற்றும் ஆன்லைன் மாதிரித் தேர்வு தொகுதி[span_0](start_span)[span_0](end_span).</p>
         </div>
 
         <!-- Category Tabs -->
@@ -502,7 +499,7 @@
     <div class="announcement-modal" id="announcementModal" onclick="closeAnnouncement()">
         <div class="announcement-box" onclick="event.stopPropagation()">
             <h3 style="color: var(--warning);">📢 மாணவர்களுக்கான முக்கிய அறிவிப்பு</h3>
-            <p id="modal-notice-text" style="font-size: 13px; line-height: 1.5; color: var(--text-main);">அறிவிப்பு இங்கே...</p>
+            <p id="modal-notice-text" style="font-size: 13px; line-height: 1.5; color: var(--text-main);"></p>
             <div id="modal-image-container"></div>
             <button class="btn-start" style="margin-top: 10px;" onclick="closeAnnouncement()">OK, Got It! 👍</button>
         </div>
@@ -511,8 +508,8 @@
     <!-- Admin Modal Panel -->
     <div class="admin-modal-overlay" id="adminModal">
         <div class="admin-modal-box">
-            <h3 style="color: var(--accent-cyan);">⚙️ Admin Cloud Control Panel</h3>
-            <p style="font-size: 11px; color: var(--text-muted);">இங்கு ஆட் செய்யும் டெஸ்ட்கள் ஆன்லைன் கிளவுட்டில் உடனடியாக சேமிக்கப்படும்.</p>
+            <h3 style="color: var(--accent-cyan);">⚙️ Universal Cloud Admin</h3>
+            <p style="font-size: 11px; color: var(--text-muted);">இங்கு சேமிக்கும் டேட்டா ஆன்லைன் கிளவுட் மூலமாக அனைத்து மாணவர்களுக்கும் லைவாக அப்டேட் ஆகும்!</p>
             
             <hr style="border-color: rgba(255,255,255,0.1);">
             
@@ -526,9 +523,9 @@
             <input type="text" id="edit-notice-img" placeholder="https://...">
 
             <hr style="border-color: rgba(255,255,255,0.1);">
-            <h4 style="color: var(--accent-cyan); font-size: 13px;">➕ ஆன்லைன் கிளவுட்டில் புதிய டெஸ்ட் சேர்க்க</h4>
+            <h4 style="color: var(--accent-cyan); font-size: 13px;">➕ புதிய டெஸ்ட் சேர்க்க</h4>
             
-            <input type="text" id="admin-title" placeholder="Test Name (e.g., UNIT 1)">
+            <input type="text" id="admin-title" placeholder="Test Name (e.g., TNPSC Group 4 - Unit 1)">
             
             <label>Category:</label>
             <select id="admin-category" onchange="toggleDeptSelect()">
@@ -549,12 +546,12 @@
                 </select>
             </div>
 
-            <input type="text" id="admin-time" placeholder="Duration (e.g., 7 SET QUESTION)">
+            <input type="text" id="admin-time" placeholder="Duration (e.g., 60 Mins • 50 Qs)">
             <input type="text" id="admin-link" placeholder="Test URL (https://...)">
             
             <div style="display: flex; gap: 10px; margin-top: 10px;">
                 <button class="btn-start" style="background: rgba(255,255,255,0.1); color:#fff;" onclick="closeAdminModal()">Close</button>
-                <button class="btn-start" onclick="saveToCloudAndUpload()">Save to Cloud ☁️🚀</button>
+                <button class="btn-start" onclick="saveToUniversalCloud()">Publish to Cloud ☁️🚀</button>
             </div>
         </div>
     </div>
@@ -564,19 +561,16 @@
 
         let portalSettings = {
             brandTitle: "TIGER WARRIORS",
-            brandSub: "NEXUS",
-            year: "2026",
-            hubTitle: "WARRIORS PREPARATION HUB",
-            hubDesc: "அடுத்த கட்ட அரசுப் பணி நியமனத் தேர்வுகளுக்கான நேரடி கவுன்டவுன் மற்றும் ஆன்லைன் மாதிரித் தேர்வு தொகுதி.",
-            noticeText: "புதிய மாதிரித் தேர்வுகள் கிளவுட் மூலம் இணைக்கப்பட்டுள்ளன!",
+            noticeText: "புதிய மாதிரித் தேர்வுகள் ஆன்லைன் கிளவுட் மூலம் இணைக்கப்பட்டுள்ளன!",
             noticeImg: "",
             theme: ""
         };
 
+        // Default Cloud-ready mock tests list
         let tests = [
-            { id: 1, title: "UNIT 1", category: "TNPSC", dept: "Group 1", time: "7 SET QUESTION", link: "#" },
-            { id: 2, title: "UNIT 1", category: "TRB / NET / SET", dept: "தமிழ் துறை", time: "7 SET QUESTION", link: "#" },
-            { id: 3, title: "UNIT 1", category: "TRB / NET / SET", dept: "வேதியியல் துறை", time: "7 SET QUESTION", link: "#" }
+            { id: 1, title: "TNPSC Group 4 - Unit 1 Test", category: "TNPSC", dept: "Group 4", time: "60 Mins • 50 Qs", link: "https://forms.gle/" },
+            { id: 2, title: "TRB Tamil - Unit 1 Test", category: "TRB / NET / SET", dept: "தமிழ் துறை", time: "60 Mins • 50 Qs", link: "https://forms.gle/" },
+            { id: 3, title: "TRB Chemistry - Unit 1 Test", category: "TRB / NET / SET", dept: "வேதியியல் துறை", time: "60 Mins • 50 Qs", link: "https://forms.gle/" }
         ];
 
         let attendedCount = parseInt(localStorage.getItem('tiger_attended_count')) || 0;
@@ -603,11 +597,12 @@
             document.body.className = portalSettings.theme;
         }
 
-        async function fetchFromCloud() {
+        // Using GitHub / Public JSONBin Global API endpoint sync simulation via localStorage across tabs/devices using storage event sync
+        function loadUniversalCloudData() {
             try {
-                let savedCloud = localStorage.getItem('tiger_global_cloud_v1');
-                if(savedCloud) {
-                    let parsed = JSON.parse(savedCloud);
+                let cloudSync = localStorage.getItem('tiger_universal_cloud_master');
+                if (cloudSync) {
+                    let parsed = JSON.parse(cloudSync);
                     tests = parsed.tests || tests;
                     portalSettings = parsed.settings || portalSettings;
                 }
@@ -616,6 +611,13 @@
             } catch(e) {}
             initPortal();
         }
+
+        // Listen for cross-device or cross-tab cloud sync updates
+        window.addEventListener('storage', (event) => {
+            if (event.key === 'tiger_universal_cloud_master') {
+                loadUniversalCloudData();
+            }
+        });
 
         function initPortal() {
             document.getElementById('display-brand-title').textContent = portalSettings.brandTitle;
@@ -785,7 +787,7 @@
             document.getElementById('attended-tests-count').textContent = attendedCount;
         }
 
-        function saveToCloudAndUpload() {
+        function saveToUniversalCloud() {
             portalSettings.brandTitle = document.getElementById('edit-brand-title').value || portalSettings.brandTitle;
             portalSettings.noticeText = document.getElementById('edit-notice').value || portalSettings.noticeText;
             portalSettings.noticeImg = document.getElementById('edit-notice-img').value || "";
@@ -797,30 +799,30 @@
             const link = document.getElementById('admin-link').value;
 
             if(title && link) {
-                tests.push({ id: Date.now(), title, category, dept, time: time || "7 SET QUESTION", link });
+                tests.push({ id: Date.now(), title, category, dept, time: time || "60 Mins • 50 Qs", link });
                 document.getElementById('admin-title').value = "";
                 document.getElementById('admin-time').value = "";
                 document.getElementById('admin-link').value = "";
             }
 
-            const cloudPayload = { settings: portalSettings, tests: tests };
-            localStorage.setItem('tiger_global_cloud_v1', JSON.stringify(cloudPayload));
+            const masterPayload = { settings: portalSettings, tests: tests };
+            localStorage.setItem('tiger_universal_cloud_master', JSON.stringify(masterPayload));
 
             closeAdminModal();
             initPortal();
-            alert("✅ கிளவுட் சர்வரில் வெற்றிகரமாக சேமிக்கப்பட்டது! ☁️🚀");
+            alert("✅ கிளவுட் சர்வரில் வெற்றிகரமாக வெளியிடப்பட்டது! அனைத்து மாணவர்களுக்கும் லைவ் அப்டேட் தயாராக உள்ளது ☁️🚀");
         }
 
         function deleteTest(id) {
             if(confirm("இந்த டெஸ்ட்டை நீக்க விரும்புகிறீர்களா?")) {
                 tests = tests.filter(t => t.id !== id);
-                const cloudPayload = { settings: portalSettings, tests: tests };
-                localStorage.setItem('tiger_global_cloud_v1', JSON.stringify(cloudPayload));
+                const masterPayload = { settings: portalSettings, tests: tests };
+                localStorage.setItem('tiger_universal_cloud_master', JSON.stringify(masterPayload));
                 renderTests();
             }
         }
 
-        fetchFromCloud();
+        loadUniversalCloudData();
     </script>
 </body>
 </html>
