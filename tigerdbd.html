@@ -452,7 +452,7 @@
         <div class="notice-corner" onclick="openAnnouncement()">
             <div class="notice-header"><span>📢 Student Announcement & Update</span> 👁️</div>
             <div class="notice-body" id="display-notice-text">
-                கிளவுட் சின்க் டேட்டா லைவாக இணைக்கப்பட்டுள்ளது!
+                அனைத்துத் தேர்வுகளுக்கான யூனிட்கள் ஆன்லைனில் இணைக்கப்பட்டுள்ளன!
             </div>
         </div>
 
@@ -519,13 +519,10 @@
             <label>Announcement Text:</label>
             <textarea id="edit-notice" rows="2"></textarea>
 
-            <label>Announcement Image URL:</label>
-            <input type="text" id="edit-notice-img" placeholder="https://...">
-
             <hr style="border-color: rgba(255,255,255,0.1);">
             <h4 style="color: var(--accent-cyan); font-size: 13px;">➕ புதிய டெஸ்ட் சேர்க்க</h4>
             
-            <input type="text" id="admin-title" placeholder="Test Name (e.g., TNPSC Group 4 - Unit 1)">
+            <input type="text" id="admin-title" placeholder="Test Name (e.g., UNIT 1)">
             
             <label>Category:</label>
             <select id="admin-category" onchange="toggleDeptSelect()">
@@ -561,18 +558,27 @@
 
         let portalSettings = {
             brandTitle: "TIGER WARRIORS",
-            noticeText: "புதிய மாதிரித் தேர்வுகள் ஆன்லைன் கிளவுட் மூலம் இணைக்கப்பட்டுள்ளன!",
-            noticeImg: "",
+            noticeText: "TNPSC, TRB, NEET மற்றும் அனைத்து மாதிரித் தேர்வுகள் ஆன்லைன் கிளவுட் மூலம் இணைக்கப்பட்டுள்ளன!",
             theme: ""
         };
 
-        // Real cloud-synced master database
-        let tests = [
-            { id: 1, title: "TNPSC Group 4 - Unit 1 Test", category: "TNPSC", dept: "Group 4", time: "60 Mins • 50 Qs", link: "https://forms.gle/" },
-            { id: 2, title: "UNIT 2", category: "TNPSC", dept: "Group 4", time: "FREE TEST", link: "https://forms.gle/" },
-            { id: 3, title: "TRB Tamil - Unit 1 Test", category: "TRB / NET / SET", dept: "தமிழ் துறை", time: "60 Mins • 50 Qs", link: "https://forms.gle/" },
-            { id: 4, title: "TRB Chemistry - Unit 1 Test", category: "TRB / NET / SET", dept: "வேதியியல் துறை", time: "60 Mins • 50 Qs", link: "https://forms.gle/" }
+        // Auto-generating default database with multiple units for TNPSC & TRB
+        let defaultTests = [
+            // TNPSC Group 4
+            { id: 101, title: "TNPSC Group 4 - Unit 1 Test", category: "TNPSC", dept: "Group 4", time: "60 Mins • 50 Qs", link: "https://forms.gle/" },
+            { id: 102, title: "TNPSC Group 4 - Unit 2 Test", category: "TNPSC", dept: "Group 4", time: "60 Mins • 50 Qs", link: "https://forms.gle/" },
+            { id: 103, title: "TNPSC Group 4 - Unit 3 Test", category: "TNPSC", dept: "Group 4", time: "60 Mins • 50 Qs", link: "https://forms.gle/" },
+            // TNPSC Group 1
+            { id: 104, title: "TNPSC Group 1 - Unit 1 Polity", category: "TNPSC", dept: "Group 1", time: "90 Mins • 100 Qs", link: "https://forms.gle/" },
+            // TRB Tamil
+            { id: 105, title: "TRB Tamil - Unit 1 Test", category: "TRB / NET / SET", dept: "தமிழ் துறை", time: "60 Mins • 50 Qs", link: "https://forms.gle/" },
+            // TRB Chemistry
+            { id: 106, title: "TRB Chemistry - Unit 1 Test", category: "TRB / NET / SET", dept: "வேதியியல் துறை", time: "60 Mins • 50 Qs", link: "https://forms.gle/" },
+            // NEET
+            { id: 107, title: "NEET Biology - Genetics Mock", category: "NEET Exam", dept: "", time: "60 Mins • 45 Qs", link: "https://forms.gle/" }
         ];
+
+        let tests = defaultTests;
 
         let attendedCount = parseInt(localStorage.getItem('tiger_attended_count')) || 0;
         let isAdminLoggedIn = false;
@@ -600,15 +606,11 @@
 
         function loadUniversalCloudData() {
             try {
-                let cloudSync = localStorage.getItem('tiger_universal_cloud_master');
+                let cloudSync = localStorage.getItem('tiger_universal_cloud_master_v15');
                 if (cloudSync) {
                     let parsed = JSON.parse(cloudSync);
-                    if (parsed && parsed.tests) {
-                        tests = parsed.tests;
-                    }
-                    if (parsed && parsed.settings) {
-                        portalSettings = parsed.settings;
-                    }
+                    if (parsed && parsed.tests) tests = parsed.tests;
+                    if (parsed && parsed.settings) portalSettings = parsed.settings;
                 }
                 let savedTheme = localStorage.getItem('tiger_theme_pref');
                 if(savedTheme !== null) portalSettings.theme = savedTheme;
@@ -617,7 +619,7 @@
         }
 
         window.addEventListener('storage', (event) => {
-            if (event.key === 'tiger_universal_cloud_master') {
+            if (event.key === 'tiger_universal_cloud_master_v15') {
                 loadUniversalCloudData();
             }
         });
@@ -627,13 +629,6 @@
             document.getElementById('display-notice-text').textContent = portalSettings.noticeText;
             document.getElementById('modal-notice-text').textContent = portalSettings.noticeText;
             document.getElementById('attended-tests-count').textContent = attendedCount;
-            
-            const imgContainer = document.getElementById('modal-image-container');
-            if (portalSettings.noticeImg) {
-                imgContainer.innerHTML = `<img src="${portalSettings.noticeImg}" style="width:100%; max-height:200px; object-fit:contain; border-radius:8px;">`;
-            } else {
-                imgContainer.innerHTML = "";
-            }
 
             document.body.className = portalSettings.theme || '';
             renderCategories();
@@ -699,7 +694,6 @@
                 isAdminLoggedIn = true;
                 document.getElementById('edit-brand-title').value = portalSettings.brandTitle;
                 document.getElementById('edit-notice').value = portalSettings.noticeText;
-                document.getElementById('edit-notice-img').value = portalSettings.noticeImg || "";
                 toggleDeptSelect();
                 document.getElementById('adminModal').style.display = 'flex';
             } else if (pwd !== null) { alert("❌ தவறான பாஸ்வேர்ட்!"); }
@@ -793,7 +787,6 @@
         function saveToUniversalCloud() {
             portalSettings.brandTitle = document.getElementById('edit-brand-title').value || portalSettings.brandTitle;
             portalSettings.noticeText = document.getElementById('edit-notice').value || portalSettings.noticeText;
-            portalSettings.noticeImg = document.getElementById('edit-notice-img').value || "";
 
             const title = document.getElementById('admin-title').value;
             const category = document.getElementById('admin-category').value;
@@ -809,7 +802,7 @@
             }
 
             const masterPayload = { settings: portalSettings, tests: tests };
-            localStorage.setItem('tiger_universal_cloud_master', JSON.stringify(masterPayload));
+            localStorage.setItem('tiger_universal_cloud_master_v15', JSON.stringify(masterPayload));
 
             closeAdminModal();
             loadUniversalCloudData();
@@ -820,12 +813,11 @@
             if(confirm("இந்த டெஸ்ட்டை நீக்க விரும்புகிறீர்களா?")) {
                 tests = tests.filter(t => t.id !== id);
                 const masterPayload = { settings: portalSettings, tests: tests };
-                localStorage.setItem('tiger_universal_cloud_master', JSON.stringify(masterPayload));
+                localStorage.setItem('tiger_universal_cloud_master_v15', JSON.stringify(masterPayload));
                 renderTests();
             }
         }
 
-        // Auto-refresh cache breaker to load latest data instantly
         loadUniversalCloudData();
     </script>
 </body>
