@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiger Warriors Kids History Quiz - Set 4</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', Arial, sans-serif;
+            background: #0b0f19;
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #ffffff;
+        }
+        .quiz-wrapper {
+            max-width: 550px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        /* Brand Header */
+        .brand-header {
+            background: linear-gradient(145deg, #121826, #1a233a);
+            border: 2px solid #ffaa00;
+            border-radius: 18px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+            position: relative;
+        }
+        .top-nav-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .home-btn, .lang-btn {
+            background: #8b5cf6;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .home-btn {
+            background: #ef4444;
+        }
+        .brand-title {
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin: 5px 0;
+        }
+        .brand-subtitle {
+            color: #ffcc00;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        .hub-badge {
+            background: #111827;
+            border: 1px solid #374151;
+            color: #00ffff;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            display: inline-block;
+            margin-top: 6px;
+            font-weight: bold;
+        }
+
+        /* Quiz Card */
+        .quiz-container {
+            background: #121826;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            text-align: center;
+            border: 3px solid #8b5cf6;
+        }
+        .quiz-heading {
+            color: #c084fc;
+            margin: 5px 0;
+            font-size: 20px;
+        }
+        .progress {
+            font-size: 13px;
+            color: #9ca3af;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .question-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #1f293d;
+            border: 2px solid #374151;
+            padding: 15px;
+            border-radius: 14px;
+            margin: 15px 0;
+            gap: 10px;
+        }
+        #question {
+            font-size: 17px;
+            color: #ffffff;
+            text-align: left;
+            line-height: 1.4;
+            flex-grow: 1;
+        }
+        .audio-icon-btn {
+            background: #0284c7;
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+            transition: 0.2s;
+        }
+        .audio-icon-btn:hover {
+            background: #0369a1;
+            transform: scale(1.1);
+        }
+        .btn-grid {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .btn {
+            background-color: #1f293d;
+            color: #ffffff;
+            border: 2px solid #374151;
+            padding: 14px;
+            font-size: 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: bold;
+            text-align: left;
+            padding-left: 18px;
+        }
+        .btn:hover {
+            background-color: #374151;
+            border-color: #8b5cf6;
+        }
+        .btn.correct {
+            background-color: #10b981 !important;
+            border-color: #059669 !important;
+        }
+        .btn.wrong {
+            background-color: #ef4444 !important;
+            border-color: #dc2626 !important;
+        }
+        .action-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        .nav-btn {
+            background-color: #f59e0b;
+            color: #000000;
+            border: none;
+            padding: 12px 15px;
+            font-size: 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            flex-grow: 1;
+            transition: 0.2s;
+        }
+        .nav-btn:hover {
+            transform: scale(1.02);
+            background-color: #d97706;
+        }
+        #restart-btn {
+            background-color: #f59e0b;
+            color: #000000;
+            border: none;
+            padding: 12px 20px;
+            font-size: 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        #exit-btn {
+            background-color: #ef4444;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 20px;
+            font-size: 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .score-box {
+            font-size: 22px;
+            color: #10b981;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        .feedback-popup {
+            font-size: 24px;
+            margin: 10px 0;
+            min-height: 35px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="quiz-wrapper">
+    <!-- Brand Header -->
+    <div class="brand-header">
+        <div class="top-nav-row">
+            <a class="home-btn" href="https://tigeracadamy.github.io/preperation-hub/tgr.html">🏠 Home</a>
+            <button class="lang-btn" onclick="toggleLanguage()">தமிழ் / Eng</button>
+        </div>
+        <div style="font-size: 20px;">🐯 ⚔️ 🐅 📜 🏛️</div>
+        <div class="brand-title" id="brand-title-text">TIGER WARRIORS COACHING CENTRE</div>
+        <div class="brand-subtitle" id="brand-sub-text">Kids History & Social Hub - Set 4 🏛️</div>
+        <div>
+            <span class="hub-badge">🎯 TIGER WARRIORS PREPARATION HUB</span>
+        </div>
+    </div>
+
+    <!-- Main Quiz Card -->
+    <div class="quiz-container">
+        <h2 class="quiz-heading" id="quiz-main-title">Kids History Fun Quiz 📜✨</h2>
+        
+        <div id="quiz-box">
+            <div class="progress" id="progress-text">Question 1 of 15</div>
+            <div id="feedback-anim" class="feedback-popup">💡</div>
+            
+            <div class="question-box">
+                <div id="question">Question text loads here...</div>
+                <button class="audio-icon-btn" onclick="speakQuestion()" title="Listen">🔊</button>
+            </div>
+
+            <div class="btn-grid" id="answer-buttons"></div>
+            
+            <div class="action-row">
+                <button id="prev-btn" class="nav-btn" style="display: none;" onclick="prevQuestion()">⬅️ Previous</button>
+                <button id="next-btn" class="nav-btn" style="display: none;" onclick="nextQuestion()">Next ➡️</button>
+            </div>
+        </div>
+
+        <div id="result-box" style="display: none;">
+            <h2 id="result-title">🎉 Test Completed! வாழ்த்துகள்! 🏆</h2>
+            <div class="score-box" id="score-text"></div>
+            <p id="feedback-msg" style="color: #d1d5db; font-size: 15px; line-height: 1.5;"></p>
+            
+            <div class="action-row" style="margin-top: 20px;">
+                <button id="restart-btn" onclick="restartQuiz()">Play Again / மறுபடியும் 🔄</button>
+                <a id="exit-btn" href="https://tigeracadamy.github.io/preperation-hub/tgr.html">Home / முகப்பு 🚪</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentLang = 'EN';
+
+    function toggleLanguage() {
+        currentLang = currentLang === 'EN' ? 'TA' : 'EN';
+        showQuestion();
+    }
+
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    
+    function playSound(type) {
+        if (audioCtx.state === 'suspended') { audioCtx.resume(); }
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        if (type === 'click') {
+            osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(600, audioCtx.currentTime + 0.1);
+            gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+        } else if (type === 'correct') {
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); 
+            osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1); 
+            osc.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.2); 
+            gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.4);
+        } else if (type === 'wrong') {
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(220, audioCtx.currentTime);
+            osc.frequency.setValueAtTime(160, audioCtx.currentTime + 0.2);
+            gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+        }
+    }
+
+    function speakQuestion() {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            let qData = questions[currentQuestionIndex];
+            let textToSpeak = currentLang === 'EN' ? qData.q_en : qData.q_ta;
+            let speech = new SpeechSynthesisUtterance(textToSpeak);
+            speech.lang = currentLang === 'EN' ? 'en-US' : 'ta-IN';
+            speech.rate = 0.85;
+            window.speechSynthesis.speak(speech);
+        }
+    }
+
+    // Set 4: History & Social Science Questions for Kids
+    const questions = [
+        {
+            q_en: "1. Who is known as the Father of the Indian Constitution? 🇮🇳📜",
+            q_ta: "1. இந்திய அரசியலமைப்பின் தந்தை என்று அழைக்கப்படுபவர் யார்? 🇮🇳📜",
+            ans_en: [{ t: "A) Mahatma Gandhi 🧑‍🦳", c: false }, { t: "B) Dr. B. R. Ambedkar 🏛️", c: true }, { t: "C) Jawaharlal Nehru 🌹", c: false }, { t: "D) Subhash Chandra Bose 🇮🇳", c: false }],
+            ans_ta: [{ t: "அ) மகாத்மா காந்தி 🧑‍🦳", c: false }, { t: "ஆ) டாக்டர் பி. ஆர். அம்பேத்கர் 🏛️", c: true }, { t: "இ) ஜவஹர்லால் நேரு 🌹", c: false }, { t: "ஈ) சுபாஷ் சந்திரபோஸ் 🇮🇳", c: false }]
+        },
+        {
+            q_en: "2. Which famous wonder of the world is located in India? 🕌✨",
+            q_ta: "2. உலக அதிசயங்களில் ஒன்றான தாஜ்மஹால் எங்கு அமைந்துள்ளது? 🕌✨",
+            ans_en: [{ t: "A) Agra, India 🇮🇳", c: true }, { t: "B) Paris, France 🇫🇷", c: false }, { t: "C) Rome, Italy 🇮🇹", c: false }, { t: "D) Beijing, China 🇨🇳", c: false }],
+            ans_ta: [{ t: "அ) ஆக்ரா, இந்தியா 🇮🇳", c: true }, { t: "ஆ) பாரிஸ், பிரான்ஸ் 🇫🇷", c: false }, { t: "இ) ரோம், இத்தாலி 🇮🇹", c: false }, { t: "ஈ) பெய்ஜிங், சீனா 🇨🇳", c: false }]
+        },
+        {
+            q_en: "3. In which country are the Great Pyramids located? 🔺🏜️",
+            q_ta: "3. உலகப் புகழ்பெற்ற பிரமிடுகள் எந்த நாட்டில் அமைந்துள்ளன? 🔺🏜️️",
+            ans_en: [{ t: "A) India 🇮🇳", c: false }, { t: "B) Egypt 🇪🇬", c: true }, { t: "C) Japan 🇯🇵", c: false }, { t: "D) Australia 🇦🇺", c: false }],
+            ans_ta: [{ t: "அ) இந்தியா 🇮🇳", c: false }, { t: "ஆ) எகிப்து (Egypt) 🇪🇬", c: true }, { t: "இ) ஜப்பான் 🇯🇵", c: false }, { t: "ஈ) ஆஸ்திரேலியா 🇦🇺", c: false }]
+        },
+        {
+            q_en: "4. Who was the first Prime Minister of independent India? 🇮🇳🌹",
+            q_ta: "4. சுதந்திர இந்தியாவின் முதல் பிரதமர் யார்? 🇮🇳🌹",
+            ans_en: [{ t: "A) Sardar Vallabhbhai Patel", c: false }, { t: "B) Dr. Rajendra Prasad", c: false }, { t: "C) Jawaharlal Nehru", c: true }, { t: "D) Lal Bahadur Shastri", c: false }],
+            ans_ta: [{ t: "அ) சர்தார் வல்லபாய் படேல்", c: false }, { t: "ஆ) டாக்டர் ராஜேந்திர பிரசாத்", c: false }, { t: "இ) ஜவஹர்லால் நேரு", c: true }, { t: "ஈ) லால் பகதூர் சாஸ்திரி", c: false }]
+        },
+        {
+            q_en: "5. Which historic monument in Tamil Nadu is famous for its stone chariots and temples? 🏛️🛕",
+            q_ta: "5. தமிழ்நாட்டில் உள்ள எந்த வரலாற்றுச் சிறப்புமிக்க இடம் கல் தேர் மற்றும் கோயில்களுக்குப் பெயர் பெற்றது? 🏛️️🛕",
+            ans_en: [{ t: "A) Mahabalipuram 🌊", c: true }, { t: "B) Ooty 🌲", c: false }, { t: "C) Kodaikanal ⛰️", c: false }, { t: "D) Kanyakumari 🌊", c: false }],
+            ans_ta: [{ t: "அ) மாமல்லபுரம் (Mahabalipuram) 🌊", c: true }, { t: "ஆ) ஊட்டி 🌲", c: false }, { t: "இ) கொடைக்கானல் ⛰️", c: false }, { t: "ஈ) கன்னியாகுமரி 🌊", c: false }]
+        },
+        {
+            q_en: "6. Who gave the famous slogan 'Do or Die' during the Indian Freedom Movement? 🇮🇳✊",
+            q_ta: "6. 'செய் அல்லது செத்து மடி' என்ற முழக்கத்தை வழங்கியவர் யார்? 🇮🇳✊",
+            ans_en: [{ t: "A) Bhagat Singh 🇮🇳", c: false }, { t: "B) Mahatma Gandhi 🧑‍🦳", c: true }, { t: "C) Subhash Chandra Bose ✈️", c: false }, { t: "D) Netaji 🐅", c: false }],
+            ans_ta: [{ t: "அ) பகத்சிங் 🇮🇳", c: false }, { t: "ஆ) மகாத்மா காந்தி 🧑‍🦳", c: true }, { t: "இ) சுபாஷ் சந்திரபோஸ் ✈️", c: false }, { t: "ஈ) நேதாஜி 🐅", c: false }]
+        },
+        {
+            q_en: "7. Which ancient river valley civilization is known as the Indus Valley Civilization? 🌊🏺",
+            q_ta: "7. சிந்துவெளி நாகரிகம் எந்த நதிக்கரையில் வளர்ந்த நாகரிகம்? 🌊🏺",
+            ans_en: [{ t: "A) Indus River 🌊", c: true }, { t: "B) Ganga River 💧", c: false }, { t: "C) Yamuna River 🌀", c: false }, { t: "D) Kaveri River 🌿", c: false }],
+            ans_ta: [{ t: "அ) சிந்து நதி (Indus) 🌊", c: true }, { t: "ஆ) கங்கை நதி 💧", c: false }, { t: "இ) யமுனா நதி 🌀", c: false }, { t: "ஈ) காவேரி நதி 🌿", c: false }]
+        },
+        {
+            q_en: "8. What is the capital city of India? 🇮🇳🏙️",
+            q_ta: "8. இந்தியாவின் தலைநகரம் எது? 🇮🇳🏙️",
+            ans_en: [{ t: "A) Chennai 🌴", c: false }, { t: "B) Mumbai 🌊", c: false }, { t: "C) New Delhi 🏛️", c: true }, { t: "D) Kolkata 🌉", c: false }],
+            ans_ta: [{ t: "அ) சென்னை 🌴", c: false }, { t: "ஆ) மும்பை 🌊", c: false }, { t: "இ) புது டெல்லி 🏛️", c: true }, { t: "ஈ) கொல்கத்தா 🌉", c: false }]
+        },
+        {
+            q_en: "9. Which great Tamil king built the famous Thanjavur Big Temple (Brihadeeswarar Temple)? 👑🛕",
+            q_ta: "9. தஞ்சை பெரிய கோயிலைக் (பிரகதீஸ்வரர் கோயில்) கட்டிய மாமன்னர் யார்? 👑🛕",
+            ans_en: [{ t: "A) Raja Raja Chola 👑", c: true }, { t: "B) Pandyan Nedunchezhiyan 🛡️", c: false }, { t: "C) Cheran Senguttuvan 🏹", c: false }, { t: "D) Pallava Mahendravarman 🎨", c: false }],
+            ans_ta: [{ t: "அ) ராஜ ராஜ சோழன் 👑", c: true }, { t: "ஆ) பாண்டிய நெடுஞ்செழியன் 🛡️", c: false }, { t: "இ) சேரன் செங்குட்டுவன் 🏹", c: false }, { t: "ஈ) பல்லவ மகேந்திரவர்மன் 🎨", c: false }]
+        },
+        {
+            q_en: "10. On which date does India celebrate Independence Day? 🇮🇳🎉",
+            q_ta: "10. இந்தியா சுதந்திர தினத்தை எப்போது கொண்டாடுகிறது? 🇮🇳🎉",
+            ans_en: [{ t: "A) January 26 🇮🇳", c: false }, { t: "B) August 15 🎆", c: true }, { t: "C) October 2 🧑‍🦳", c: false }, { t: "D) November 14 🎈", c: false }],
+            ans_ta: [{ t: "அ) ஜனவரி 26 🇮🇳", c: false }, { t: "ஆ) ஆகஸ்ட் 15 🎆", c: true }, { t: "இ) அக்டோபர் 2 🧑‍🦳", c: false }, { t: "ஈ) நவம்பர் 14 🎈", c: false }]
+        },
+        {
+            q_en: "11. Who wrote the great Tamil epic 'Tirukkural'? ✍️📜",
+            q_ta: "11. உலகப் பொதுமறையாம் 'திருக்குறளை' இயற்றியவர் யார்? ✍️📜",
+            ans_en: [{ t: "A) Avvaiyar 🌴", c: false }, { t: "B) Thiruvalluvar 🖋️", c: true }, { t: "C) Bharathiyar 🔥", c: false }, { t: "D) Ilango Adigal 🦚", c: false }],
+            ans_ta: [{ t: "அ) அவ்வையார் 🌴", c: false }, { t: "ஆ) திருவள்ளுவர் 🖋️", c: true }, { t: "இ) பாரதியார் 🔥", c: false }, { t: "ஈ) இளங்கோவடிகள் 🦚", c: false }]
+        },
+        {
+            q_en: "12. Which historical leader is affectionately called 'Netaji'? 🇮🇳✈️",
+            q_ta: "12. 'நேதாஜி' என்று அன்போடு அழைக்கப்படும் சுதந்திரப் போராட்ட வீரர் யார்? 🇮🇳✈️",
+            ans_en: [{ t: "A) Subhash Chandra Bose ✈️", c: true }, { t: "B) Bhagat Singh 🔫", c: false }, { t: "C) Lala Lajpat Rai 🇮🇳", c: false }, { t: "D) Bal Gangadhar Tilak ⚡", c: false }],
+            ans_ta: [{ t: "அ) சுபாஷ் சந்திரபோஸ் ✈️", c: true }, { t: "ஆ) பகத்சிங் 🔫", c: false }, { t: "இ) லாலா லஜபதிராய் 🇮🇳", c: false }, { t: "ஈ) பால் கங்காதர திலகர் ⚡", c: false }]
+        },
+        {
+            q_en: "13. What is the national emblem of India derived from? 🦁🇮🇳",
+            q_ta: "13. இந்தியாவின் தேசியச் சின்னம் (Ashoka Pillar) எந்த இடத்தில் உள்ள தூணிலிருந்து எடுக்கப்பட்டது? 🦁🇮🇳",
+            ans_en: [{ t: "A) Sarnath Pillar 🏛️", c: true }, { t: "B) Delhi Pillar 🕌", c: false }, { t: "C) Madurai Pillar 🛕", c: false }, { t: "D) Agra Pillar 🏰", c: false }],
+            ans_ta: [{ t: "அ) சாரநாத் தூண் (Sarnath) 🏛️", c: true }, { t: "ஆ) டெல்லி தூண் 🕌", c: false }, { t: "இ) மதுரை தூண் 🛕", c: false }, { t: "ஈ) ஆக்ரா தூண் 🏰", c: false }]
+        },
+        {
+            q_en: "14. On which date is Republic Day celebrated in India? 🇮🇳🗓️",
+            q_ta: "14. இந்தியாவில் குடியரசு தினம் எப்போது கொண்டாடப்படுகிறது? 🇮🇳🗓️",
+            ans_en: [{ t: "A) August 15 🎆", c: false }, { t: "B) January 26 🇮🇳", c: true }, { t: "C) October 2 🧑‍🦳", c: false }, { t: "D) November 26 📜", c: false }],
+            ans_ta: [{ t: "அ) ஆகஸ்ட் 15 🎆", c: false }, { t: "ஆ) ஜனவரி 26 🇮🇳", c: true }, { t: "இ) அக்டோபர் 2 🧑‍🦳", c: false }, { t: "ஈ) நவம்பர் 26 📜", c: false }]
+        },
+        {
+            q_en: "15. Which freedom fighter is known as 'Quaid-e-Millath' or leader of the nation in Tamil Nadu history? 🇮🇳🤝",
+            q_ta: "15. நேர்மை மற்றும் எளிமைக்குப் பெயர்பெற்ற 'காயிதே மில்லத்' அவர்களின் முழுப் பெயர் என்ன? 🇮🇳🤝",
+            ans_en: [{ t: "A) Muhammad Ismail Sahib 🤝", c: true }, { t: "B) Periyar E.V.R. 🌱", c: false }, { t: "C) Kamaraj 🌾", c: false }, { t: "D) C. N. Annadurai 🖋️", c: false }],
+            ans_ta: [{ t: "அ) முகம்மது இஸ்மாயில் சாஹிப் (காயிதே மில்லத்) 🤝", c: true }, { t: "ஆ) தந்தை பெரியார் 🌱", c: false }, { t: "இ) பெருந்தலைவர் காமராஜர் 🌾", c: false }, { t: "ஈ) பேரறிஞர் அண்ணா 🖋️", c: false }]
+        }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let answered = false;
+    let userAnswers = {};
+
+    const questionElement = document.getElementById("question");
+    const answerButtonsElement = document.getElementById("answer-buttons");
+    const nextButton = document.getElementById("next-btn");
+    const prevButton = document.getElementById("prev-btn");
+    const quizBox = document.getElementById("quiz-box");
+    const resultBox = document.getElementById("result-box");
+    const scoreText = document.getElementById("score-text");
+    const progressText = document.getElementById("progress-text");
+    const feedbackMsg = document.getElementById("feedback-msg");
+    const feedbackAnim = document.getElementById("feedback-anim");
+
+    function startQuiz() {
+        currentQuestionIndex = 0;
+        score = 0;
+        userAnswers = {};
+        quizBox.style.display = "block";
+        resultBox.style.display = "none";
+        showQuestion();
+    }
+
+    function showQuestion() {
+        resetState();
+        let qData = questions[currentQuestionIndex];
+        progressText.innerText = currentLang === 'EN' ? `Question ${currentQuestionIndex + 1} of 15` : `வினா ${currentQuestionIndex + 1} / 15`;
+        questionElement.innerText = currentLang === 'EN' ? qData.q_en : qData.q_ta;
+        feedbackAnim.innerText = "💡";
+
+        if (currentQuestionIndex > 0) {
+            prevButton.style.display = "block";
+        } else {
+            prevButton.style.display = "none";
+        }
+
+        let answers = currentLang === 'EN' ? qData.ans_en : qData.ans_ta;
+
+        answers.forEach((answer, index) => {
+            const button = document.createElement("button");
+            button.innerText = answer.t;
+            button.classList.add("btn");
+            if (answer.c) {
+                button.dataset.correct = answer.c;
+            }
+
+            if (userAnswers[currentQuestionIndex] !== undefined) {
+                button.disabled = true;
+                if (index === userAnswers[currentQuestionIndex].selectedIndex) {
+                    if (userAnswers[currentQuestionIndex].isCorrect) {
+                        button.classList.add("correct");
+                    } else {
+                        button.classList.add("wrong");
+                    }
+                }
+                if (answer.c) {
+                    button.classList.add("correct");
+                }
+            } else {
+                button.addEventListener("click", (e) => selectAnswer(e, index));
+            }
+
+            answerButtonsElement.appendChild(button);
+        });
+
+        if (userAnswers[currentQuestionIndex] !== undefined) {
+            answered = true;
+            if (currentQuestionIndex < questions.length - 1) {
+                nextButton.style.display = "block";
+            }
+        }
+    }
+
+    function resetState() {
+        answered = false;
+        nextButton.style.display = "none";
+        while (answerButtonsElement.firstChild) {
+            answerButtonsElement.removeChild(answerButtonsElement.firstChild);
+        }
+    }
+
+    function selectAnswer(e, index) {
+        if (answered && userAnswers[currentQuestionIndex] !== undefined) return;
+        answered = true;
+        
+        window.speechSynthesis.cancel();
+        playSound('click');
+        const selectedButton = e.target;
+        const isCorrect = selectedButton.dataset.correct === "true";
+
+        userAnswers[currentQuestionIndex] = { selectedIndex: index, isCorrect: isCorrect };
+
+        if (isCorrect) {
+            selectedButton.classList.add("correct");
+            score++;
+            playSound('correct');
+            feedbackAnim.innerText = "🎆 👏 🥳 🎉 🔥 (Super!)";
+        } else {
+            selectedButton.classList.add("wrong");
+            playSound('wrong');
+            feedbackAnim.innerText = "😢 ❌ (Oh no! Try next)";
+        }
+
+        Array.from(answerButtonsElement.children).forEach(button => {
+            if (button.dataset.correct === "true") {
+                button.classList.add("correct");
+            }
+            button.disabled = true;
+        });
+
+        if (currentQuestionIndex < questions.length - 1) {
+            nextButton.style.display = "block";
+        } else {
+            setTimeout(showScore, 1000);
+        }
+    }
+
+    function showScore() {
+        quizBox.style.display = "none";
+        resultBox.style.display = "block";
+        scoreText.innerText = currentLang === 'EN' ? `You scored ${score} of 15! 🌟` : `நீங்கள் பெற்ற மதிப்பெண் ${score} / 15! 🌟`;
+        
+        if (score === questions.length) {
+            feedbackMsg.innerText = currentLang === 'EN' ? "🏆 Incredible! Perfect score! You are a History Genius! 🚀" : "🏆 அசத்திட்டீங்க சாம்பியன்! உங்களுக்கு முழு மதிப்பெண்! நீங்கள் ஒரு வரலாற்று மேதை! 🚀🎆";
+        } else if (score >= 10) {
+            feedbackMsg.innerText = currentLang === 'EN' ? "🌟 Great job! You know amazing history facts! Keep it up! 👍" : "🌟 அருமையான முயற்சி! பல வரலாற்று உண்மைகளை அறிந்து வைத்துள்ளீர்கள்! தொடர்ந்து சாதிக்க வாழ்த்துகள்! 👍✨";
+        } else {
+            feedbackMsg.innerText = currentLang === 'EN' ? "💡 Good try! Play again to make your score even better! 💪" : "💡 நல்ல முயற்சி குட்டி! இன்னும் கொஞ்சம் நன்றாகப் படித்தால் இன்னும் அதிக மதிப்பெண் பெறலாம்! மீண்டும் விளையாடுங்கள்! 💪🎯";
+        }
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            showQuestion();
+        } else {
+            showScore();
+        }
+    }
+
+    function prevQuestion() {
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            showQuestion();
+        }
+    }
+
+    function restartQuiz() {
+        startQuiz();
+    }
+
+    startQuiz();
+</script>
+
+</body>
+</html>
