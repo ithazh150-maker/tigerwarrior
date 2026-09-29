@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiger Warriors Kids Learning Hub - Set 3</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', Arial, sans-serif;
+            background: #0b0f19;
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #ffffff;
+        }
+        .quiz-wrapper {
+            max-width: 550px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        /* Brand Header */
+        .brand-header {
+            background: linear-gradient(145deg, #121826, #1a233a);
+            border: 2px solid #ffaa00;
+            border-radius: 18px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+            position: relative;
+        }
+        .top-nav-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .home-btn, .lang-btn {
+            background: #8b5cf6;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .home-btn {
+            background: #ef4444;
+        }
+        .brand-title {
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin: 5px 0;
+        }
+        .brand-subtitle {
+            color: #ffcc00;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        .hub-badge {
+            background: #111827;
+            border: 1px solid #374151;
+            color: #00ffff;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            display: inline-block;
+            margin-top: 6px;
+            font-weight: bold;
+        }
+
+        /* Quiz Card */
+        .quiz-container {
+            background: #121826;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            text-align: center;
+            border: 3px solid #8b5cf6;
+        }
+        .quiz-heading {
+            color: #c084fc;
+            margin: 5px 0;
+            font-size: 20px;
+        }
+        .progress {
+            font-size: 13px;
+            color: #9ca3af;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .question-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #1f293d;
+            border: 2px solid #374151;
+            padding: 15px;
+            border-radius: 14px;
+            margin: 15px 0;
+            gap: 10px;
+        }
+        #question {
+            font-size: 17px;
+            color: #ffffff;
+            text-align: left;
+            line-height: 1.4;
+            flex-grow: 1;
+        }
+        .audio-icon-btn {
+            background: #0284c7;
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+            transition: 0.2s;
+        }
+        .audio-icon-btn:hover {
+            background: #0369a1;
+            transform: scale(1.1);
+        }
+        .btn-grid {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .btn {
+            background-color: #1f293d;
+            color: #ffffff;
+            border: 2px solid #374151;
+            padding: 14px;
+            font-size: 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: bold;
+            text-align: left;
+            padding-left: 18px;
+        }
+        .btn:hover {
+            background-color: #374151;
+            border-color: #8b5cf6;
+        }
+        .btn.correct {
+            background-color: #10b981 !important;
+            border-color: #059669 !important;
+        }
+        .btn.wrong {
+            background-color: #ef4444 !important;
+            border-color: #dc2626 !important;
+        }
+        .action-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        .nav-btn {
+            background-color: #f59e0b;
+            color: #000000;
+            border: none;
+            padding: 12px 15px;
+            font-size: 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            flex-grow: 1;
+            transition: 0.2s;
+        }
+        .nav-btn:hover {
+            transform: scale(1.02);
+            background-color: #d97706;
+        }
+        #restart-btn {
+            background-color: #f59e0b;
+            color: #000000;
+            border: none;
+            padding: 12px 20px;
+            font-size: 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        #exit-btn {
+            background-color: #ef4444;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 20px;
+            font-size: 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .score-box {
+            font-size: 22px;
+            color: #10b981;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        .feedback-popup {
+            font-size: 24px;
+            margin: 10px 0;
+            min-height: 35px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="quiz-wrapper">
+    <!-- Brand Header -->
+    <div class="brand-header">
+        <div class="top-nav-row">
+            <a class="home-btn" href="https://tigeracadamy.github.io/preperation-hub/tgr.html">🏠 Home</a>
+            <button class="lang-btn" onclick="toggleLanguage()">தமிழ் / Eng</button>
+        </div>
+        <div style="font-size: 20px;">🐯 ⚔️ 🐅 🌟 🚀</div>
+        <div class="brand-title" id="brand-title-text">TIGER WARRIORS COACHING CENTRE</div>
+        <div class="brand-subtitle" id="brand-sub-text">Kids Learning Hub - Set 3 🎈</div>
+        <div>
+            <span class="hub-badge">🎯 TIGER WARRIORS PREPARATION HUB</span>
+        </div>
+    </div>
+
+    <!-- Main Quiz Card -->
+    <div class="quiz-container">
+        <h2 class="quiz-heading" id="quiz-main-title">Kids Fun Learning Quiz 🧠✨</h2>
+        
+        <div id="quiz-box">
+            <div class="progress" id="progress-text">Question 1 of 15</div>
+            <div id="feedback-anim" class="feedback-popup">💡</div>
+            
+            <div class="question-box">
+                <div id="question">Question text loads here...</div>
+                <button class="audio-icon-btn" onclick="speakQuestion()" title="Listen">🔊</button>
+            </div>
+
+            <div class="btn-grid" id="answer-buttons"></div>
+            
+            <div class="action-row">
+                <button id="prev-btn" class="nav-btn" style="display: none;" onclick="prevQuestion()">⬅️ Previous</button>
+                <button id="next-btn" class="nav-btn" style="display: none;" onclick="nextQuestion()">Next ➡️</button>
+            </div>
+        </div>
+
+        <div id="result-box" style="display: none;">
+            <h2 id="result-title">🎉 Test Completed! வாழ்த்துகள்! 🏆</h2>
+            <div class="score-box" id="score-text"></div>
+            <p id="feedback-msg" style="color: #d1d5db; font-size: 15px; line-height: 1.5;"></p>
+            
+            <div class="action-row" style="margin-top: 20px;">
+                <button id="restart-btn" onclick="restartQuiz()">Play Again / மறுபடியும் 🔄</button>
+                <a id="exit-btn" href="https://tigeracadamy.github.io/preperation-hub/tgr.html">Home / முகப்பு 🚪</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentLang = 'EN';
+
+    function toggleLanguage() {
+        currentLang = currentLang === 'EN' ? 'TA' : 'EN';
+        showQuestion();
+    }
+
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    
+    function playSound(type) {
+        if (audioCtx.state === 'suspended') { audioCtx.resume(); }
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+
+        if (type === 'click') {
+            osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(600, audioCtx.currentTime + 0.1);
+            gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+        } else if (type === 'correct') {
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); 
+            osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1); 
+            osc.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.2); 
+            gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.4);
+        } else if (type === 'wrong') {
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(220, audioCtx.currentTime);
+            osc.frequency.setValueAtTime(160, audioCtx.currentTime + 0.2);
+            gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+        }
+    }
+
+    function speakQuestion() {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            let qData = questions[currentQuestionIndex];
+            let textToSpeak = currentLang === 'EN' ? qData.q_en : qData.q_ta;
+            let speech = new SpeechSynthesisUtterance(textToSpeak);
+            speech.lang = currentLang === 'EN' ? 'en-US' : 'ta-IN';
+            speech.rate = 0.85;
+            window.speechSynthesis.speak(speech);
+        }
+    }
+
+    // New Set 3 Kids Questions
+    const questions = [
+        {
+            q_en: "1. Which animal is known for changing its body color? 🦎🎨",
+            q_ta: "1. தனது உடலின் நிறத்தை மாற்றிக்கொள்ளும் தன்மை கொண்ட விலங்கு எது? 🦎🎨",
+            ans_en: [{ t: "A) Chameleon 🦎", c: true }, { t: "B) Frog 🐸", c: false }, { t: "C) Snake 🐍", c: false }, { t: "D) Turtle 🐢", c: false }],
+            ans_ta: [{ t: "அ) பச்சோந்தி (Chameleon) 🦎", c: true }, { t: "ஆ) தவளை 🐸", c: false }, { t: "இ) பாம்பு 🐍", c: false }, { t: "ஈ) ஆமை 🐢", c: false }]
+        },
+        {
+            q_en: "2. Which is the national animal of India? 🇮🇳🐅",
+            q_ta: "2. இந்தியாவின் தேசிய விலங்கு எது? 🇮🇳🐅",
+            ans_en: [{ t: "A) Lion 🦁", c: false }, { t: "B) Elephant 🐘", c: false }, { t: "C) Tiger 🐅", c: true }, { t: "D) Leopard 🐆", c: false }],
+            ans_ta: [{ t: "அ) சிங்கம் 🦁", c: false }, { t: "ஆ) யானை 🐘", c: false }, { t: "இ) புலி 🐅", c: true }, { t: "ஈ) சிறுத்தை 🐆", c: false }]
+        },
+        {
+            q_en: "3. How many sides does a triangle have? 📐🔺",
+            q_ta: "3. முக்கோணத்திற்கு எத்தனை பக்கங்கள் உள்ளன? 📐🔺",
+            ans_en: [{ t: "A) 2 sides ✌️", c: false }, { t: "B) 3 sides 🔺", c: true }, { t: "C) 4 sides ⬛", c: false }, { t: "D) 5 sides ⬠", c: false }],
+            ans_ta: [{ t: "அ) 2 பக்கங்கள் ✌️️", c: false }, { t: "ஆ) 3 பக்கங்கள் 🔺", c: true }, { t: "இ) 4 பக்கங்கள் ⬛", c: false }, { t: "ஈ) 5 பக்கங்கள் ⬠", c: false }]
+        },
+        {
+            q_en: "4. Which planet is closest to the Sun? ☀️🪐",
+            q_ta: "4. சூரியனுக்கு மிக அருகில் உள்ள கிரகம் எது? ☀️🪐",
+            ans_en: [{ t: "A) Earth 🌍", c: false }, { t: "B) Mars 🔴", c: false }, { t: "C) Mercury ☿", c: true }, { t: "D) Venus 🌟", c: false }],
+            ans_ta: [{ t: "அ) பூமி 🌍", c: false }, { t: "ஆ) செவ்வாய் 🔴", c: false }, { t: "இ) புதன் (Mercury) ☿", c: true }, { t: "ஈ) வெள்ளி 🌟", c: false }]
+        },
+        {
+            q_en: "5. What do cows mainly eat to stay healthy? 🐄🌾",
+            q_ta: "5. பசுக்கள் ஆரோக்கியமாக இருக்க முக்கியமாக என்ன சாப்பிடுகின்றன? 🐄🌾",
+            ans_en: [{ t: "A) Grass & Hay 🌿", c: true }, { t: "B) Fish 🐟", c: false }, { t: "C) Meat 🍖", c: false }, { t: "D) Fruits 🍎", c: false }],
+            ans_ta: [{ t: "அ) புல் மற்றும் வைக்கோல் 🌿", c: true }, { t: "ஆ) மீன் 🐟", c: false }, { t: "இ) இறைச்சி 🍖", c: false }, { t: "ஈ) பழங்கள் 🍎", c: false }]
+        },
+        {
+            q_en: "6. Which part of our body helps us to hear sounds? 👂🎶",
+            q_ta: "6. ஒலிகளைக் கேட்க நம் உடலின் எந்தப் பகுதி உதவுகிறது? 👂🎶",
+            ans_en: [{ t: "A) Eyes 👀", c: false }, { t: "B) Nose 👃", c: false }, { t: "C) Ears 👂", c: true }, { t: "D) Tongue 👅", c: false }],
+            ans_ta: [{ t: "அ) கண்கள் 👀", c: false }, { t: "ஆ) மூக்கு 👃", c: false }, { t: "இ) காதுகள் 👂", c: true }, { t: "ஈ) நாக்கு 👅", c: false }]
+        },
+        {
+            q_en: "7. Which is the tallest animal living on Earth? 🦒🌳",
+            q_ta: "7. பூமியில் வாழும் விலங்குகளில் மிகவும் உயரமான விலங்கு எது? 🦒🌳",
+            ans_en: [{ t: "A) Elephant 🐘", c: false }, { t: "B) Giraffe 🦒", c: true }, { t: "C) Horse 🐎", c: false }, { t: "D) Camel 🐪", c: false }],
+            ans_ta: [{ t: "அ) யானை 🐘", c: false }, { t: "ஆ) ஒட்டகச்சிவிங்கி 🦒", c: true }, { t: "இ) குதிரை 🐎", c: false }, { t: "ஈ) ஒட்டகம் 🐪", c: false }]
+        },
+        {
+            q_en: "8. How many letters are there in the English alphabet? 🔤",
+            q_ta: "8. ஆங்கில அகராதியில் (Alphabet) மொத்தம் எத்தனை எழுத்துக்கள் உள்ளன? 🔤",
+            ans_en: [{ t: "A) 24 letters", c: false }, { t: "B) 26 letters", c: true }, { t: "C) 28 letters", c: false }, { t: "D) 30 letters", c: false }],
+            ans_ta: [{ t: "அ) 24 எழுத்துக்கள்", c: false }, { t: "ஆ) 26 எழுத்துக்கள்", c: true }, { t: "இ) 28 எழுத்துக்கள்", c: false }, { t: "ஈ) 30 எழுத்துக்கள்", c: false }]
+        },
+        {
+            q_en: "9. Which season is known for extreme cold and snow? ❄️⛄",
+            q_ta: "9. எந்த பருவகாலம் கடுமையான குளிர் மற்றும் பனிப்பொழிவுக்கு பெயர்பெற்றது? ❄️️⛄",
+            ans_en: [{ t: "A) Summer ☀️", c: false }, { t: "B) Winter ❄️", c: true }, { t: "C) Rainy 🌧️", c: false }, { t: "D) Spring 🌸", c: false }],
+            ans_ta: [{ t: "அ) கோடை காலம் ☀️", c: false }, { t: "ஆ) குளிர் காலம் (Winter) ❄️", c: true }, { t: "இ) மழை காலம் 🌧️", c: false }, { t: "ஈ) வசந்த காலம் 🌸", c: false }]
+        },
+        {
+            q_en: "10. What do we use to write on a paper or notebook? ✏️📝",
+            q_ta: "10. காகிதம் அல்லது நோட்டில் எழுத நாம் என்ன பயன்படுத்துகிறோம்? ✏️📝",
+            ans_en: [{ t: "A) Pencil or Pen ✏️", c: true }, { t: "B) Spoon 🥄", c: false }, { t: "C) Comb 梳", c: false }, { t: "D) Cup ☕", c: false }],
+            ans_ta: [{ t: "அ) பென்சில் அல்லது பேனா ✏️", c: true }, { t: "ஆ) கரண்டி 🥄", c: false }, { t: "இ) சீப்பு 梳", c: false }, { t: "ஈ) கோப்பை ☕", c: false }]
+        },
+        {
+            q_en: "11. Which animal is famous for building strong dams in rivers? 🦫🪵",
+            q_ta: "11. நதிகளில் வலிமையான அணைகளைக் கட்டுவதற்குப் பெயர்பெற்ற விலங்கு எது? 🦫🪵",
+            ans_en: [{ t: "A) Beaver 🦫", c: true }, { t: "B) Rabbit 🐇", c: false }, { t: "C) Squirrel 🐿️", c: false }, { t: "D) Fox 🦊", c: false }],
+            ans_ta: [{ t: "அ) பீவர் (Beaver) 🦫", c: true }, { t: "ஆ) முயல் 🐇", c: false }, { t: "இ) அணில் 🐿️", c: false }, { t: "ஈ) நரி 🦊", c: false }]
+        },
+        {
+            q_en: "12. Which insect produces colorful honey and buzzes around flowers? 🐝🌸",
+            q_ta: "12. மலர்களைச் சுற்றி வந்து சுவையான தேனைத் தரும் பூச்சி எது? 🐝🌸",
+            ans_en: [{ t: "A) Ant 🐜", c: false }, { t: "B) Butterfly 🦋", c: false }, { t: "C) Honeybee 🐝", c: true }, { t: "D) Housefly 🪰", c: false }],
+            ans_ta: [{ t: "அ) எறும்பு 🐜", c: false }, { t: "ஆ) வண்ணத்துப்பூச்சி 🦋", c: false }, { t: "இ) தேனீ (Honeybee) 🐝", c: true }, { t: "ஈ) ஈ 🪰", c: false }]
+        },
+        {
+            q_en: "13. What color is a fresh, ripe tomato? 🍅🔴",
+            q_ta: "13. நன்கு பழுத்த தக்காளிப் பழத்தின் நிறம் என்ன? 🍅🔴",
+            ans_en: [{ t: "A) Red 🔴", c: true }, { t: "B) Blue 🔵", c: false }, { t: "C) Green 🟢", c: false }, { t: "D) Yellow 🟡", c: false }],
+            ans_ta: [{ t: "அ) சிவப்பு 🔴", c: true }, { t: "ஆ) நீலம் 🔵", c: false }, { t: "இ) பச்சை 🟢", c: false }, { t: "ஈ) மஞ்சள் 🟡", c: false }]
+        },
+        {
+            q_en: "14. How many fingers do humans have on one normal hand? ✋🖐️",
+            q_ta: "14. மனிதர்களின் ஒரு சாதாரண கையில் எத்தனை விரல்கள் உள்ளன? ✋🖐️️",
+            ans_en: [{ t: "A) 4 fingers ✌️", c: false }, { t: "B) 5 fingers 🖐️", c: true }, { t: "C) 6 fingers ✋", c: false }, { t: "D) 10 fingers 👐", c: false }],
+            ans_ta: [{ t: "அ) 4 விரல்கள் ✌️", c: false }, { t: "ஆ) 5 விரல்கள் 🖐️", c: true }, { t: "இ) 6 விரல்கள் ✋", c: false }, { t: "ஈ) 10 விரல்கள் 👐", c: false }]
+        },
+        {
+            q_en: "15. Which animal is called the 'King of the Sea'? 🦈🌊",
+            q_ta: "15. கடலின் ராஜா என்று அழைக்கப்படும் விலங்கு எது? 🦈🌊",
+            ans_en: [{ t: "A) Shark / Whale 🦈", c: true }, { t: "B) Starfish ⭐", c: false }, { t: "C) Crab 🦀", c: false }, { t: "D) Jellyfish 🪼", c: false }],
+            ans_ta: [{ t: "அ) சுறா / திமிங்கலம் 🦈", c: true }, { t: "ஆ) நட்சத்திர மீன் ⭐", c: false }, { t: "இ) நண்டு 🦀", c: false }, { t: "ஈ) ஜெல்லி மீன் 🪼", c: false }]
+        }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let answered = false;
+    let userAnswers = {};
+
+    const questionElement = document.getElementById("question");
+    const answerButtonsElement = document.getElementById("answer-buttons");
+    const nextButton = document.getElementById("next-btn");
+    const prevButton = document.getElementById("prev-btn");
+    const quizBox = document.getElementById("quiz-box");
+    const resultBox = document.getElementById("result-box");
+    const scoreText = document.getElementById("score-text");
+    const progressText = document.getElementById("progress-text");
+    const feedbackMsg = document.getElementById("feedback-msg");
+    const feedbackAnim = document.getElementById("feedback-anim");
+
+    function startQuiz() {
+        currentQuestionIndex = 0;
+        score = 0;
+        userAnswers = {};
+        quizBox.style.display = "block";
+        resultBox.style.display = "none";
+        showQuestion();
+    }
+
+    function showQuestion() {
+        resetState();
+        let qData = questions[currentQuestionIndex];
+        progressText.innerText = currentLang === 'EN' ? `Question ${currentQuestionIndex + 1} of 15` : `வினா ${currentQuestionIndex + 1} / 15`;
+        questionElement.innerText = currentLang === 'EN' ? qData.q_en : qData.q_ta;
+        feedbackAnim.innerText = "💡";
+
+        if (currentQuestionIndex > 0) {
+            prevButton.style.display = "block";
+        } else {
+            prevButton.style.display = "none";
+        }
+
+        let answers = currentLang === 'EN' ? qData.ans_en : qData.ans_ta;
+
+        answers.forEach((answer, index) => {
+            const button = document.createElement("button");
+            button.innerText = answer.t;
+            button.classList.add("btn");
+            if (answer.c) {
+                button.dataset.correct = answer.c;
+            }
+
+            if (userAnswers[currentQuestionIndex] !== undefined) {
+                button.disabled = true;
+                if (index === userAnswers[currentQuestionIndex].selectedIndex) {
+                    if (userAnswers[currentQuestionIndex].isCorrect) {
+                        button.classList.add("correct");
+                    } else {
+                        button.classList.add("wrong");
+                    }
+                }
+                if (answer.c) {
+                    button.classList.add("correct");
+                }
+            } else {
+                button.addEventListener("click", (e) => selectAnswer(e, index));
+            }
+
+            answerButtonsElement.appendChild(button);
+        });
+
+        if (userAnswers[currentQuestionIndex] !== undefined) {
+            answered = true;
+            if (currentQuestionIndex < questions.length - 1) {
+                nextButton.style.display = "block";
+            }
+        }
+    }
+
+    function resetState() {
+        answered = false;
+        nextButton.style.display = "none";
+        while (answerButtonsElement.firstChild) {
+            answerButtonsElement.removeChild(answerButtonsElement.firstChild);
+        }
+    }
+
+    function selectAnswer(e, index) {
+        if (answered && userAnswers[currentQuestionIndex] !== undefined) return;
+        answered = true;
+        
+        window.speechSynthesis.cancel();
+        playSound('click');
+        const selectedButton = e.target;
+        const isCorrect = selectedButton.dataset.correct === "true";
+
+        userAnswers[currentQuestionIndex] = { selectedIndex: index, isCorrect: isCorrect };
+
+        if (isCorrect) {
+            selectedButton.classList.add("correct");
+            score++;
+            playSound('correct');
+            feedbackAnim.innerText = "🎆 👏 🥳 🎉 🔥 (Super!)";
+        } else {
+            selectedButton.classList.add("wrong");
+            playSound('wrong');
+            feedbackAnim.innerText = "😢 ❌ (Oh no! Try next)";
+        }
+
+        Array.from(answerButtonsElement.children).forEach(button => {
+            if (button.dataset.correct === "true") {
+                button.classList.add("correct");
+            }
+            button.disabled = true;
+        });
+
+        if (currentQuestionIndex < questions.length - 1) {
+            nextButton.style.display = "block";
+        } else {
+            setTimeout(showScore, 1000);
+        }
+    }
+
+    function showScore() {
+        quizBox.style.display = "none";
+        resultBox.style.display = "block";
+        scoreText.innerText = currentLang === 'EN' ? `You scored ${score} of 15! 🌟` : `நீங்கள் பெற்ற மதிப்பெண் ${score} / 15! 🌟`;
+        
+        if (score === questions.length) {
+            feedbackMsg.innerText = currentLang === 'EN' ? "🏆 Incredible! Perfect score! You are a Genius! 🚀" : "🏆 அசத்திட்டீங்க சாம்பியன்! உங்களுக்கு முழு மதிப்பெண்! நீங்கள் ஒரு ஜீனியஸ்! 🚀🎆";
+        } else if (score >= 10) {
+            feedbackMsg.innerText = currentLang === 'EN' ? "🌟 Great job! You know amazing facts! Keep it up! 👍" : "🌟 அருமையான முயற்சி! நிறைய விஷயங்கள் தெரிந்து வைத்துள்ளீர்கள்! தொடர்ந்து சாதிக்க வாழ்த்துகள்! 👍✨";
+        } else {
+            feedbackMsg.innerText = currentLang === 'EN' ? "💡 Good try! Play again to make your score even better! 💪" : "💡 நல்ல முயற்சி குட்டி! இன்னும் கொஞ்சம் நன்றாக முயன்றால் இன்னும் அதிக மதிப்பெண் பெறலாம்! மீண்டும் விளையாடுங்கள்! 💪🎯";
+        }
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            showQuestion();
+        } else {
+            showScore();
+        }
+    }
+
+    function prevQuestion() {
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            showQuestion();
+        }
+    }
+
+    function restartQuiz() {
+        startQuiz();
+    }
+
+    startQuiz();
+</script>
+
+</body>
+</html>
