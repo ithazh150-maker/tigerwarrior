@@ -33,10 +33,13 @@
             box-shadow: 0 6px 20px rgba(0,0,0,0.6);
             position: relative;
         }
-        .lang-btn {
-            position: absolute;
-            top: 10px;
-            right: 12px;
+        .top-nav-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .home-btn, .lang-btn {
             background: #8b5cf6;
             color: white;
             border: none;
@@ -45,6 +48,10 @@
             font-size: 11px;
             font-weight: bold;
             cursor: pointer;
+            text-decoration: none;
+        }
+        .home-btn {
+            background: #ef4444;
         }
         .brand-title {
             color: #ffffff;
@@ -164,16 +171,21 @@
             justify-content: center;
             margin-top: 15px;
         }
-        #next-btn {
+        .nav-btn {
             background-color: #f59e0b;
             color: #000000;
-            width: 100%;
             border: none;
-            padding: 12px 20px;
-            font-size: 15px;
+            padding: 12px 15px;
+            font-size: 14px;
             border-radius: 12px;
             cursor: pointer;
             font-weight: bold;
+            flex-grow: 1;
+            transition: 0.2s;
+        }
+        .nav-btn:hover {
+            transform: scale(1.02);
+            background-color: #d97706;
         }
         #restart-btn {
             background-color: #f59e0b;
@@ -203,9 +215,9 @@
             margin: 15px 0;
         }
         .feedback-popup {
-            font-size: 26px;
+            font-size: 24px;
             margin: 10px 0;
-            min-height: 40px;
+            min-height: 35px;
         }
     </style>
 </head>
@@ -214,7 +226,10 @@
 <div class="quiz-wrapper">
     <!-- Brand Header -->
     <div class="brand-header">
-        <button class="lang-btn" onclick="toggleLanguage()">தமிழ் / Eng</button>
+        <div class="top-nav-row">
+            <a class="home-btn" href="https://tigeracadamy.github.io/preperation-hub/tgr.html">🏠 Home</a>
+            <button class="lang-btn" onclick="toggleLanguage()">தமிழ் / Eng</button>
+        </div>
         <div style="font-size: 20px;">🐯 ⚔️ 🐅 🌟 🚀</div>
         <div class="brand-title" id="brand-title-text">TIGER WARRIORS COACHING CENTRE</div>
         <div class="brand-subtitle" id="brand-sub-text">Kids Learning & Fun Hub 🎈</div>
@@ -239,7 +254,8 @@
             <div class="btn-grid" id="answer-buttons"></div>
             
             <div class="action-row">
-                <button id="next-btn" style="display: none;" onclick="nextQuestion()">Next Question ➡️</button>
+                <button id="prev-btn" class="nav-btn" style="display: none;" onclick="prevQuestion()">⬅️ Previous</button>
+                <button id="next-btn" class="nav-btn" style="display: none;" onclick="nextQuestion()">Next ➡️</button>
             </div>
         </div>
 
@@ -250,7 +266,7 @@
             
             <div class="action-row" style="margin-top: 20px;">
                 <button id="restart-btn" onclick="restartQuiz()">Play Again / மறுபடியும் 🔄</button>
-                <a id="exit-btn" href="https://tigeracadamy.github.io/preperation-hub/tgr.html">Exit / வெளியேறு 🚪</a>
+                <a id="exit-btn" href="https://tigeracadamy.github.io/preperation-hub/tgr.html">Home / முகப்பு 🚪</a>
             </div>
         </div>
     </div>
@@ -320,7 +336,7 @@
         {
             q_en: "2. How many days are there in a normal year? 📅🗓️",
             q_ta: "2. ஒரு சாதாரண ஆண்டில் எத்தனை நாட்கள் உள்ளன? 📅🗓️",
-            ans_en: [{ t: "A) 366 days 🗓️", c: false }, { t: "B) 300 days 📉", c: false }, { t: "C) 365 days 🗓️", c: true }, { t: "D) 400 days 📈", c: false }],
+            ans_en: [{ t: "A) 366 days 🗓️️", c: false }, { t: "B) 300 days 📉", c: false }, { t: "C) 365 days 🗓️", c: true }, { t: "D) 400 days 📈", c: false }],
             ans_ta: [{ t: "அ) 366 நாட்கள் 🗓️", c: false }, { t: "ஆ) 300 நாட்கள் 📉", c: false }, { t: "இ) 365 நாட்கள் 🗓️", c: true }, { t: "ஈ) 400 நாட்கள் 📈", c: false }]
         },
         {
@@ -373,14 +389,14 @@
         },
         {
             q_en: "11. Which animal is known as the Ship of the Desert? 🐪🏜️",
-            q_ta: "11. பாலைவனத்தின் கப்பல் என்று அழைக்கப்படும் விலங்கு எது? 🐪🏜️",
+            q_ta: "11. பாலைவனத்தின் கப்பல் என்று அழைக்கப்படும் விலங்கு எது? 🐪🏜️️",
             ans_en: [{ t: "A) Horse 🐎", c: false }, { t: "B) Camel 🐪", c: true }, { t: "C) Donkey 🫏", c: false }, { t: "D) Elephant 🐘", c: false }],
             ans_ta: [{ t: "அ) குதிரை 🐎", c: false }, { t: "ஆ) ஒட்டகம் 🐪", c: true }, { t: "இ) கழுதை 🫏", c: false }, { t: "ஈ) யானை 🐘", c: false }]
         },
         {
             q_en: "12. What is the freezing point of water? ❄️🌡️",
-            q_ta: "12. நீரின் உறைநிலை (Freezing Point) என்ன? ❄️️🌡️",
-            ans_en: [{ t: "A) 0°C 🧊", c: true }, { t: "B) 50°C ☕", c: false }, { t: "C) 100°C ♨️", c: false }, { t: "D) 25°C 🌤️", c: false }],
+            q_ta: "12. நீரின் உறைநிலை (Freezing Point) என்ன? ❄️🌡️",
+            ans_en: [{ t: "A) 0°C 🧊", c: true }, { t: "B) 50°C ☕", c: false }, { t: "C) 100°C ♨️", c: false }, { t: "D) 25°C 🌤️️", c: false }],
             ans_ta: [{ t: "அ) 0°C 🧊", c: true }, { t: "ஆ) 50°C ☕", c: false }, { t: "இ) 100°C ♨️", c: false }, { t: "ஈ) 25°C 🌤️", c: false }]
         },
         {
@@ -406,10 +422,12 @@
     let currentQuestionIndex = 0;
     let score = 0;
     let answered = false;
+    let userAnswers = {}; // To store user answers for previous navigation
 
     const questionElement = document.getElementById("question");
     const answerButtonsElement = document.getElementById("answer-buttons");
     const nextButton = document.getElementById("next-btn");
+    const prevButton = document.getElementById("prev-btn");
     const quizBox = document.getElementById("quiz-box");
     const resultBox = document.getElementById("result-box");
     const scoreText = document.getElementById("score-text");
@@ -420,6 +438,7 @@
     function startQuiz() {
         currentQuestionIndex = 0;
         score = 0;
+        userAnswers = {};
         quizBox.style.display = "block";
         resultBox.style.display = "none";
         showQuestion();
@@ -432,18 +451,49 @@
         questionElement.innerText = currentLang === 'EN' ? qData.q_en : qData.q_ta;
         feedbackAnim.innerText = "💡";
 
+        // Show Previous button if not first question
+        if (currentQuestionIndex > 0) {
+            prevButton.style.display = "block";
+        } else {
+            prevButton.style.display = "none";
+        }
+
         let answers = currentLang === 'EN' ? qData.ans_en : qData.ans_ta;
 
-        answers.forEach(answer => {
+        answers.forEach((answer, index) => {
             const button = document.createElement("button");
             button.innerText = answer.t;
             button.classList.add("btn");
             if (answer.c) {
                 button.dataset.correct = answer.c;
             }
-            button.addEventListener("click", selectAnswer);
+
+            // If already answered previously, highlight it
+            if (userAnswers[currentQuestionIndex] !== undefined) {
+                button.disabled = true;
+                if (index === userAnswers[currentQuestionIndex].selectedIndex) {
+                    if (userAnswers[currentQuestionIndex].isCorrect) {
+                        button.classList.add("correct");
+                    } else {
+                        button.classList.add("wrong");
+                    }
+                }
+                if (answer.c) {
+                    button.classList.add("correct");
+                }
+            } else {
+                button.addEventListener("click", (e) => selectAnswer(e, index));
+            }
+
             answerButtonsElement.appendChild(button);
         });
+
+        if (userAnswers[currentQuestionIndex] !== undefined) {
+            answered = true;
+            if (currentQuestionIndex < questions.length - 1) {
+                nextButton.style.display = "block";
+            }
+        }
     }
 
     function resetState() {
@@ -454,14 +504,16 @@
         }
     }
 
-    function selectAnswer(e) {
-        if (answered) return;
+    function selectAnswer(e, index) {
+        if (answered && userAnswers[currentQuestionIndex] !== undefined) return;
         answered = true;
         
         window.speechSynthesis.cancel();
         playSound('click');
         const selectedButton = e.target;
         const isCorrect = selectedButton.dataset.correct === "true";
+
+        userAnswers[currentQuestionIndex] = { selectedIndex: index, isCorrect: isCorrect };
 
         if (isCorrect) {
             selectedButton.classList.add("correct");
@@ -491,7 +543,7 @@
     function showScore() {
         quizBox.style.display = "none";
         resultBox.style.display = "block";
-        scoreText.innerText = currentLang === 'EN' ? `You scored ${score} out of 15! 🌟` : `நீங்கள் பெற்ற மதிப்பெண் ${score} / 15! 🌟`;
+        scoreText.innerText = currentLang === 'EN' ? `You scored ${score} of 15! 🌟` : `நீங்கள் பெற்ற மதிப்பெண் ${score} / 15! 🌟`;
         
         if (score === questions.length) {
             feedbackMsg.innerText = currentLang === 'EN' ? "🏆 Incredible! Perfect score! You are a Genius! 🚀" : "🏆 அசத்திட்டீங்க சாம்பியன்! உங்களுக்கு முழு மதிப்பெண்! நீங்கள் ஒரு ஜீனியஸ்! 🚀🎆";
@@ -508,6 +560,13 @@
             showQuestion();
         } else {
             showScore();
+        }
+    }
+
+    function prevQuestion() {
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            showQuestion();
         }
     }
 
